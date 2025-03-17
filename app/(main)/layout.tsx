@@ -10,10 +10,12 @@ export default function MainLayout({
   children: React.ReactNode
 }) {
   return (
-    <main className="h-screen w-screen bg-slate-950 text-white">
+    <main className="min-h-screen max-w-screen bg-slate-950 text-white">
       <MainLayoutHeader />
 
-      <MaxWidthWrapper className="bg-slate-600">{children}</MaxWidthWrapper>
+      <MaxWidthWrapper className="bg-slate-900 rounded-md py-4">
+        {children}
+      </MaxWidthWrapper>
 
       <StarsBackground />
     </main>
