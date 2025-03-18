@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 export default function ContactMe() {
   return (
-    <main className="mb-6 font-wenkai text-lg text-white flex items-center justify-center flex-col gap-4 w-full">
+    <main className="mb-6 text-lg text-white flex items-center justify-center flex-col gap-4 w-full">
       <hr className="w-1/2" />
       <h3>
         联系方式 -{' '}
@@ -18,6 +18,7 @@ export default function ContactMe() {
             className="hover:text-emerald-300"
             href={link.url}
             key={link.url}
+            target="_blank"
           >
             {link.name}
           </Link>
