@@ -1,5 +1,5 @@
 import AboutPage from '@/modules/about-page'
 
-export default function ABoutPage() {
+export default function Page() {
   return <AboutPage />
 }

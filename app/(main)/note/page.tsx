@@ -1,3 +1,3 @@
-export default function NotePage() {
+export default function Page() {
   return <> NotePage </>
 }
