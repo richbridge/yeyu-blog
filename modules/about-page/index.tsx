@@ -1,6 +1,7 @@
 import MaxWidthWrapper from '@/shared/max-width-wrapper'
-import { ArrowDownIcon, Link } from 'lucide-react'
+import { ArrowDownIcon } from 'lucide-react'
 import ContactMe from '../main-layout/main-layout-container/internal/contact-me'
+import Link from 'next/link'
 
 export default function AboutPage() {
   return (
@@ -39,7 +40,7 @@ export default function AboutPage() {
       </p>
       <p>
         感谢那个教会我使用电脑和带我走向编程道路的僵尸~
-        <ArrowDownIcon className="m-auto text-pink-400 size-10 animate-bounce mt-2" />
+        <ArrowDownIcon className="m-auto text-purple-500 size-10 animate-bounce mt-2" />
       </p>
       <Link
         href={'https://space.bilibili.com/19658621'}

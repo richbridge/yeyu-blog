@@ -13,9 +13,7 @@ export default function MainLayout({
     <main className="min-h-screen max-w-screen bg-slate-950 text-white">
       <MainLayoutHeader />
 
-      <MaxWidthWrapper className="bg-slate-900 rounded-md py-4">
-        {children}
-      </MaxWidthWrapper>
+      <MaxWidthWrapper className="rounded-md">{children}</MaxWidthWrapper>
 
       <StarsBackground />
     </main>
