@@ -1,4 +1,4 @@
-import BlogPage from '@/modules/blog-page'
+import BlogPage from '@/modules/main/blog-page'
 
 export default function Page() {
   return <BlogPage />

@@ -1,6 +1,6 @@
 // * 这里获取对应的文章, 然后直接发送给下一个组件用来渲染
 
-import BlogDisplayPage from '@/modules/blog-display-page'
+import BlogDisplayPage from '@/modules/main/blog-display-page'
 import { marked } from 'marked'
 
 const blogContentRaw = `
