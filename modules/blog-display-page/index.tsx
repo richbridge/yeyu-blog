@@ -15,7 +15,7 @@ export default function BlogDisplayPage({
       </header>
 
       {/* 渲染的主要内容 */}
-      <main>{blogContent}</main>
+      <main dangerouslySetInnerHTML={{ __html: blogContent }}></main>
     </article>
   )
 }
