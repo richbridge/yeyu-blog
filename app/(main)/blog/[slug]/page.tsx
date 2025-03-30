@@ -1,57 +1,51 @@
 // * 这里获取对应的文章, 然后直接发送给下一个组件用来渲染
 
 import BlogDisplayPage from '@/modules/main/blog-display-page'
-import { marked } from 'marked'
+import matter from 'gray-matter'
+import fs from 'fs'
+import { unified } from 'unified'
+import remarkParse from 'remark-parse'
+import remarkRehype from 'remark-rehype'
+import rehypeStringify from 'rehype-stringify'
+import rehypePrettyCode from 'rehype-pretty-code'
+import remarkGfm from 'remark-gfm'
+import { transformerCopyButton } from '@rehype-pretty/transformers'
 
-const blogContentRaw = `
-## **基本文本格式**
+// * 这个 filePath 应该后序是 slug, 然后数据库获取~
+const filePath = `md/2.md`
+const fileContent = fs.readFileSync(filePath, 'utf-8')
+const { data, content } = matter(fileContent)
+console.log(data, 'what data?')
 
-Markdown 支持 **加粗**、*斜体* 和 ~~删除线~~。
-
-你还可以使用 \`inline code\` 来展示代码片段。
-
----
-
-## **列表测试**
-
-### **无序列表**
-- 这是一个无序列表项
-- 另一个无序列表项
-  - 嵌套列表项
-  - 另一个嵌套项
-- 继续测试无序列表
-
-### **有序列表**
-1. 这是一个有序列表项
-2. 另一个有序列表项
-   1. 嵌套的有序列表项
-   2. 继续嵌套
-3. 继续测试有序列表
-
----
-
-## **代码块测试**
-
-js
-function greet(name) {
-  return ;
-}
-
-console.log(greet("Markdown"));
-`
-const blogContent = await marked(blogContentRaw)
+const processor = unified()
+  .use(remarkParse)
+  .use(remarkGfm)
+  .use(remarkRehype)
+  .use(rehypePrettyCode, {
+    theme: 'aurora-x',
+    defaultLang: 'js',
+    transformers: [
+      transformerCopyButton({
+        visibility: 'hover',
+        feedbackDuration: 3_000,
+      }),
+    ],
+  })
+  .use(rehypeStringify)
+  .process(content)
 
 export default async function Page({
   params,
 }: {
   params: Promise<{ slug: string }>
 }) {
+  // * 获取 slug 参数, 去数据库找对应的文章, 找不到就 404
   const r = (await params).slug
   return (
     <BlogDisplayPage
-      blogTitle="todo"
+      blogTitle={data.title}
       createdAt="2025-03-15T10:00:00Z"
-      blogContent={blogContent}
+      blogContent={(await processor).toString()}
     />
   )
 }
