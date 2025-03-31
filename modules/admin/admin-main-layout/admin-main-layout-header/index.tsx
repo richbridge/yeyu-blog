@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button'
 import { usePathname } from 'next/navigation'
 import AdminLogo from './internal/admin-logo'
 import AvatarDropdownMenu from './internal/avatar-dropdown-menu'
+import { ModeToggle } from '@/components/ui/mode-toggle'
 // import AdminClock from './internal/admin-clock'
 
 export const AdminRoutes = [
@@ -51,6 +52,7 @@ const AdminNavbar = () => {
       </nav>
       <div className="px-4 flex gap-4 items-center">
         {/* <AdminClock /> */}
+        <ModeToggle />
         <AvatarDropdownMenu />
       </div>
     </header>

@@ -1,5 +1,4 @@
 export default function Page() {
-  // return <> Home Page </>
   return (
     <div className="flex items-center justify-center flex-col text-lg">
       <h2 className="font-black">
