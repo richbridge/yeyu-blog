@@ -5,7 +5,7 @@ import { notFound } from 'next/navigation'
 // * 在这里获取所有的链接, 然后渲染列表~
 // * 这里使用服务端组件, 让客户端组件下沉去触发事件~
 
-export default async function BlogPage() {
+export default async function BlogListPage() {
   const allBlogs = await prisma.blog.findMany({
     where: {
       published: true,

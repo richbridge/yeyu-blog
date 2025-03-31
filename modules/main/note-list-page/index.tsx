@@ -58,7 +58,7 @@ const blogPosts: {
   },
 ]
 
-export default function NotePage() {
+export default function NoteListPage() {
   return (
     <main className="flex flex-col p-2">
       {/* 使用时间排序, 最新的在上面 */}
