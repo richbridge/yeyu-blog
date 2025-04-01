@@ -1,9 +1,11 @@
 import ArticleInput from '@/shared/article-input'
+import ArticleTagsContainer from '@/shared/article-tags-container'
 
 export default function AdminBlogPage() {
   return (
-    <main className="w-full">
+    <main className="w-full flex flex-col gap-2">
       <ArticleInput createType="创建博客" />
+      <ArticleTagsContainer />
     </main>
   )
 }
