@@ -7,7 +7,7 @@ import {
 
 export default function AdminHomePage() {
   return (
-    <div className="flex items-center justify-center flex-col text-lg">
+    <div className="flex items-center justify-center flex-col text-lg m-auto">
       <span className="text-pink-500">{sayHi()}🥳</span>
       <h2 className="font-black">
         今天是 <span className="text-indigo-400">{getToday()}</span>

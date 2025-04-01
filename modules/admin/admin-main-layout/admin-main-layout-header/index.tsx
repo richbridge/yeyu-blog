@@ -32,7 +32,7 @@ const AdminNavbar = () => {
 
   return (
     <header
-      className="h-14 sticky top-0 border-b backdrop-blur-lg z-20 mb-2
+      className="h-14 fixed w-full top-0 border-b backdrop-blur-lg z-50
                   flex justify-between items-center px-2"
     >
       <nav className="flex gap-4">
