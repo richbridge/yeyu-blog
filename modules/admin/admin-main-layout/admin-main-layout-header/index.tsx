@@ -40,18 +40,18 @@ const AdminNavbar = () => {
         <AdminLogo />
         {/* 路由 */}
         {AdminRoutes.map(link => (
-          <Button
-            key={link.path}
-            className="rounded-lg text-base"
-            variant={pathname === link.path ? 'secondary' : 'ghost'}
-            size={'sm'}
-          >
-            <Link href={link.path}>{link.pathName}</Link>
-          </Button>
+          <Link href={link.path} key={link.path}>
+            <Button
+              className="rounded-lg text-base cursor-pointer"
+              variant={pathname === link.path ? 'secondary' : 'ghost'}
+              size={'sm'}
+            >
+              {link.pathName}
+            </Button>
+          </Link>
         ))}
       </nav>
       <div className="px-4 flex gap-4 items-center">
-        {/* <AdminClock /> */}
         <ModeToggle />
         <AvatarDropdownMenu />
       </div>

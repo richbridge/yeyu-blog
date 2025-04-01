@@ -9,9 +9,11 @@ export default function AdminLayout({
 }) {
   return (
     <SessionProvider>
-      <main className="min-h-screen max-w-screen bg-black text-white">
+      <main className="min-h-screen max-w-screen bg-black text-white flex flex-col">
         <AdminNavbar />
-        <MaxWidthWrapper className="rounded-md">{children}</MaxWidthWrapper>
+        <MaxWidthWrapper className="rounded-md m-auto">
+          {children}
+        </MaxWidthWrapper>
       </main>
     </SessionProvider>
   )
