@@ -4,7 +4,6 @@ import BlogDisplayPage from '@/shared/article-display-page'
 import { prisma } from '@/db'
 import { notFound } from 'next/navigation'
 import { processor } from '@/lib/markdown'
-import { profile } from 'console'
 
 export default async function Page({
   params,

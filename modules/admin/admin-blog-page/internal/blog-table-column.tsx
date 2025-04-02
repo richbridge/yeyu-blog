@@ -3,6 +3,7 @@
 import { toggleArticlePublished } from '@/actions/blogs'
 import { Switch } from '@/components/ui/switch'
 import { prettyDateTime } from '@/lib/time'
+import TagItem from '@/shared/tag-item'
 import { Blog } from '@prisma/client'
 import { ColumnDef } from '@tanstack/react-table'
 import { useState } from 'react'
@@ -24,8 +25,17 @@ export const columns: ColumnDef<withTags>[] = [
     accessorKey: 'tags',
     header: '标签',
     cell: ({ row }) => {
-      const tags = row.original.tags?.map(tag => tag.tag.tagName).join(' ')
-      return <span>{tags || 'no tags'}</span>
+      const tags = row.original.tags?.map(tag => tag.tag.tagName)
+      return (
+        <div className="flex gap-1">
+          {tags.map((tag, i) => (
+            <TagItem
+              tag={tag}
+              key={`${tag[i]?.toString()}+${i}+${tag.toString()}`}
+            />
+          ))}
+        </div>
+      )
     },
   },
   {

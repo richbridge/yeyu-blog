@@ -8,7 +8,7 @@ import { notFound } from 'next/navigation'
 export default async function BlogListPage() {
   const allBlogs = await prisma.blog.findMany({
     where: {
-      published: true,
+      isPublished: true,
     },
     orderBy: {
       createdAt: 'desc',
