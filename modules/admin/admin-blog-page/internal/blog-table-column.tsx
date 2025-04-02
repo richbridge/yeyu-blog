@@ -1,6 +1,6 @@
 'use client'
 
-import { toggleArticlePublished } from '@/actions/blogs'
+import { deleteBlogById, toggleArticlePublished } from '@/actions/blogs'
 import { Switch } from '@/components/ui/switch'
 import { prettyDateTime } from '@/lib/time'
 import TagItemBadge from '@/components/shared/tag-item-badge'
@@ -8,9 +8,10 @@ import { Blog } from '@prisma/client'
 import { ColumnDef } from '@tanstack/react-table'
 import { useState } from 'react'
 import { Button, buttonVariants } from '@/components/ui/button'
-import { Edit2, Eye, Trash, View } from 'lucide-react'
+import { Edit2, Eye, Trash } from 'lucide-react'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
+import { useBlogs } from '@/components/context/blog-context'
 
 type withTags = Blog & {
   tags: {
@@ -93,8 +94,25 @@ export const columns: ColumnDef<withTags>[] = [
   {
     accessorKey: 'actions',
     header: '操作',
-    cell: ({ row }) => {
+    cell: ({ row, table }) => {
       const slug = row.original.slug
+      const blogId = row.original.id
+      const { setBlogs } = useBlogs()
+
+      // * 后序再补一个 modal 框出来让点击确认
+      const handleDeleteBlogById = async () => {
+        try {
+          await deleteBlogById(blogId)
+
+          const newTables = table.options.data.filter(
+            blog => blog.id !== blogId,
+          )
+          // const newTables = await getAllBlogs()
+          setBlogs(newTables)
+        } catch (error) {
+          console.error(`删除 ${row.original.title} 出错~`, error)
+        }
+      }
 
       return (
         <section className="flex items-center gap-1">
@@ -109,7 +127,11 @@ export const columns: ColumnDef<withTags>[] = [
           <Button variant={'outline'} className="size-8">
             <Edit2 className="size-4" />
           </Button>
-          <Button variant={'outline'} className="size-8">
+          <Button
+            variant={'outline'}
+            className="size-8"
+            onClick={handleDeleteBlogById}
+          >
             <Trash />
           </Button>
         </section>

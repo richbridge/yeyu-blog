@@ -57,7 +57,6 @@ export const toggleArticlePublished = async (
 }
 
 export const getBlogsBySelectedTagName = async (tagNamesArray: string[]) => {
-  console.log(tagNamesArray, 'fuck you')
   const tagIds = await prisma.tag.findMany({
     where: {
       tagName: { in: tagNamesArray },
@@ -87,5 +86,13 @@ export const getBlogsBySelectedTagName = async (tagNamesArray: string[]) => {
   return blogs.filter(blog => {
     const blogTagNames = blog.tags.map(tagOnBlog => tagOnBlog.tag.tagName)
     return tagNamesArray.every(tag => blogTagNames.includes(tag)) // 选中的标签必须都在博客的标签中
+  })
+}
+
+export const deleteBlogById = async (blogId: number) => {
+  return prisma.blog.delete({
+    where: {
+      id: blogId,
+    },
   })
 }
