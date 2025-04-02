@@ -3,11 +3,31 @@
 import { prisma } from '@/db'
 
 // * 获取所有的 blog, 模糊查询
-export const getBlogs = async (blogTitle: string) => {
+export const getQueryBlogs = async (blogTitle: string) => {
   return await prisma.blog.findMany({
     where: {
       title: {
         contains: blogTitle,
+      },
+    },
+    include: {
+      tags: {
+        include: {
+          tag: true,
+        },
+      },
+    },
+  })
+}
+
+// * 先不考虑分页的事
+export const getAllBlogs = async () => {
+  return await prisma.blog.findMany({
+    include: {
+      tags: {
+        include: {
+          tag: true,
+        },
       },
     },
   })
