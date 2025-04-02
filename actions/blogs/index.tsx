@@ -41,3 +41,17 @@ export const getTagsOnBlog = async () => {
     },
   })
 }
+
+export const toggleArticlePublished = async (
+  id: number,
+  newIsPublishedStatus: boolean,
+) => {
+  return await prisma.blog.update({
+    where: {
+      id,
+    },
+    data: {
+      isPublished: newIsPublishedStatus,
+    },
+  })
+}

@@ -20,8 +20,8 @@ export const sayHi = () => {
   }
 }
 
-export const prettyDateWithWeekday = (date: number | Date) => {
-  return dayjs(date).locale('zh-cn').format('dddd MMMM D YYYY')
+export const prettyDateTime = (date: number | Date) => {
+  return dayjs(date).locale('zh-cn').format('YY年M月D日 H时 m分')
 }
 
 export const getToday = () => {

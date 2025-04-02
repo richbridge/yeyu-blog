@@ -33,6 +33,7 @@ export function DataTable<TData, TValue>({
     getCoreRowModel: getCoreRowModel(),
     // * 分页
     getPaginationRowModel: getPaginationRowModel(),
+    meta: {}
   })
 
   return (
