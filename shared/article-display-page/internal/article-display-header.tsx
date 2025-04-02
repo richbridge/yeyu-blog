@@ -1,4 +1,4 @@
-import TagItem from '@/shared/tag-item'
+import TagItemBadge from '@/shared/tag-item-badge'
 
 export default function ArticleDisplayHeader({
   blogTitle,
@@ -15,7 +15,7 @@ export default function ArticleDisplayHeader({
       <section className="flex flex-col gap-2 justify-center w-full">
         <div className="flex gap-2 justify-center w-full">
           {tags.map((tag, i) => (
-            <TagItem
+            <TagItemBadge
               key={`${i}+${tag.toString()}+${tag[i]?.toString()}`}
               tag={tag}
             />

@@ -1,9 +1,4 @@
-interface IRouteType {
-  path: `/${string}`
-  pathName: string
-}
-
-export const RouteList: IRouteType[] = [
+export const RouteList = [
   {
     path: '/',
     pathName: '首页',

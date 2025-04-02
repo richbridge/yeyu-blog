@@ -1,5 +1,5 @@
 import { getTagsOnBlog } from '@/actions/blogs'
-import TagItem from './internal/tag-item'
+import TagItem from './internal/tag-item-toggle'
 
 export default async function ArticleTagsContainer() {
   let tags: string[] = []
@@ -12,8 +12,11 @@ export default async function ArticleTagsContainer() {
 
   return (
     <section className="w-full flex gap-2 bg-slate-700">
-      {tags.map(tag => (
-        <TagItem key={tag}>{tag}</TagItem>
+      {tags.map((tag, i) => (
+        <TagItem
+          key={`${tag.toString()}-${i}+${tag[i]?.toUpperCase()}`}
+          tag={tag}
+        />
       ))}
     </section>
   )

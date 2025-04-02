@@ -1,6 +1,6 @@
 import { Badge } from '@/components/ui/badge'
 
-export default function TagItem({ tag }: { tag: string }) {
+export default function TagItemBadge({ tag }: { tag: string }) {
   return (
     <Badge
       className="flex items-center font-mono font-light"

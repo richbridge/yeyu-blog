@@ -55,3 +55,37 @@ export const toggleArticlePublished = async (
     },
   })
 }
+
+export const getBlogsBySelectedTagName = async (tagNamesArray: string[]) => {
+  console.log(tagNamesArray, 'fuck you')
+  const tagIds = await prisma.tag.findMany({
+    where: {
+      tagName: { in: tagNamesArray },
+    },
+    select: { id: true },
+  })
+
+  const blogs = await prisma.blog.findMany({
+    where: {
+      AND: [
+        {
+          tags: {
+            some: {
+              tagId: { in: tagIds.map(tag => tag.id) },
+            },
+          },
+        },
+      ],
+    },
+    include: {
+      tags: {
+        include: { tag: true },
+      },
+    },
+  })
+
+  return blogs.filter(blog => {
+    const blogTagNames = blog.tags.map(tagOnBlog => tagOnBlog.tag.tagName)
+    return tagNamesArray.every(tag => blogTagNames.includes(tag)) // 选中的标签必须都在博客的标签中
+  })
+}

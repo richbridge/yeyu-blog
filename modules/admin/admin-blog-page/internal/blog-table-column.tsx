@@ -3,7 +3,7 @@
 import { toggleArticlePublished } from '@/actions/blogs'
 import { Switch } from '@/components/ui/switch'
 import { prettyDateTime } from '@/lib/time'
-import TagItem from '@/shared/tag-item'
+import TagItemBadge from '@/shared/tag-item-badge'
 import { Blog } from '@prisma/client'
 import { ColumnDef } from '@tanstack/react-table'
 import { useState } from 'react'
@@ -29,7 +29,7 @@ export const columns: ColumnDef<withTags>[] = [
       return (
         <div className="flex gap-1">
           {tags.map((tag, i) => (
-            <TagItem
+            <TagItemBadge
               tag={tag}
               key={`${tag[i]?.toString()}+${i}+${tag.toString()}`}
             />
