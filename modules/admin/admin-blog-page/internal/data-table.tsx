@@ -16,7 +16,8 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { Button } from '@/components/ui/button'
+// import { Button } from '@/components/ui/button'
+// import { ChevronsLeft } from 'lucide-react'
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -32,7 +33,7 @@ export function DataTable<TData, TValue>({
     columns,
     getCoreRowModel: getCoreRowModel(),
     // * 分页
-    getPaginationRowModel: getPaginationRowModel(),
+    // getPaginationRowModel: getPaginationRowModel(),
     meta: {},
   })
 
@@ -91,7 +92,15 @@ export function DataTable<TData, TValue>({
         </Table>
       </div>
       {/* 分页按扭 */}
-      <div className="flex items-center justify-end space-x-2 py-4">
+      {/* <div className="flex items-center justify-end space-x-2 py-4">
+        <Button
+          variant="outline"
+          className="hidden h-8 w-8 p-0 lg:flex"
+          onClick={() => table.setPageIndex(0)}
+          disabled={!table.getCanPreviousPage()}
+        >
+          <ChevronsLeft />
+        </Button>
         <Button
           variant="outline"
           size="sm"
@@ -108,7 +117,7 @@ export function DataTable<TData, TValue>({
         >
           Next
         </Button>
-      </div>
+      </div> */}
     </div>
   )
 }

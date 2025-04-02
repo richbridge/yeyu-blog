@@ -1,6 +1,6 @@
 'use client'
 
-import { getBlogsBySelectedTagName } from '@/actions/blogs'
+import { getAllBlogs, getBlogsBySelectedTagName } from '@/actions/blogs'
 import { useBlogs } from '@/components/context/blog-context'
 import { useSelectedTags } from '@/components/context/selected-tag'
 import { Toggle } from '@/components/ui/toggle'
@@ -23,7 +23,10 @@ export default function TagItemToggle({
     setSelectedTags(updatedTags)
 
     try {
-      const blogs = await getBlogsBySelectedTagName(updatedTags)
+      const blogs =
+        updatedTags.length === 0
+          ? await getAllBlogs()
+          : await getBlogsBySelectedTagName(updatedTags)
       setBlogs(blogs)
     } catch (error) {
       console.error(`获取标签 ${updatedTags} 对应的文章失败~`, error)
