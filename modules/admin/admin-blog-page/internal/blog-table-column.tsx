@@ -3,10 +3,14 @@
 import { toggleArticlePublished } from '@/actions/blogs'
 import { Switch } from '@/components/ui/switch'
 import { prettyDateTime } from '@/lib/time'
-import TagItemBadge from '@/shared/tag-item-badge'
+import TagItemBadge from '@/components/shared/tag-item-badge'
 import { Blog } from '@prisma/client'
 import { ColumnDef } from '@tanstack/react-table'
 import { useState } from 'react'
+import { Button, buttonVariants } from '@/components/ui/button'
+import { Edit2, Eye, Trash, View } from 'lucide-react'
+import Link from 'next/link'
+import { cn } from '@/lib/utils'
 
 type withTags = Blog & {
   tags: {
@@ -84,6 +88,32 @@ export const columns: ColumnDef<withTags>[] = [
     cell: ({ row }) => {
       const prettyTime = prettyDateTime(row.original.createdAt)
       return <span>{prettyTime}</span>
+    },
+  },
+  {
+    accessorKey: 'actions',
+    header: '操作',
+    cell: ({ row }) => {
+      const slug = row.original.slug
+
+      return (
+        <section className="flex items-center gap-1">
+          <Link
+            href={`/blog/${slug}`}
+            className={cn(
+              buttonVariants({ variant: 'outline', className: 'size-8' }),
+            )}
+          >
+            <Eye className="size-4" />
+          </Link>
+          <Button variant={'outline'} className="size-8">
+            <Edit2 className="size-4" />
+          </Button>
+          <Button variant={'outline'} className="size-8">
+            <Trash />
+          </Button>
+        </section>
+      )
     },
   },
 ]

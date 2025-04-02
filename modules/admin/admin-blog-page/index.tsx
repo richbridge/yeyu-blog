@@ -1,6 +1,6 @@
 import { BlogProvider } from '@/components/context/blog-context'
-import ArticleInput from '@/shared/article-input'
-import ArticleTagsContainer from '@/shared/article-tags-container'
+import ArticleInput from '@/components/shared/article-input'
+import ArticleTagsContainer from '@/components/shared/article-tags-container'
 import BlogListTable from './internal/blog-list-table'
 import { SelectedTagProvider } from '@/components/context/selected-tag'
 

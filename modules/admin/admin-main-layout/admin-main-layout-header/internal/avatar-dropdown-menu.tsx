@@ -10,7 +10,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { LogOut } from 'lucide-react'
-import YeYuAvatar from '@/shared/yeyu-avatar'
+import YeYuAvatar from '@/components/shared/yeyu-avatar'
 
 const AvatarDropdownMenu = () => {
   const { data: session } = useSession()

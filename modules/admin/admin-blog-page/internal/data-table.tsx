@@ -33,7 +33,7 @@ export function DataTable<TData, TValue>({
     getCoreRowModel: getCoreRowModel(),
     // * 分页
     getPaginationRowModel: getPaginationRowModel(),
-    meta: {}
+    meta: {},
   })
 
   return (
@@ -59,6 +59,7 @@ export function DataTable<TData, TValue>({
             ))}
           </TableHeader>
 
+          {/* 后序再骨架屏效果 */}
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map(row => (

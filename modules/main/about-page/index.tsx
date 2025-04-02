@@ -1,4 +1,4 @@
-import MaxWidthWrapper from '@/shared/max-width-wrapper'
+import MaxWidthWrapper from '@/components/shared/max-width-wrapper'
 import { ArrowDownIcon } from 'lucide-react'
 import ContactMe from '../main-layout/main-layout-container/internal/contact-me'
 import Link from 'next/link'

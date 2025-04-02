@@ -8,7 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import StarsBackground from '@/shared/stars-background'
+import StarsBackground from '@/components/shared/stars-background'
 import { GithubIcon, RotateCcw } from 'lucide-react'
 import { signIn } from 'next-auth/react'
 import Link from 'next/link'

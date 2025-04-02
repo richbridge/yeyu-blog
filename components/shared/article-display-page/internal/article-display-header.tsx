@@ -1,4 +1,4 @@
-import TagItemBadge from '@/shared/tag-item-badge'
+import TagItemBadge from '@/components/shared/tag-item-badge'
 
 export default function ArticleDisplayHeader({
   blogTitle,

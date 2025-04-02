@@ -2,7 +2,7 @@
 
 import { RouteList } from '@/config/route'
 import { cn } from '@/lib/utils'
-import MaxWidthWrapper from '@/shared/max-width-wrapper'
+import MaxWidthWrapper from '@/components/shared/max-width-wrapper'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Fragment } from 'react'
