@@ -1,13 +1,9 @@
 'use client'
 
+import { Blog } from '@prisma/client'
 import { ColumnDef } from '@tanstack/react-table'
-import type { blogItem } from './blog-list-table'
 
-export const columns: ColumnDef<blogItem>[] = [
-  {
-    accessorKey: 'status',
-    header: 'Status',
-  },
+export const columns: ColumnDef<Blog>[] = [
   {
     accessorKey: 'title',
     header: '标题',
@@ -17,7 +13,7 @@ export const columns: ColumnDef<blogItem>[] = [
     header: '标签',
   },
   {
-    accessorKey: 'isPublish',
+    accessorKey: 'isPublished',
     header: '是否发布',
   },
 ]

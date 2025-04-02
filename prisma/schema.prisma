@@ -14,11 +14,11 @@ datasource db {
 }
 
 model Blog {
-  id        Int     @id @default(autoincrement())
-  slug      String  @unique
-  title     String  @db.VarChar(255)
-  content   String  @db.Text
-  published Boolean @default(true)
+  id          Int     @id @default(autoincrement())
+  slug        String  @unique
+  title       String  @db.VarChar(255)
+  content     String  @db.Text
+  isPublished Boolean @default(true)
 
   tags TagOnBlog[]
 
@@ -27,11 +27,11 @@ model Blog {
 }
 
 model Note {
-  id        Int     @id @default(autoincrement())
-  slug      String  @unique
-  title     String  @db.VarChar(255)
-  content   String  @db.Text
-  published Boolean @default(true)
+  id          Int     @id @default(autoincrement())
+  slug        String  @unique
+  title       String  @db.VarChar(255)
+  content     String  @db.Text
+  isPublished Boolean @default(true)
 
   tags TagOnNote[]
 

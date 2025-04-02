@@ -1,13 +1,20 @@
+import { getTagsOnBlog } from '@/actions/blogs'
 import TagItem from './internal/tag-item'
 
-export default function ArticleTagsContainer() {
+export default async function ArticleTagsContainer() {
+  let tags: string[] = []
+
+  try {
+    tags = (await getTagsOnBlog()).map(v => v.tagName)
+  } catch (error) {
+    console.error(`获取 tags 数据错误`, error)
+  }
+
   return (
     <section className="w-full flex gap-2 bg-slate-700">
-      {Array(10)
-        .fill(2000)
-        .map((v, i) => (
-          <TagItem key={i}>{v}</TagItem>
-        ))}
+      {tags.map(tag => (
+        <TagItem key={tag}>{tag}</TagItem>
+      ))}
     </section>
   )
 }
