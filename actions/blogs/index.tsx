@@ -146,6 +146,7 @@ export const updateBlogById = async (values: updateBlogParamsWithBlogId) => {
       slug: values.slug,
       isPublished: values.isPublished,
       updatedAt: new Date(),
+      content: values.content,
     },
   })
 }

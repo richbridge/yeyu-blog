@@ -20,6 +20,7 @@ import { Combobox } from '@/components/ui/combobox'
 import { File } from 'lucide-react'
 import { updateBlogById } from '@/actions/blogs'
 import { redirect } from 'next/navigation'
+import MarkdownEditor from './internal/markdown-editor'
 
 const formSchema = z.object({
   title: z.string().min(1, { message: '长度不能少于1个字符' }).max(250),
@@ -35,6 +36,7 @@ const formSchema = z.object({
     .array()
     .min(1, { message: '最少选择 1 个标签' })
     .max(5, { message: '最多只能选择 5 个标签' }),
+  content: z.string(),
 })
 
 export type updateBlogParamsWithBlogId = z.infer<typeof formSchema> & {
@@ -59,6 +61,7 @@ export default function AdminBlogEditPage({
       isPublished: blog.isPublished ?? false,
       // * 后序更新用
       relatedBlogTagNames: relatedBlogTagNames ?? [],
+      content: blog.content ?? '',
     },
   })
 
@@ -139,6 +142,20 @@ export default function AdminBlogEditPage({
                   value={field.value}
                   onValueChange={field.onChange}
                 />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="content"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="text-lg">内容</FormLabel>
+              <FormControl>
+                <MarkdownEditor value={field.value} onChange={field.onChange} />
               </FormControl>
               <FormMessage />
             </FormItem>

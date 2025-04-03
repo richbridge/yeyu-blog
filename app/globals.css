@@ -2,6 +2,9 @@
 
 @import 'tailwindcss';
 
+/* * 感谢大哥🥹 import from https://github.com/aifuxi/fuxiaochen/blob/master/styles/bytemd.css  */
+@import '../lib/styles/bytemd.css';
+
 @plugin "tailwindcss-animate";
 
 @plugin "@tailwindcss/typography";
