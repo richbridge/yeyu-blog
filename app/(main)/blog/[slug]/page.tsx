@@ -1,16 +1,17 @@
 // * 这里获取对应的文章, 然后直接发送给下一个组件用来渲染
 
-import BlogDisplayPage from '@/components/shared/article-display-page'
+// import  from '@/components/shared/article-display-page'
 import { prisma } from '@/db'
 import { notFound } from 'next/navigation'
 import { processor } from '@/lib/markdown'
+import ArticleDisplayPage from '@/components/shared/article-display-page'
 
 export default async function Page({
   params,
 }: {
   params: Promise<{ slug: string }>
 }) {
-  const blog = await prisma.blog.findUnique({
+  const articles = await prisma.blog.findUnique({
     where: {
       slug: (await params).slug,
     },
@@ -22,19 +23,19 @@ export default async function Page({
       },
     },
   })
-  if (!blog) notFound()
+  if (!articles) notFound()
 
-  const { content, title, createdAt, tags } = blog
+  const { content, title, createdAt, tags } = articles
   const tagNames = tags.map(v => v.tag.tagName)
 
   const processedContent = await processor.process(content)
 
   return (
     // * 后序应该考虑共用组件, note 和 blog 只有很小的区别.
-    <BlogDisplayPage
-      blogTitle={title}
+    <ArticleDisplayPage
+      title={title}
       createdAt={createdAt?.toLocaleString()!}
-      blogContent={processedContent.toString()}
+      content={processedContent.toString()}
       tags={tagNames}
     />
   )

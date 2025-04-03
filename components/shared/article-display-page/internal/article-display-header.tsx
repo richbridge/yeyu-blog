@@ -1,17 +1,17 @@
 import TagItemBadge from '@/components/shared/tag-item-badge'
 
 export default function ArticleDisplayHeader({
-  blogTitle,
+  title,
   createdAt,
   tags,
 }: {
-  blogTitle: string
+  title: string
   createdAt: string
   tags: string[]
 }) {
   return (
     <header className="text-center">
-      <h1 className="text-4xl font-bold">{blogTitle}</h1>
+      <h1 className="text-4xl font-bold">{title}</h1>
       <section className="flex flex-col gap-2 justify-center w-full">
         <div className="flex gap-2 justify-center w-full">
           {tags.map((tag, i) => (
