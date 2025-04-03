@@ -6,14 +6,14 @@ import { SelectedTagProvider } from '@/components/context/selected-tag'
 
 export default function AdminBlogPage() {
   return (
-    <BlogProvider>
-      <SelectedTagProvider>
+    <SelectedTagProvider>
+      <BlogProvider>
         <main className="w-full flex flex-col gap-2">
           <BlogSearch />
           <BlogTagsContainer />
           <BlogListTable />
         </main>
-      </SelectedTagProvider>
-    </BlogProvider>
+      </BlogProvider>
+    </SelectedTagProvider>
   )
 }

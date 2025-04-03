@@ -8,7 +8,7 @@ const BlogContext = createContext<{
   setNotes: (notes: Note[]) => void
 } | null>(null)
 
-export function NotesProvider({ children }: { children: React.ReactNode }) {
+export function NoteProvider({ children }: { children: React.ReactNode }) {
   const [notes, setNotes] = useState([] as Note[])
 
   return (
