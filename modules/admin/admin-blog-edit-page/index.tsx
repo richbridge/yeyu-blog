@@ -19,6 +19,7 @@ import { Switch } from '@/components/ui/switch'
 import { Combobox } from '@/components/ui/combobox'
 import { File } from 'lucide-react'
 import { updateBlogById } from '@/actions/blogs'
+import { redirect } from 'next/navigation'
 
 const formSchema = z.object({
   title: z.string().min(1, { message: '长度不能少于1个字符' }).max(250),
@@ -29,8 +30,11 @@ const formSchema = z.object({
     })
     .min(1, { message: '长度不能少于1个字符' }),
   isPublished: z.boolean().optional(),
-  relatedBlogTagNames: z.string().array().optional(),
-  // content: z.string(),
+  relatedBlogTagNames: z
+    .string()
+    .array()
+    .min(1, { message: '最少选择 1 个标签' })
+    .max(5, { message: '最多只能选择 5 个标签' }),
 })
 
 export type updateBlogParamsWithBlogId = z.infer<typeof formSchema> & {
@@ -61,7 +65,7 @@ export default function AdminBlogEditPage({
   // * 保存按扭, 更新文章
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const res = await updateBlogById({ ...values, id: blog.id })
-    console.log(res, 'rrrrrrrrrr')
+    redirect(`${values.slug}`)
   }
 
   return (
@@ -141,7 +145,7 @@ export default function AdminBlogEditPage({
           )}
         />
 
-        <Button type="submit" className="w-full bg-pink-500">
+        <Button type="submit" className="w-full">
           <File />
           保存
         </Button>

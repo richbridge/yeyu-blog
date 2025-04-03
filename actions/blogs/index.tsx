@@ -111,6 +111,32 @@ export const updateBlogById = async (values: updateBlogParamsWithBlogId) => {
   if (existingBlog) {
     throw new Error('该 slug 已存在')
   }
+
+  const relatedTags = await prisma.tag.findMany({
+    where: {
+      tagName: {
+        in: values.relatedBlogTagNames,
+      },
+    },
+    select: {
+      id: true,
+    },
+  })
+
+  await prisma.tagOnBlog.deleteMany({
+    where: { blogId: values.id },
+  })
+
+  //️ 重新添加新的 Tag 关联
+  if (relatedTags.length > 0 && relatedTags.length <= 5) {
+    await prisma.tagOnBlog.createMany({
+      data: relatedTags.map(tag => ({
+        blogId: values.id,
+        tagId: tag.id,
+      })),
+    })
+  }
+
   return await prisma.blog.update({
     where: {
       id: values.id,
