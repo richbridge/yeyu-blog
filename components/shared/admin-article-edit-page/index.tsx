@@ -1,7 +1,7 @@
 'use client'
 
 import { REGEX } from '@/lib/regex'
-import { Blog, Tag } from '@prisma/client'
+import { Blog, Note, Tag } from '@prisma/client'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
@@ -19,8 +19,9 @@ import { Switch } from '@/components/ui/switch'
 import { Combobox } from '@/components/ui/combobox'
 import { File } from 'lucide-react'
 import { updateBlogById } from '@/actions/blogs'
-import { redirect } from 'next/navigation'
+import { redirect, usePathname } from 'next/navigation'
 import MarkdownEditor from './internal/markdown-editor'
+import { updateNoteById } from '@/actions/notes'
 
 const formSchema = z.object({
   title: z.string().min(1, { message: '长度不能少于1个字符' }).max(250),
@@ -39,35 +40,53 @@ const formSchema = z.object({
   content: z.string(),
 })
 
-export type updateBlogParamsWithBlogId = z.infer<typeof formSchema> & {
+export type updateArticleParamsWithBlogId = z.infer<typeof formSchema> & {
   id: number
+}
+
+export type updateArticleParamsWithNoteId = z.infer<typeof formSchema> & {
+  id: number
+}
+
+const getEditPageType = (url: string): 'BLOG' | 'NOTE' => {
+  const type = url.split('/')[2].toUpperCase()
+  if (type === 'BLOG' || type === 'NOTE') {
+    return type
+  }
+  throw new Error(`Unexpected page type: ${type}`)
 }
 
 // * 表单渲染, markdown 编辑器集成
 export default function AdminBlogEditPage({
-  blog,
-  relatedBlogTagNames,
+  articles,
+  relatedArticleTagNames,
   allTags,
 }: {
-  blog: Blog
-  relatedBlogTagNames: string[]
+  articles: Blog | Note
+  relatedArticleTagNames: string[]
   allTags: Tag[]
 }) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: blog.title ?? '',
-      slug: blog.slug ?? '',
-      isPublished: blog.isPublished ?? false,
+      title: articles.title ?? '',
+      slug: articles.slug ?? '',
+      isPublished: articles.isPublished ?? false,
       // * 后序更新用
-      relatedBlogTagNames: relatedBlogTagNames ?? [],
-      content: blog.content ?? '',
+      relatedBlogTagNames: relatedArticleTagNames ?? [],
+      content: articles.content ?? '',
     },
   })
+  const url = usePathname()
+  const editPageType = getEditPageType(url)
 
   // * 保存按扭, 更新文章
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const res = await updateBlogById({ ...values, id: blog.id })
+    if (editPageType === 'BLOG') {
+      const res = await updateBlogById({ ...values, id: articles.id })
+    } else {
+      await updateNoteById({ ...values, id: articles.id })
+    }
     redirect(`${values.slug}`)
   }
 

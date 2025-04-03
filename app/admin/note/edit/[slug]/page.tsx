@@ -8,7 +8,7 @@ export default async function Page({
   params: Promise<{ slug: string }>
 }) {
   // * 找到对应的 blog 然后传递渲染
-  const blog = await prisma.blog.findUnique({
+  const notes = await prisma.note.findUnique({
     where: {
       slug: (await params).slug,
     },
@@ -21,17 +21,17 @@ export default async function Page({
     },
   })
 
-  if (!blog) notFound()
+  if (!notes) notFound()
 
   const allTags = await prisma.tag.findMany()
 
-  const { tags } = blog
-  const relatedBlogTagNames = tags.map(v => v.tag.tagName)
+  const { tags } = notes
+  const relatedArticleTagNames = tags.map(v => v.tag.tagName)
 
   return (
     <AdminBlogEditPage
-      articles={blog}
-      relatedArticleTagNames={relatedBlogTagNames}
+      articles={notes}
+      relatedArticleTagNames={relatedArticleTagNames}
       allTags={allTags}
     />
   )

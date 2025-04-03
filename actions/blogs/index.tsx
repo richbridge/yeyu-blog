@@ -1,7 +1,7 @@
 'use server'
 
 import { prisma } from '@/db'
-import type { updateBlogParamsWithBlogId } from '@/modules/admin/admin-blog-edit-page'
+import type { updateArticleParamsWithBlogId } from '@/components/shared/admin-article-edit-page'
 
 // * 获取所有的 blog, 模糊查询
 export const getQueryBlogs = async (blogTitle: string) => {
@@ -98,7 +98,7 @@ export const deleteBlogById = async (blogId: number) => {
   })
 }
 
-export const updateBlogById = async (values: updateBlogParamsWithBlogId) => {
+export const updateBlogById = async (values: updateArticleParamsWithBlogId) => {
   const existingBlog = await prisma.blog.findUnique({
     where: {
       slug: values.slug,
