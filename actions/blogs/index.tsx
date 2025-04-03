@@ -1,6 +1,7 @@
 'use server'
 
 import { prisma } from '@/db'
+import type { updateBlogParamsWithBlogId } from '@/modules/admin/admin-blog-edit-page'
 
 // * 获取所有的 blog, 模糊查询
 export const getQueryBlogs = async (blogTitle: string) => {
@@ -93,6 +94,32 @@ export const deleteBlogById = async (blogId: number) => {
   return prisma.blog.delete({
     where: {
       id: blogId,
+    },
+  })
+}
+
+export const updateBlogById = async (values: updateBlogParamsWithBlogId) => {
+  const existingBlog = await prisma.blog.findUnique({
+    where: {
+      slug: values.slug,
+      NOT: {
+        id: values.id,
+      },
+    },
+  })
+
+  if (existingBlog) {
+    throw new Error('该 slug 已存在')
+  }
+  return await prisma.blog.update({
+    where: {
+      id: values.id,
+    },
+    data: {
+      title: values.title,
+      slug: values.slug,
+      isPublished: values.isPublished,
+      updatedAt: new Date(),
     },
   })
 }

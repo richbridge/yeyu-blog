@@ -124,9 +124,14 @@ export const columns: ColumnDef<withTags>[] = [
           >
             <Eye className="size-4" />
           </Link>
-          <Button variant={'outline'} className="size-8">
+          <Link
+            href={`blog/edit/${slug}`}
+            className={cn(
+              buttonVariants({ variant: 'outline', className: 'size-8' }),
+            )}
+          >
             <Edit2 className="size-4" />
-          </Button>
+          </Link>
           <Button
             variant={'outline'}
             className="size-8"
