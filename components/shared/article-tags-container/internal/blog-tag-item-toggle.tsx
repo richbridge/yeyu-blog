@@ -6,7 +6,7 @@ import { useSelectedTags } from '@/components/context/selected-tag'
 import { Toggle } from '@/components/ui/toggle'
 
 // ! 后序需要重写样式, 现在稍微有些看不出来
-export default function TagItemToggle({
+export function BlogTagItemToggle({
   tag,
 }: {
   tag: string
