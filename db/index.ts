@@ -6,17 +6,18 @@ export const prisma = new PrismaClient()
 const filePath = `md/2.md`
 const fileContent = fs.readFileSync(filePath, 'utf-8')
 const randomTag = [
-  'Nextjs',
-  'React',
-  'Vue',
-  'JavaScript',
-  'TypeScript',
-  'Go',
-  'remix',
+  'general',
+  '微信读书',
+  '思考',
+  '个人成长',
+  '学习',
+  '测试..',
+  '好累',
 ] as const
 
 async function main() {
-  // await mockData(24)
+  // await mockData(50)
+  // console.log('over')
 }
 
 async function mockData(count: number) {
@@ -24,11 +25,10 @@ async function mockData(count: number) {
     Array(count)
       .fill(0)
       .map(async _ => {
-        await prisma.blog.create({
+        await prisma.note.create({
           data: {
-            title: `nextjs 开发指南 + ${generateRandomString()}`,
-            // * slug 不能包含 + 号, 忘了🤡
-            slug: `nextjs-dev-guide-${generateRandomString()}`,
+            title: `笔记测试 ${generateRandomString()}`,
+            slug: `life-style-${generateRandomString()}`,
             tags: {
               create: getRandomTags().map(tagName => ({
                 tag: {
