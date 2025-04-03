@@ -1,7 +1,7 @@
 'use client'
 
 import { REGEX } from '@/lib/regex'
-import { Blog, Note, Tag } from '@prisma/client'
+import { Blog, BlogTag, Note, NoteTag } from '@prisma/client'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
@@ -64,7 +64,7 @@ export default function AdminBlogEditPage({
 }: {
   articles: Blog | Note
   relatedArticleTagNames: string[]
-  allTags: Tag[]
+  allTags: BlogTag[] | NoteTag[]
 }) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -83,7 +83,7 @@ export default function AdminBlogEditPage({
   // * 保存按扭, 更新文章
   async function onSubmit(values: z.infer<typeof formSchema>) {
     if (editPageType === 'BLOG') {
-      const res = await updateBlogById({ ...values, id: articles.id })
+      await updateBlogById({ ...values, id: articles.id })
     } else {
       await updateNoteById({ ...values, id: articles.id })
     }

@@ -1,6 +1,5 @@
 // * 这里获取对应的文章, 然后直接发送给下一个组件用来渲染
 
-// import  from '@/components/shared/article-display-page'
 import { prisma } from '@/db'
 import { notFound } from 'next/navigation'
 import { processor } from '@/lib/markdown'
@@ -16,17 +15,13 @@ export default async function Page({
       slug: (await params).slug,
     },
     include: {
-      tags: {
-        include: {
-          tag: true,
-        },
-      },
+      tags: true,
     },
   })
   if (!articles) notFound()
 
   const { content, title, createdAt, tags } = articles
-  const tagNames = tags.map(v => v.tag.tagName)
+  const tagNames = tags.map(v => v.tagName)
 
   const processedContent = await processor.process(content)
 

@@ -15,9 +15,8 @@ import { useBlogs } from '@/components/context/blog-context'
 
 type withTags = Blog & {
   tags: {
-    tag: {
-      tagName: string
-    }
+    id: number
+    tagName: string
   }[]
 }
 
@@ -30,13 +29,14 @@ export const columns: ColumnDef<withTags>[] = [
     accessorKey: 'tags',
     header: '标签',
     cell: ({ row }) => {
-      const tags = row.original.tags?.map(tag => tag.tag.tagName)
+      const tags = row.original.tags
+
       return (
         <div className="flex gap-1">
           {tags.map((tag, i) => (
             <TagItemBadge
-              tag={tag}
-              key={`${tag[i]?.toString()}+${i}+${tag.toString()}`}
+              tag={tag.tagName}
+              key={`${tag.id}+${i}+${tag.toString()}`}
             />
           ))}
         </div>

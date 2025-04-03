@@ -12,11 +12,7 @@ export const getQueryBlogs = async (blogTitle: string) => {
       },
     },
     include: {
-      tags: {
-        include: {
-          tag: true,
-        },
-      },
+      tags: true, // tags 是一个 BlogTag 数组
     },
   })
 }
@@ -25,18 +21,14 @@ export const getQueryBlogs = async (blogTitle: string) => {
 export const getAllBlogs = async () => {
   return await prisma.blog.findMany({
     include: {
-      tags: {
-        include: {
-          tag: true,
-        },
-      },
+      tags: true, // 包含与 Blog 关联的 BlogTag
     },
   })
 }
 
 // * 获取所有关联 blog 的 tag
 export const getTagsOnBlog = async () => {
-  return await prisma.tag.findMany({
+  return await prisma.blogTag.findMany({
     select: {
       tagName: true,
     },
@@ -58,7 +50,7 @@ export const toggleArticlePublished = async (
 }
 
 export const getBlogsBySelectedTagName = async (tagNamesArray: string[]) => {
-  const tagIds = await prisma.tag.findMany({
+  const tagIds = await prisma.blogTag.findMany({
     where: {
       tagName: { in: tagNamesArray },
     },
@@ -71,21 +63,19 @@ export const getBlogsBySelectedTagName = async (tagNamesArray: string[]) => {
         {
           tags: {
             some: {
-              tagId: { in: tagIds.map(tag => tag.id) },
+              tagName: { in: tagNamesArray },
             },
           },
         },
       ],
     },
     include: {
-      tags: {
-        include: { tag: true },
-      },
+      tags: true,
     },
   })
 
   return blogs.filter(blog => {
-    const blogTagNames = blog.tags.map(tagOnBlog => tagOnBlog.tag.tagName)
+    const blogTagNames = blog.tags.map(tagOnBlog => tagOnBlog.tagName)
     return tagNamesArray.every(tag => blogTagNames.includes(tag)) // 选中的标签必须都在博客的标签中
   })
 }
@@ -112,7 +102,8 @@ export const updateBlogById = async (values: updateArticleParamsWithBlogId) => {
     throw new Error('该 slug 已存在')
   }
 
-  const relatedTags = await prisma.tag.findMany({
+  // 获取新的关联标签
+  const relatedTags = await prisma.blogTag.findMany({
     where: {
       tagName: {
         in: values.relatedBlogTagNames,
@@ -123,19 +114,43 @@ export const updateBlogById = async (values: updateArticleParamsWithBlogId) => {
     },
   })
 
-  await prisma.tagOnBlog.deleteMany({
-    where: { blogId: values.id },
+  // 获取当前 Blog 的所有关联标签
+  const currentTags = await prisma.blog.findUnique({
+    where: { id: values.id },
+    select: {
+      tags: {
+        select: { id: true },
+      },
+    },
   })
 
-  //️ 重新添加新的 Tag 关联
-  if (relatedTags.length > 0 && relatedTags.length <= 5) {
-    await prisma.tagOnBlog.createMany({
-      data: relatedTags.map(tag => ({
-        blogId: values.id,
-        tagId: tag.id,
-      })),
-    })
+  if (!currentTags) {
+    throw new Error('Blog 不存在')
   }
+
+  const currentTagIds = currentTags.tags.map(tag => tag.id)
+  const newTagIds = relatedTags.map(tag => tag.id)
+
+  // 找出需要断开关系的标签
+  const tagsToDisconnect = currentTagIds
+    .filter(tagId => !newTagIds.includes(tagId))
+    .map(tagId => ({ id: tagId }))
+
+  // 找出需要连接的新标签
+  const tagsToConnect = newTagIds
+    .filter(tagId => !currentTagIds.includes(tagId))
+    .map(tagId => ({ id: tagId }))
+
+  // 更新 Blog 的标签关联
+  await prisma.blog.update({
+    where: { id: values.id },
+    data: {
+      tags: {
+        disconnect: tagsToDisconnect, // 断开不再关联的标签
+        connect: tagsToConnect, // 连接新的标签
+      },
+    },
+  })
 
   return await prisma.blog.update({
     where: {
