@@ -1,7 +1,7 @@
 'use client'
 
 import { getAllBlogs, getQueryBlogs } from '@/actions/blogs'
-import { getQueryNotes } from '@/actions/notes'
+import { getALlNotes, getQueryNotes } from '@/actions/notes'
 import { useBlogs } from '@/components/context/blog-context'
 import { useNotes } from '@/components/context/note-context'
 import { Button } from '@/components/ui/button'
@@ -82,7 +82,7 @@ export function NoteSearch() {
   const { setNotes } = useNotes()
   const [refresh, setRefresh] = useState(true)
 
-  const fetchBlogs = async () => {
+  const fetchNotes = async () => {
     if (!query.trim()) return
     try {
       const notes = await getQueryNotes(query)
@@ -94,15 +94,15 @@ export function NoteSearch() {
 
   // * 默认加载所有的数据, 先不考虑分页的事
   useEffect(() => {
-    const fetchAllBlogs = async () => {
+    const fetchAllNotes = async () => {
       try {
-        const blogs = await getAllBlogs()
-        setNotes(blogs)
+        const notes = await getALlNotes()
+        setNotes(notes)
       } catch (error) {
         console.error(`获取博客数据错误`, error)
       }
     }
-    fetchAllBlogs()
+    fetchAllNotes()
   }, [refresh])
 
   return (
@@ -117,12 +117,12 @@ export function NoteSearch() {
         }}
         onKeyDown={e => {
           if (e.key === 'Enter') {
-            fetchBlogs()
+            fetchNotes()
           }
         }}
       />
 
-      <Button type="button" variant={'secondary'} onClick={fetchBlogs}>
+      <Button type="button" variant={'secondary'} onClick={fetchNotes}>
         <Search /> 搜索
       </Button>
 

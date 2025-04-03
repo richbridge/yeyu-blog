@@ -79,3 +79,25 @@ export const getNotesBySelectedTagName = async (tagNameArray: string[]) => {
     return tagNameArray.every(tag => noteTagNames.includes(tag))
   })
 }
+
+export const toggleArticlePublished = async (
+  id: number,
+  newIsPublishedStatus: boolean,
+) => {
+  return await prisma.note.update({
+    where: {
+      id,
+    },
+    data: {
+      isPublished: newIsPublishedStatus,
+    },
+  })
+}
+
+export const deleteNoteById = async (blogId: number) => {
+  return prisma.note.delete({
+    where: {
+      id: blogId,
+    },
+  })
+}

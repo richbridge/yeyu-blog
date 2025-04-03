@@ -1,19 +1,20 @@
 'use client'
 
-import { deleteBlogById, toggleArticlePublished } from '@/actions/blogs'
+// import { deleteBlogById, toggleArticlePublished } from '@/actions/blogs'
 import { Switch } from '@/components/ui/switch'
 import { prettyDateTime } from '@/lib/time'
 import TagItemBadge from '@/components/shared/tag-item-badge'
-import { Blog } from '@prisma/client'
+import { Note } from '@prisma/client'
 import { ColumnDef } from '@tanstack/react-table'
 import { useState } from 'react'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { Edit2, Eye, Trash } from 'lucide-react'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
-import { useBlogs } from '@/components/context/blog-context'
+import { useNotes } from '@/components/context/note-context'
+import { deleteNoteById, toggleArticlePublished } from '@/actions/notes'
 
-type withTags = Blog & {
+type withTags = Note & {
   tags: {
     tag: {
       tagName: string
@@ -48,10 +49,10 @@ export const columns: ColumnDef<withTags>[] = [
     header: '是否发布',
     cell: ({ row, table }) => {
       const [isPublished, setIsPublished] = useState(row.original.isPublished)
-      const blogId = row.original.id
+      const noteId = row.original.id
 
-      const findBlogItemById = (id: number, t = table) => {
-        return t.options.data.find(item => item.id === blogId)
+      const findNoteItemById = (id: number, t = table) => {
+        return t.options.data.find(item => item.id === noteId)
       }
 
       const handleToggle = async () => {
@@ -60,14 +61,14 @@ export const columns: ColumnDef<withTags>[] = [
         setIsPublished(newStatus)
 
         try {
-          await toggleArticlePublished(blogId, newStatus)
+          await toggleArticlePublished(noteId, newStatus)
 
-          const blogItem = findBlogItemById(blogId)
+          const blogItem = findNoteItemById(noteId)
           if (blogItem) blogItem.isPublished = newStatus
         } catch (error) {
           setIsPublished(!newStatus)
 
-          const blogItem = findBlogItemById(blogId)
+          const blogItem = findNoteItemById(noteId)
           if (blogItem) blogItem.isPublished = !newStatus
 
           // * 后序也整一个全局 Message 消息提醒出错~
@@ -97,18 +98,17 @@ export const columns: ColumnDef<withTags>[] = [
     cell: ({ row, table }) => {
       const slug = row.original.slug
       const blogId = row.original.id
-      const { setBlogs } = useBlogs()
+      const { setNotes } = useNotes()
 
       // * 后序再补一个 modal 框出来让点击确认
       const handleDeleteBlogById = async () => {
         try {
-          await deleteBlogById(blogId)
+          await deleteNoteById(blogId)
 
           const newTables = table.options.data.filter(
             blog => blog.id !== blogId,
           )
-          // const newTables = await getAllBlogs()
-          setBlogs(newTables)
+          setNotes(newTables)
         } catch (error) {
           console.error(`删除 ${row.original.title} 出错~`, error)
         }
@@ -117,7 +117,7 @@ export const columns: ColumnDef<withTags>[] = [
       return (
         <section className="flex items-center gap-1">
           <Link
-            href={`/blog/${slug}`}
+            href={`/note/${slug}`}
             className={cn(
               buttonVariants({ variant: 'outline', className: 'size-8' }),
             )}
@@ -125,7 +125,7 @@ export const columns: ColumnDef<withTags>[] = [
             <Eye className="size-4" />
           </Link>
           <Link
-            href={`blog/edit/${slug}`}
+            href={`note/edit/${slug}`}
             className={cn(
               buttonVariants({ variant: 'outline', className: 'size-8' }),
             )}
