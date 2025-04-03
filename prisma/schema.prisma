@@ -42,6 +42,7 @@ model Note {
 model BlogTag {
   id      Int    @id @default(autoincrement())
   tagName String @unique @db.VarChar(50)
+  tagType String @default("Blog")
 
   blogs Blog[]
 }
@@ -49,28 +50,7 @@ model BlogTag {
 model NoteTag {
   id      Int    @id @default(autoincrement())
   tagName String @unique @db.VarChar(50)
+  tagType String @default("Note")
 
   notes Note[]
 }
-
-// model TagOnBlog {
-//   blogId    Int
-//   tagId     Int
-//   createdAt DateTime @default(now())
-
-//   blog Blog @relation(fields: [blogId], references: [id], onDelete: Cascade)
-//   tag  Tag  @relation(fields: [tagId], references: [id], onDelete: Cascade)
-
-//   @@id([blogId, tagId])
-// }
-
-// model TagOnNote {
-//   noteId    Int
-//   tagId     Int
-//   createdAt DateTime @default(now())
-
-//   note Note @relation(fields: [noteId], references: [id], onDelete: Cascade)
-//   tag  Tag  @relation(fields: [tagId], references: [id], onDelete: Cascade)
-
-//   @@id([noteId, tagId])
-// }
