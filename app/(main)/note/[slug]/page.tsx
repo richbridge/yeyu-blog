@@ -15,17 +15,13 @@ export default async function Page({
       slug: (await params).slug,
     },
     include: {
-      tags: {
-        include: {
-          tag: true,
-        },
-      },
+      tags: true,
     },
   })
   if (!articles) notFound()
 
   const { content, title, createdAt, tags } = articles
-  const tagNames = tags.map(v => v.tag.tagName)
+  const tagNames = tags.map(v => v.tagName)
 
   const processedContent = await processor.process(content)
 

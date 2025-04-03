@@ -1,83 +1,37 @@
 'use server'
 
-import { updateArticleParamsWithNoteId } from '@/components/shared/admin-article-edit-page'
 import { prisma } from '@/db'
+import type { updateArticleParamsWithNoteId } from '@/components/shared/admin-article-edit-page'
 
-export const getQueryNotes = async (title: string) => {
+// * 获取所有的 note，模糊查询
+export const getQueryNotes = async (noteTitle: string) => {
   return await prisma.note.findMany({
     where: {
       title: {
-        contains: title,
+        contains: noteTitle,
       },
     },
     include: {
-      tags: {
-        include: {
-          tag: true,
-        },
-      },
+      tags: true, // tags 是一个 NoteTag 数组
     },
   })
 }
 
-export const getALlNotes = async () => {
+// * 获取所有的 note
+export const getAllNotes = async () => {
   return await prisma.note.findMany({
     include: {
-      tags: {
-        include: {
-          tag: true,
-        },
-      },
+      tags: true, // 包含与 Note 关联的 NoteTag
     },
   })
 }
 
+// * 获取所有关联 note 的 tag
 export const getTagsOnNote = async () => {
-  return await prisma.tag.findMany({
+  return await prisma.noteTag.findMany({
     select: {
       tagName: true,
     },
-  })
-}
-
-export const getNotesBySelectedTagName = async (tagNameArray: string[]) => {
-  const tagIds = await prisma.tag.findMany({
-    where: {
-      tagName: {
-        in: tagNameArray,
-      },
-    },
-    select: {
-      id: true,
-    },
-  })
-
-  const notes = await prisma.note.findMany({
-    where: {
-      AND: [
-        {
-          tags: {
-            some: {
-              tagId: {
-                in: tagIds.map(tag => tag.id),
-              },
-            },
-          },
-        },
-      ],
-    },
-    include: {
-      tags: {
-        include: {
-          tag: true,
-        },
-      },
-    },
-  })
-
-  return notes.filter(note => {
-    const noteTagNames = note.tags.map(tagOnNote => tagOnNote.tag.tagName)
-    return tagNameArray.every(tag => noteTagNames.includes(tag))
   })
 }
 
@@ -92,6 +46,40 @@ export const toggleArticlePublished = async (
     data: {
       isPublished: newIsPublishedStatus,
     },
+  })
+}
+
+// * 根据选中的标签获取 note
+export const getNotesBySelectedTagName = async (tagNamesArray: string[]) => {
+  const tagIds = await prisma.noteTag.findMany({
+    where: {
+      tagName: { in: tagNamesArray },
+    },
+    select: { id: true },
+  })
+
+  const notes = await prisma.note.findMany({
+    where: {
+      AND: [
+        {
+          tags: {
+            some: {
+              tagName: {
+                in: tagNamesArray,
+              },
+            },
+          },
+        },
+      ],
+    },
+    include: {
+      tags: true,
+    },
+  })
+
+  return notes.filter(note => {
+    const noteTagNames = note.tags.map(tagOnNote => tagOnNote.tagName)
+    return tagNamesArray.every(tag => noteTagNames.includes(tag)) // 选中的标签必须都在笔记的标签中
   })
 }
 
@@ -117,7 +105,8 @@ export const updateNoteById = async (values: updateArticleParamsWithNoteId) => {
     throw new Error('该 slug 已存在')
   }
 
-  const relatedTags = await prisma.tag.findMany({
+  // 获取新的关联标签
+  const relatedTags = await prisma.noteTag.findMany({
     where: {
       tagName: {
         in: values.relatedBlogTagNames,
@@ -128,19 +117,43 @@ export const updateNoteById = async (values: updateArticleParamsWithNoteId) => {
     },
   })
 
-  await prisma.tagOnNote.deleteMany({
-    where: { noteId: values.id },
+  // 获取当前 Note 的所有关联标签
+  const currentTags = await prisma.note.findUnique({
+    where: { id: values.id },
+    select: {
+      tags: {
+        select: { id: true },
+      },
+    },
   })
 
-  //️ 重新添加新的 Tag 关联
-  if (relatedTags.length > 0 && relatedTags.length <= 5) {
-    await prisma.tagOnNote.createMany({
-      data: relatedTags.map(tag => ({
-        noteId: values.id,
-        tagId: tag.id,
-      })),
-    })
+  if (!currentTags) {
+    throw new Error('Note 不存在')
   }
+
+  const currentTagIds = currentTags.tags.map(tag => tag.id)
+  const newTagIds = relatedTags.map(tag => tag.id)
+
+  // 找出需要断开关系的标签
+  const tagsToDisconnect = currentTagIds
+    .filter(tagId => !newTagIds.includes(tagId))
+    .map(tagId => ({ id: tagId }))
+
+  // 找出需要连接的新标签
+  const tagsToConnect = newTagIds
+    .filter(tagId => !currentTagIds.includes(tagId))
+    .map(tagId => ({ id: tagId }))
+
+  // 更新 Note 的标签关联
+  await prisma.note.update({
+    where: { id: values.id },
+    data: {
+      tags: {
+        disconnect: tagsToDisconnect, // 断开不再关联的标签
+        connect: tagsToConnect, // 连接新的标签
+      },
+    },
+  })
 
   return await prisma.note.update({
     where: {

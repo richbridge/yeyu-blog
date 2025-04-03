@@ -13,20 +13,16 @@ export default async function Page({
       slug: (await params).slug,
     },
     include: {
-      tags: {
-        include: {
-          tag: true,
-        },
-      },
+      tags: true,
     },
   })
 
   if (!notes) notFound()
 
-  const allTags = await prisma.tag.findMany()
+  const allTags = await prisma.noteTag.findMany()
 
   const { tags } = notes
-  const relatedArticleTagNames = tags.map(v => v.tag.tagName)
+  const relatedArticleTagNames = tags.map(v => v.tagName)
 
   return (
     <AdminBlogEditPage

@@ -1,7 +1,7 @@
 'use client'
 
 import { getAllBlogs, getQueryBlogs } from '@/actions/blogs'
-import { getALlNotes, getQueryNotes } from '@/actions/notes'
+import { getAllNotes, getQueryNotes } from '@/actions/notes'
 import { useBlogs } from '@/components/context/blog-context'
 import { useNotes } from '@/components/context/note-context'
 import { Button } from '@/components/ui/button'
@@ -96,7 +96,7 @@ export function NoteSearch() {
   useEffect(() => {
     const fetchAllNotes = async () => {
       try {
-        const notes = await getALlNotes()
+        const notes = await getAllNotes()
         setNotes(notes)
       } catch (error) {
         console.error(`获取博客数据错误`, error)

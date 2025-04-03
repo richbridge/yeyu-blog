@@ -16,9 +16,8 @@ import { deleteNoteById, toggleArticlePublished } from '@/actions/notes'
 
 type withTags = Note & {
   tags: {
-    tag: {
-      tagName: string
-    }
+    id: number
+    tagName: string
   }[]
 }
 
@@ -31,13 +30,13 @@ export const columns: ColumnDef<withTags>[] = [
     accessorKey: 'tags',
     header: '标签',
     cell: ({ row }) => {
-      const tags = row.original.tags?.map(tag => tag.tag.tagName)
+      const tags = row.original.tags
       return (
         <div className="flex gap-1">
           {tags.map((tag, i) => (
             <TagItemBadge
-              tag={tag}
-              key={`${tag[i]?.toString()}+${i}+${tag.toString()}`}
+              tag={tag.tagName}
+              key={`${tag.id}+${i}+${tag.toString()}`}
             />
           ))}
         </div>
@@ -101,7 +100,7 @@ export const columns: ColumnDef<withTags>[] = [
       const { setNotes } = useNotes()
 
       // * 后序再补一个 modal 框出来让点击确认
-      const handleDeleteBlogById = async () => {
+      const handleArticleDelete = async () => {
         try {
           await deleteNoteById(blogId)
 
@@ -135,7 +134,7 @@ export const columns: ColumnDef<withTags>[] = [
           <Button
             variant={'outline'}
             className="size-8"
-            onClick={handleDeleteBlogById}
+            onClick={handleArticleDelete}
           >
             <Trash />
           </Button>
