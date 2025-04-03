@@ -11,7 +11,7 @@ export default async function ArticleTagsContainer() {
   }
 
   return (
-    <section className="w-full flex gap-2 bg-slate-700">
+    <section className="w-full flex gap-2">
       {tags.map((tag, i) => (
         <TagItem
           key={`${tag.toString()}-${i}+${tag[i]?.toUpperCase()}`}

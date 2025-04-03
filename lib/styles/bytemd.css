@@ -17,6 +17,7 @@
 .bytemd .CodeMirror,
 .bytemd code,
 .bytemd kbd {
+  /* todo 后序考虑更换字体 */
   @apply !font-mono;
 }
 
