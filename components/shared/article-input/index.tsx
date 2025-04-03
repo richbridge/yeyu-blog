@@ -1,17 +1,15 @@
 'use client'
 
 import { getAllBlogs, getQueryBlogs } from '@/actions/blogs'
+import { getQueryNotes } from '@/actions/notes'
 import { useBlogs } from '@/components/context/blog-context'
+import { useNotes } from '@/components/context/note-context'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Plus, RotateCw, Search } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
-export default function ArticleInput({
-  createType,
-}: {
-  createType: '博客' | '笔记'
-}) {
+export function BlogSearch() {
   const [query, setQuery] = useState('')
   const { setBlogs } = useBlogs()
   const [refresh, setRefresh] = useState(true)
@@ -22,7 +20,7 @@ export default function ArticleInput({
       const blogs = await getQueryBlogs(query)
       setBlogs(blogs)
     } catch (error) {
-      console.error(`获取${createType}数据错误`, error)
+      console.error(`获取博客数据错误`, error)
     }
   }
 
@@ -33,7 +31,7 @@ export default function ArticleInput({
         const blogs = await getAllBlogs()
         setBlogs(blogs)
       } catch (error) {
-        console.error(`获取${createType}数据错误`, error)
+        console.error(`获取博客数据错误`, error)
       }
     }
     fetchAllBlogs()
@@ -73,7 +71,75 @@ export default function ArticleInput({
       </Button>
 
       <Button variant={'secondary'}>
-        <Plus /> {`创建${createType}`}
+        <Plus /> {`创建博客`}
+      </Button>
+    </section>
+  )
+}
+
+export function NoteSearch() {
+  const [query, setQuery] = useState('')
+  const { setNotes } = useNotes()
+  const [refresh, setRefresh] = useState(true)
+
+  const fetchBlogs = async () => {
+    if (!query.trim()) return
+    try {
+      const notes = await getQueryNotes(query)
+      setNotes(notes)
+    } catch (error) {
+      console.error(`获取博客数据错误`, error)
+    }
+  }
+
+  // * 默认加载所有的数据, 先不考虑分页的事
+  useEffect(() => {
+    const fetchAllBlogs = async () => {
+      try {
+        const blogs = await getAllBlogs()
+        setNotes(blogs)
+      } catch (error) {
+        console.error(`获取博客数据错误`, error)
+      }
+    }
+    fetchAllBlogs()
+  }, [refresh])
+
+  return (
+    <section className="flex w-full gap-4">
+      <Input
+        placeholder="请输入标题喵~"
+        className="w-1/4"
+        value={query}
+        onChange={e => {
+          if (e.target.value === ' ') return
+          setQuery(e.target.value)
+        }}
+        onKeyDown={e => {
+          if (e.key === 'Enter') {
+            fetchBlogs()
+          }
+        }}
+      />
+
+      <Button type="button" variant={'secondary'} onClick={fetchBlogs}>
+        <Search /> 搜索
+      </Button>
+
+      <Button
+        variant={'secondary'}
+        onClick={() => {
+          if (query !== '') {
+            setQuery('')
+            setRefresh(!refresh)
+          }
+        }}
+      >
+        <RotateCw /> 重置
+      </Button>
+
+      <Button variant={'secondary'}>
+        <Plus /> {`创建笔记`}
       </Button>
     </section>
   )
