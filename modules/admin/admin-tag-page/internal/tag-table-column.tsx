@@ -4,6 +4,8 @@ import { ColumnDef } from '@tanstack/react-table'
 import type { BlogTag, NoteTag } from '@prisma/client'
 import TagItemBadge from '@/components/shared/tag-item-badge'
 import { Badge } from '@/components/ui/badge'
+import { Edit2, Trash } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 
 // * 后序整一个分类排序
 export const columns: ColumnDef<BlogTag | NoteTag>[] = [
@@ -24,7 +26,29 @@ export const columns: ColumnDef<BlogTag | NoteTag>[] = [
     },
   },
   {
+    accessorKey: 'related-article',
+    header: '关联文章数量',
+    cell: ({ row }) => {
+      const relatedArticleCount = row.original.count
+      return <div>{relatedArticleCount}</div>
+    },
+  },
+  {
     accessorKey: 'actions',
     header: '操作',
+    cell: ({ row }) => {
+      // * 后序再补一个 modal 框出来让点击确认
+      return (
+        <section className="flex items-center gap-1">
+          <Button variant={'outline'} className="size-8">
+            <Edit2 className="size-4" />
+          </Button>
+
+          <Button variant={'outline'} className="size-8 text-red-600">
+            <Trash />
+          </Button>
+        </section>
+      )
+    },
   },
 ]
