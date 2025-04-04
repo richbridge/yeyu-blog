@@ -6,12 +6,12 @@ import { prettyDateTime } from '@/lib/time'
 import TagItemBadge from '@/components/shared/tag-item-badge'
 import { Blog } from '@prisma/client'
 import { ColumnDef } from '@tanstack/react-table'
-import { useEffect, useState } from 'react'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { Edit2, Eye, Trash } from 'lucide-react'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
 import { useBlogs } from '@/components/context/blog-context'
+import { useModalStore } from '@/hooks/use-modal-store'
 
 type withTags = Blog & {
   tags: {
@@ -95,8 +95,8 @@ export const columns: ColumnDef<withTags>[] = [
       const slug = row.original.slug
       const blogId = row.original.id
       const { setBlogs } = useBlogs()
+      const { setModalOpen } = useModalStore()
 
-      // * 后序再补一个 modal 框出来让点击确认
       const handleDeleteBlogById = async () => {
         try {
           await deleteBlogById(blogId)
@@ -132,7 +132,9 @@ export const columns: ColumnDef<withTags>[] = [
           <Button
             variant={'outline'}
             className="size-8"
-            onClick={handleDeleteBlogById}
+            onClick={() => {
+              setModalOpen('deleteBlogModal', handleDeleteBlogById)
+            }}
           >
             <Trash />
           </Button>
