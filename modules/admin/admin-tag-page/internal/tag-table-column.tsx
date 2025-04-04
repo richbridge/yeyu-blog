@@ -8,7 +8,11 @@ import { Edit2, Trash } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
 // * 后序整一个分类排序
-export const columns: ColumnDef<BlogTag | NoteTag>[] = [
+type WithCountBlogTagOrNoteTag =
+  | (BlogTag & { count: number })
+  | (NoteTag & { count: number })
+
+export const columns: ColumnDef<WithCountBlogTagOrNoteTag>[] = [
   {
     accessorKey: 'tagName',
     header: '标签名',
@@ -38,7 +42,7 @@ export const columns: ColumnDef<BlogTag | NoteTag>[] = [
     header: '操作',
     cell: ({ row }) => {
       // * 后序再补一个 modal 框出来让点击确认
-      
+
       return (
         <section className="flex items-center gap-1">
           <Button variant={'outline'} className="size-8">
