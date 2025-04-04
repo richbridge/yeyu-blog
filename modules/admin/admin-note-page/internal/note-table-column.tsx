@@ -1,18 +1,17 @@
 'use client'
 
-// import { deleteBlogById, toggleArticlePublished } from '@/actions/blogs'
 import { Switch } from '@/components/ui/switch'
 import { prettyDateTime } from '@/lib/time'
 import TagItemBadge from '@/components/shared/tag-item-badge'
 import { Note } from '@prisma/client'
 import { ColumnDef } from '@tanstack/react-table'
-import { useState } from 'react'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { Edit2, Eye, Trash } from 'lucide-react'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
 import { useNotes } from '@/components/context/note-context'
 import { deleteNoteById, toggleArticlePublished } from '@/actions/notes'
+import { useModalStore } from '@/hooks/use-modal-store'
 
 type withTags = Note & {
   tags: {
@@ -97,6 +96,7 @@ export const columns: ColumnDef<withTags>[] = [
       const slug = row.original.slug
       const blogId = row.original.id
       const { setNotes } = useNotes()
+      const { setModalOpen } = useModalStore()
 
       // * 后序再补一个 modal 框出来让点击确认
       const handleArticleDelete = async () => {
@@ -133,7 +133,9 @@ export const columns: ColumnDef<withTags>[] = [
           <Button
             variant={'outline'}
             className="size-8"
-            onClick={handleArticleDelete}
+            onClick={() => {
+              setModalOpen('deleteArticleModal', handleArticleDelete)
+            }}
           >
             <Trash />
           </Button>

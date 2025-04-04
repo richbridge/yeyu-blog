@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 
-type IModalType = 'deleteBlogModal' | null
+type IModalType = 'deleteArticleModal' | null
 
 interface IModalStore {
   modalType: IModalType

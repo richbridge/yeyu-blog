@@ -133,7 +133,7 @@ export const columns: ColumnDef<withTags>[] = [
             variant={'outline'}
             className="size-8"
             onClick={() => {
-              setModalOpen('deleteBlogModal', handleDeleteBlogById)
+              setModalOpen('deleteArticleModal', handleDeleteBlogById)
             }}
           >
             <Trash />
