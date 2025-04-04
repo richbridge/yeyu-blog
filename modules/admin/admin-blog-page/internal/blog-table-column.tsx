@@ -6,7 +6,7 @@ import { prettyDateTime } from '@/lib/time'
 import TagItemBadge from '@/components/shared/tag-item-badge'
 import { Blog } from '@prisma/client'
 import { ColumnDef } from '@tanstack/react-table'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { Edit2, Eye, Trash } from 'lucide-react'
 import Link from 'next/link'
@@ -46,39 +46,33 @@ export const columns: ColumnDef<withTags>[] = [
   {
     accessorKey: 'isPublished',
     header: '是否发布',
-    cell: ({ row, table }) => {
-      const [isPublished, setIsPublished] = useState(row.original.isPublished)
+    cell: ({ row }) => {
+      const blog = row.original
       const blogId = row.original.id
-
-      const findBlogItemById = (id: number, t = table) => {
-        return t.options.data.find(item => item.id === blogId)
-      }
+      const { setBlogs, blogs } = useBlogs()
 
       const handleToggle = async () => {
-        const newStatus = !isPublished
-        // * 先直接修改 UI, 有问题再改回来~
-        setIsPublished(newStatus)
+        const newStatus = !blog.isPublished
 
         try {
           await toggleArticlePublished(blogId, newStatus)
 
-          const blogItem = findBlogItemById(blogId)
-          if (blogItem) blogItem.isPublished = newStatus
+          const updated = blogs.map(item =>
+            item.id === blogId ? { ...item, isPublished: newStatus } : item,
+          )
+          setBlogs(updated)
         } catch (error) {
-          setIsPublished(!newStatus)
-
-          const blogItem = findBlogItemById(blogId)
-          if (blogItem) blogItem.isPublished = !newStatus
-
           // * 后序也整一个全局 Message 消息提醒出错~
           console.error('发布状态更新失败', error)
         }
       }
 
       return (
-        <Switch onCheckedChange={handleToggle} checked={isPublished}>
-          {isPublished}
-        </Switch>
+        <Switch
+          onCheckedChange={handleToggle}
+          checked={row.original.isPublished}
+          key={`${row.original.id}-${row.original.slug}`}
+        />
       )
     },
   },
@@ -144,3 +138,40 @@ export const columns: ColumnDef<withTags>[] = [
     },
   },
 ]
+
+interface PublishSwitchProps {
+  blogId: number
+  initialStatus: boolean
+  onStatusChange?: (newStatus: boolean) => void // 可选：通知父组件状态变更
+}
+
+const PublishSwitch = ({
+  blogId,
+  initialStatus,
+  onStatusChange,
+}: PublishSwitchProps) => {
+  const [isPublished, setIsPublished] = useState(initialStatus)
+
+  useEffect(() => {
+    setIsPublished(initialStatus)
+  }, [initialStatus])
+
+  const handleToggle = async () => {
+    const newStatus = !isPublished
+    setIsPublished(newStatus)
+
+    try {
+      await toggleArticlePublished(blogId, newStatus)
+      onStatusChange?.(newStatus)
+    } catch (error) {
+      setIsPublished(!newStatus)
+      console.error('发布状态更新失败:', error)
+    }
+  }
+
+  return (
+    <Switch checked={isPublished} onCheckedChange={handleToggle}>
+      {isPublished}
+    </Switch>
+  )
+}
