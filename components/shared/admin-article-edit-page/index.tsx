@@ -18,10 +18,12 @@ import { Input } from '@/components/ui/input'
 import { Switch } from '@/components/ui/switch'
 import { Combobox } from '@/components/ui/combobox'
 import { File } from 'lucide-react'
-import { updateBlogById } from '@/actions/blogs'
+import { createBlog, updateBlogById } from '@/actions/blogs'
 import { redirect, usePathname } from 'next/navigation'
 import MarkdownEditor from './internal/markdown-editor'
 import { updateNoteById } from '@/actions/notes'
+
+console.log('铺货')
 
 const formSchema = z.object({
   title: z.string().min(1, { message: '长度不能少于1个字符' }).max(250),
@@ -48,6 +50,8 @@ export type updateArticleParamsWithNoteId = z.infer<typeof formSchema> & {
   id: number
 }
 
+export type createArticleParams = z.infer<typeof formSchema>
+
 const getEditPageType = (url: string): 'BLOG' | 'NOTE' => {
   const type = url.split('/')[2].toUpperCase()
   if (type === 'BLOG' || type === 'NOTE') {
@@ -62,19 +66,19 @@ export default function AdminBlogEditPage({
   relatedArticleTagNames,
   allTags,
 }: {
-  articles: Blog | Note
-  relatedArticleTagNames: string[]
+  articles: Blog | Note | null
+  relatedArticleTagNames?: string[]
   allTags: BlogTag[] | NoteTag[]
 }) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: articles.title ?? '',
-      slug: articles.slug ?? '',
-      isPublished: articles.isPublished ?? false,
+      title: articles?.title ?? '',
+      slug: articles?.slug ?? '',
+      isPublished: articles?.isPublished ?? false,
       // * 后序更新用
       relatedBlogTagNames: relatedArticleTagNames ?? [],
-      content: articles.content ?? '',
+      content: articles?.content ?? '',
     },
   })
   const url = usePathname()
@@ -82,12 +86,18 @@ export default function AdminBlogEditPage({
 
   // * 保存按扭, 更新文章
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    if (editPageType === 'BLOG') {
-      await updateBlogById({ ...values, id: articles.id })
+    // * 没有 id, 说明是新建文章
+    if (!articles?.id) {
+      const res = await createBlog(values)
+      console.log(res, 'fffffffffffff')
     } else {
-      await updateNoteById({ ...values, id: articles.id })
+      if (editPageType === 'BLOG') {
+        await updateBlogById({ ...values, id: articles.id })
+      } else {
+        await updateNoteById({ ...values, id: articles.id })
+      }
     }
-    redirect(`${values.slug}`)
+    redirect(`edit/${values.slug}`)
   }
 
   return (

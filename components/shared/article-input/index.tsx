@@ -3,15 +3,20 @@
 import { getAllBlogs, getQueryBlogs } from '@/actions/blogs'
 import { getAllNotes, getQueryNotes } from '@/actions/notes'
 import { useBlogs } from '@/components/context/blog-context'
+import { useModalOpen } from '@/components/context/modal-open-context'
 import { useNotes } from '@/components/context/note-context'
-import { Button } from '@/components/ui/button'
+import { Button, buttonVariants } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Plus, RotateCw, Search } from 'lucide-react'
 import { useEffect, useState } from 'react'
+import CreateBlogModal from './internal/create-blog-modal'
+import Link from 'next/link'
+import { cn } from '@/lib/utils'
 
 export function BlogSearch() {
   const [query, setQuery] = useState('')
   const { setBlogs } = useBlogs()
+  const { openModal, setOpenModal } = useModalOpen()
   const [refresh, setRefresh] = useState(true)
 
   const fetchBlogs = async () => {
@@ -70,9 +75,17 @@ export function BlogSearch() {
         <RotateCw /> 重置
       </Button>
 
-      <Button variant={'secondary'}>
+      <Link
+        className={cn(buttonVariants({ variant: 'outline' }))}
+        onClick={() => {
+          console.log(1)
+          // setOpenModal('createBlogModal')
+        }}
+        href={`blog/edit`}
+      >
         <Plus /> {`创建博客`}
-      </Button>
+      </Link>
+      <CreateBlogModal />
     </section>
   )
 }
