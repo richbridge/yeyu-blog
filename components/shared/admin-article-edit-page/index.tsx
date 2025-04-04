@@ -21,7 +21,7 @@ import { File } from 'lucide-react'
 import { createBlog, updateBlogById } from '@/actions/blogs'
 import { redirect, usePathname } from 'next/navigation'
 import MarkdownEditor from './internal/markdown-editor'
-import { updateNoteById } from '@/actions/notes'
+import { createNote, updateNoteById } from '@/actions/notes'
 
 console.log('铺货')
 
@@ -86,15 +86,18 @@ export default function AdminBlogEditPage({
 
   // * 保存按扭, 更新文章
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    // * 没有 id, 说明是新建文章
-    if (!articles?.id) {
-      const res = await createBlog(values)
-      console.log(res, 'fffffffffffff')
-    } else {
+    // * 也不能说是💩山吧, 先放一放...
+    if (articles?.id) {
       if (editPageType === 'BLOG') {
         await updateBlogById({ ...values, id: articles.id })
       } else {
         await updateNoteById({ ...values, id: articles.id })
+      }
+    } else {
+      if (editPageType === 'BLOG') {
+        await createBlog(values)
+      } else {
+        await createNote(values)
       }
     }
     redirect(`edit/${values.slug}`)

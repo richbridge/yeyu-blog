@@ -1,7 +1,10 @@
 'use server'
 
 import { prisma } from '@/db'
-import type { updateArticleParamsWithNoteId } from '@/components/shared/admin-article-edit-page'
+import type {
+  createArticleParams,
+  updateArticleParamsWithNoteId,
+} from '@/components/shared/admin-article-edit-page'
 
 // * 获取所有的 note，模糊查询
 export const getQueryNotes = async (noteTitle: string) => {
@@ -165,6 +168,41 @@ export const updateNoteById = async (values: updateArticleParamsWithNoteId) => {
       isPublished: values.isPublished,
       updatedAt: new Date(),
       content: values.content,
+    },
+  })
+}
+
+export const createNote = async (values: createArticleParams) => {
+  const existingNote = await prisma.note.findUnique({
+    where: { slug: values.slug },
+  })
+
+  if (existingNote) {
+    throw new Error('该 slug 已存在')
+  }
+
+  // 获取关联的标签
+  const relatedTags = await prisma.noteTag.findMany({
+    where: {
+      tagName: {
+        in: values.relatedBlogTagNames,
+      },
+    },
+    select: { id: true },
+  })
+
+  // 创建 Blog 并关联标签
+  return await prisma.note.create({
+    data: {
+      title: values.title,
+      slug: values.slug,
+      isPublished: values.isPublished,
+      content: values.content,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      tags: {
+        connect: relatedTags.map(tag => ({ id: tag.id })),
+      },
     },
   })
 }

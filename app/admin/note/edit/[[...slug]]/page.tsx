@@ -1,32 +1,32 @@
 import { prisma } from '@/db'
 import AdminBlogEditPage from '@/components/shared/admin-article-edit-page'
-import { notFound } from 'next/navigation'
 
 export default async function Page({
   params,
 }: {
-  params: Promise<{ slug: string }>
+  params: Promise<{ slug: string[] | undefined }>
 }) {
   // * 找到对应的 blog 然后传递渲染
-  const notes = await prisma.note.findUnique({
-    where: {
-      slug: (await params).slug,
-    },
-    include: {
-      tags: true,
-    },
-  })
+  const slug = (await params).slug?.[0] || null
 
-  if (!notes) notFound()
+  const article = slug
+    ? await prisma.note.findUnique({
+        where: {
+          slug,
+        },
+        include: {
+          tags: true,
+        },
+      })
+    : null
+
+  const relatedArticleTagNames = article ? article.tags.map(v => v.tagName) : []
 
   const allTags = await prisma.noteTag.findMany()
 
-  const { tags } = notes
-  const relatedArticleTagNames = tags.map(v => v.tagName)
-
   return (
     <AdminBlogEditPage
-      articles={notes}
+      articles={article}
       relatedArticleTagNames={relatedArticleTagNames}
       allTags={allTags}
     />

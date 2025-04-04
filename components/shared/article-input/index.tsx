@@ -76,11 +76,7 @@ export function BlogSearch() {
       </Button>
 
       <Link
-        className={cn(buttonVariants({ variant: 'outline' }))}
-        onClick={() => {
-          console.log(1)
-          // setOpenModal('createBlogModal')
-        }}
+        className={cn(buttonVariants({ variant: 'secondary' }))}
         href={`blog/edit`}
       >
         <Plus /> {`创建博客`}
@@ -151,9 +147,12 @@ export function NoteSearch() {
         <RotateCw /> 重置
       </Button>
 
-      <Button variant={'secondary'}>
+      <Link
+        className={cn(buttonVariants({ variant: 'secondary' }))}
+        href={`note/edit`}
+      >
         <Plus /> {`创建笔记`}
-      </Button>
+      </Link>
     </section>
   )
 }
