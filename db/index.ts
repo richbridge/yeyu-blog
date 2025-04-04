@@ -26,7 +26,7 @@ const randomTag = [
 // ] as const
 
 async function main() {
-  // await mockData(50)
+  // await mockData(100)
   // console.log('over')
 }
 
@@ -37,7 +37,7 @@ async function mockData(count: number) {
       .map(async _ => {
         await prisma.blog.create({
           data: {
-            title: `博客测试 ${generateRandomString()}`,
+            title: `blog 测试 ${generateRandomString()}`,
             slug: `life-style-${generateRandomString()}`,
             tags: {
               connectOrCreate: getRandomTags().map(tagName => ({

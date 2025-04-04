@@ -54,15 +54,18 @@ export const columns: ColumnDef<withTags>[] = [
       const handleToggle = async () => {
         const newStatus = !blog.isPublished
 
+        const preBlogs = [...blogs]
+
+        const updated = blogs.map(item =>
+          item.id === blogId ? { ...item, isPublished: newStatus } : item,
+        )
+        setBlogs(updated)
+
         try {
           await toggleArticlePublished(blogId, newStatus)
-
-          const updated = blogs.map(item =>
-            item.id === blogId ? { ...item, isPublished: newStatus } : item,
-          )
-          setBlogs(updated)
         } catch (error) {
           // * 后序也整一个全局 Message 消息提醒出错~
+          setBlogs(preBlogs)
           console.error('发布状态更新失败', error)
         }
       }
@@ -138,40 +141,3 @@ export const columns: ColumnDef<withTags>[] = [
     },
   },
 ]
-
-interface PublishSwitchProps {
-  blogId: number
-  initialStatus: boolean
-  onStatusChange?: (newStatus: boolean) => void // 可选：通知父组件状态变更
-}
-
-const PublishSwitch = ({
-  blogId,
-  initialStatus,
-  onStatusChange,
-}: PublishSwitchProps) => {
-  const [isPublished, setIsPublished] = useState(initialStatus)
-
-  useEffect(() => {
-    setIsPublished(initialStatus)
-  }, [initialStatus])
-
-  const handleToggle = async () => {
-    const newStatus = !isPublished
-    setIsPublished(newStatus)
-
-    try {
-      await toggleArticlePublished(blogId, newStatus)
-      onStatusChange?.(newStatus)
-    } catch (error) {
-      setIsPublished(!newStatus)
-      console.error('发布状态更新失败:', error)
-    }
-  }
-
-  return (
-    <Switch checked={isPublished} onCheckedChange={handleToggle}>
-      {isPublished}
-    </Switch>
-  )
-}

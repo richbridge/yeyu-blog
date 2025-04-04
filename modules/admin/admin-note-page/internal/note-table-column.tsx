@@ -46,39 +46,38 @@ export const columns: ColumnDef<withTags>[] = [
   {
     accessorKey: 'isPublished',
     header: '是否发布',
-    cell: ({ row, table }) => {
-      const [isPublished, setIsPublished] = useState(row.original.isPublished)
+    cell: ({ row }) => {
+      const note = row.original
       const noteId = row.original.id
-
-      const findNoteItemById = (id: number, t = table) => {
-        return t.options.data.find(item => item.id === noteId)
-      }
+      const { notes, setNotes } = useNotes()
+      // ! 后序再做性能优化
 
       const handleToggle = async () => {
-        const newStatus = !isPublished
-        // * 先直接修改 UI, 有问题再改回来~
-        setIsPublished(newStatus)
+        const newStatus = !note.isPublished
+
+        const preNotes = [...notes]
+
+        const updated = notes.map(item =>
+          item.id === noteId ? { ...item, isPublished: newStatus } : item,
+        )
+
+        setNotes(updated)
 
         try {
           await toggleArticlePublished(noteId, newStatus)
-
-          const blogItem = findNoteItemById(noteId)
-          if (blogItem) blogItem.isPublished = newStatus
         } catch (error) {
-          setIsPublished(!newStatus)
-
-          const blogItem = findNoteItemById(noteId)
-          if (blogItem) blogItem.isPublished = !newStatus
-
           // * 后序也整一个全局 Message 消息提醒出错~
+          setNotes(preNotes)
           console.error('发布状态更新失败', error)
         }
       }
 
       return (
-        <Switch onCheckedChange={handleToggle} checked={isPublished}>
-          {isPublished}
-        </Switch>
+        <Switch
+          onCheckedChange={handleToggle}
+          checked={row.original.isPublished}
+          key={`${row.original.id}-${row.original.slug}`}
+        />
       )
     },
   },
