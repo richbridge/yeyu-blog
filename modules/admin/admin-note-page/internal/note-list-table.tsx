@@ -1,11 +1,11 @@
 'use client'
 
-import { useNotes } from '@/components/context/note-context'
+import { useNoteStore } from '@/hooks/use-note-store'
 import { DataTable } from './data-table'
 import { columns } from './note-table-column'
 
 export default function NoteListTable() {
-  const { notes } = useNotes()
+  const { notes } = useNoteStore()
 
   return (
     <main className="h-full">

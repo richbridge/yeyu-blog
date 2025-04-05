@@ -2,7 +2,6 @@
 
 import { getAllBlogs, getQueryBlogs } from '@/actions/blogs'
 import { getAllNotes, getQueryNotes } from '@/actions/notes'
-import { useNotes } from '@/components/context/note-context'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Plus, RotateCw, Search } from 'lucide-react'
@@ -10,6 +9,7 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
 import { useBlogStore } from '@/hooks/use-blog-store'
+import { useNoteStore } from '@/hooks/use-note-store'
 
 export function BlogSearch() {
   const [query, setQuery] = useState('')
@@ -84,7 +84,7 @@ export function BlogSearch() {
 
 export function NoteSearch() {
   const [query, setQuery] = useState('')
-  const { setNotes } = useNotes()
+  const { setNotes } = useNoteStore()
   const [refresh, setRefresh] = useState(true)
 
   const fetchNotes = async () => {

@@ -1,9 +1,9 @@
 'use client'
 
 import { getAllNotes, getNotesBySelectedTagName } from '@/actions/notes'
-import { useNotes } from '@/components/context/note-context'
 import { useSelectedTags } from '@/components/context/selected-tag'
 import { Toggle } from '@/components/ui/toggle'
+import { useNoteStore } from '@/hooks/use-note-store'
 
 // ! 后序需要重写样式, 现在稍微有些看不出来
 export function NoteTagItemToggle({
@@ -13,7 +13,7 @@ export function NoteTagItemToggle({
   onPressedChange?: (pressed: boolean) => void
 }) {
   const { selectedTags, setSelectedTags } = useSelectedTags()
-  const { setNotes } = useNotes()
+  const { setNotes } = useNoteStore()
 
   const handleSelectedTagChange = async (selected: boolean) => {
     const updatedTags = selected

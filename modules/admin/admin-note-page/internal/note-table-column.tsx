@@ -9,9 +9,9 @@ import { Button, buttonVariants } from '@/components/ui/button'
 import { Edit2, Eye, Trash } from 'lucide-react'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
-import { useNotes } from '@/components/context/note-context'
 import { deleteNoteById, toggleArticlePublished } from '@/actions/notes'
 import { useModalStore } from '@/hooks/use-modal-store'
+import { useNoteStore } from '@/hooks/use-note-store'
 
 type withTags = Note & {
   tags: {
@@ -48,7 +48,7 @@ export const columns: ColumnDef<withTags>[] = [
     cell: ({ row }) => {
       const note = row.original
       const noteId = row.original.id
-      const { notes, setNotes } = useNotes()
+      const { notes, setNotes } = useNoteStore()
       // ! 后序再做性能优化
 
       const handleToggle = async () => {
@@ -95,7 +95,7 @@ export const columns: ColumnDef<withTags>[] = [
     cell: ({ row, table }) => {
       const slug = row.original.slug
       const blogId = row.original.id
-      const { setNotes } = useNotes()
+      const { setNotes } = useNoteStore()
       const { setModalOpen } = useModalStore()
 
       // * 后序再补一个 modal 框出来让点击确认
