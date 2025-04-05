@@ -4,9 +4,10 @@ import { Switch } from '@/components/ui/switch'
 import { prettyDateTime } from '@/lib/time'
 import { Echo } from '@prisma/client'
 import { ColumnDef } from '@tanstack/react-table'
-import { Button, buttonVariants } from '@/components/ui/button'
-import { Edit2, Trash } from 'lucide-react'
-import { cn } from '@/lib/utils'
+import { Button } from '@/components/ui/button'
+import { Edit2, Newspaper, Trash } from 'lucide-react'
+import { useEchoStore } from '@/hooks/use-echo-store'
+import { toggleEchoPublished } from '@/actions/echos'
 
 // * 标题, 来源, 是否发布, 创建时间, 操作
 export const columns: ColumnDef<Echo>[] = [
@@ -26,14 +27,36 @@ export const columns: ColumnDef<Echo>[] = [
     accessorKey: 'isPublished',
     header: '是否发布',
     cell: ({ row }) => {
-      // ! 后序再做性能优化
-      const handleToggle = async () => {}
+      const echoId = row.original.id
+      // const echo = row.original
+      const { echos, setEchos } = useEchoStore()
+
+      if (echos.length === 0) return null
+
+      const echo = echos.find(item => item.id === echoId)
+      if (!echo) return null
+
+      const handleToggle = async () => {
+        const newStatus = !echo.isPublished
+
+        const preEchos = [...echos]
+
+        const updated = echos.map(item =>
+          item.id === echoId ? { ...item, isPublished: newStatus } : item,
+        )
+
+        setEchos(updated)
+
+        try {
+          await toggleEchoPublished(echoId, newStatus)
+        } catch (error) {
+          setEchos(preEchos)
+          console.error('发布状态更新失败', error)
+        }
+      }
 
       return (
-        <Switch
-          onCheckedChange={handleToggle}
-          checked={row.original.isPublished}
-        />
+        <Switch onCheckedChange={handleToggle} checked={echo.isPublished} />
       )
     },
   },
