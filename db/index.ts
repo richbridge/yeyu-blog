@@ -27,7 +27,23 @@ const randomTag = [
 
 async function main() {
   // await mockData(100)
+  // mockEchoData(50)
   // console.log('over')
+}
+
+async function mockEchoData(count: number) {
+  return Promise.all(
+    Array(count)
+      .fill(0)
+      .map(async _ => {
+        await prisma.echo.create({
+          data: {
+            content: `echo 测试 ${generateRandomString()}`,
+            reference: `reference ${generateRandomString()}`,
+          },
+        })
+      }),
+  )
 }
 
 async function mockData(count: number) {
