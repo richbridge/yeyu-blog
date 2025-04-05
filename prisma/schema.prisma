@@ -54,3 +54,11 @@ model NoteTag {
 
   notes Note[]
 }
+
+model Echo {
+  id          Int      @id @default(autoincrement())
+  reference   String   @db.VarChar(50)
+  isPublished Boolean  @default(true)
+  content     String
+  createdAt   DateTime @default(now())
+}

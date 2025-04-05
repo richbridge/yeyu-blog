@@ -6,7 +6,6 @@ import { usePathname } from 'next/navigation'
 import AdminLogo from './internal/admin-logo'
 import AvatarDropdownMenu from './internal/avatar-dropdown-menu'
 import { ModeToggle } from '@/components/ui/mode-toggle'
-// import AdminClock from './internal/admin-clock'
 
 export const AdminRoutes = [
   {
@@ -24,6 +23,10 @@ export const AdminRoutes = [
   {
     path: '/admin/tag',
     pathName: '标签',
+  },
+  {
+    path: '/admin/echo',
+    pathName: '引用',
   },
 ] as const
 
