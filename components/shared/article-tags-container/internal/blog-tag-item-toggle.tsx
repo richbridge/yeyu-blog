@@ -1,9 +1,9 @@
 'use client'
 
 import { getAllBlogs, getBlogsBySelectedTagName } from '@/actions/blogs'
-import { useBlogs } from '@/components/context/blog-context'
 import { useSelectedTags } from '@/components/context/selected-tag'
 import { Toggle } from '@/components/ui/toggle'
+import { useBlogStore } from '@/hooks/use-blog-store'
 
 // ! 后序需要重写样式, 现在稍微有些看不出来
 export function BlogTagItemToggle({
@@ -13,7 +13,7 @@ export function BlogTagItemToggle({
   onPressedChange?: (pressed: boolean) => void
 }) {
   const { selectedTags, setSelectedTags } = useSelectedTags()
-  const { setBlogs } = useBlogs()
+  const { setBlogs } = useBlogStore()
 
   const handleSelectedTagChange = async (selected: boolean) => {
     const updatedTags = selected

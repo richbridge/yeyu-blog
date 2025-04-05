@@ -2,10 +2,10 @@
 
 import { DataTable } from './data-table'
 import { columns } from './blog-table-column'
-import { useBlogs } from '@/components/context/blog-context'
+import { useBlogStore } from '@/hooks/use-blog-store'
 
 export default function BlogListTable() {
-  const { blogs } = useBlogs()
+  const { blogs } = useBlogStore()
 
   return (
     <main className="h-full">

@@ -10,8 +10,8 @@ import { Button, buttonVariants } from '@/components/ui/button'
 import { Edit2, Eye, Trash } from 'lucide-react'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
-import { useBlogs } from '@/components/context/blog-context'
 import { useModalStore } from '@/hooks/use-modal-store'
+import { useBlogStore } from '@/hooks/use-blog-store'
 
 type withTags = Blog & {
   tags: {
@@ -49,7 +49,7 @@ export const columns: ColumnDef<withTags>[] = [
     cell: ({ row }) => {
       const blog = row.original
       const blogId = row.original.id
-      const { setBlogs, blogs } = useBlogs()
+      const { setBlogs, blogs } = useBlogStore()
 
       const handleToggle = async () => {
         const newStatus = !blog.isPublished
@@ -94,7 +94,7 @@ export const columns: ColumnDef<withTags>[] = [
     cell: ({ row, table }) => {
       const slug = row.original.slug
       const blogId = row.original.id
-      const { setBlogs } = useBlogs()
+      const { setBlogs } = useBlogStore()
       const { setModalOpen } = useModalStore()
 
       const handleDeleteBlogById = async () => {
