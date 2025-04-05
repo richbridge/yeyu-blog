@@ -1,5 +1,6 @@
 'use server'
 
+import { WithTagIdValues } from '@/components/modal/edit-tag-modal'
 import { prisma } from '@/db'
 
 export const getBlogTagsAndNoteTags = async () => {
@@ -31,4 +32,56 @@ export const getBlogTagsAndNoteTags = async () => {
   }))
 
   return [...blogTagsWithCount, ...noteTagsWithCount]
+}
+
+export const updateBlogTagById = async (values: WithTagIdValues) => {
+  const { tagId, tagName } = values
+
+  const existingTag = await prisma.blogTag.findFirst({
+    where: {
+      tagName,
+      NOT: {
+        id: tagId,
+      },
+    },
+  })
+
+  if (existingTag) {
+    throw new Error(`标签名 "${tagName}" 已存在`)
+  }
+
+  return await prisma.blogTag.update({
+    where: {
+      id: tagId,
+    },
+    data: {
+      tagName,
+    },
+  })
+}
+
+export const updateNoteTagById = async (values: WithTagIdValues) => {
+  const { tagId, tagName } = values
+
+  const existingTag = await prisma.noteTag.findFirst({
+    where: {
+      tagName,
+      NOT: {
+        id: tagId,
+      },
+    },
+  })
+
+  if (existingTag) {
+    throw new Error(`标签名 "${tagName}" 已存在`)
+  }
+
+  return await prisma.noteTag.update({
+    where: {
+      id: tagId,
+    },
+    data: {
+      tagName,
+    },
+  })
 }
