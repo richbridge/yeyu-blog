@@ -149,3 +149,9 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* 文字竖直显示 */
+@utility text-vertical {
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+}
