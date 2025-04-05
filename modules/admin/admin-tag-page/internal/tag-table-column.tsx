@@ -61,7 +61,16 @@ export const columns: ColumnDef<WithCountBlogTagOrNoteTag>[] = [
             <Edit2 className="size-4" />
           </Button>
 
-          <Button variant={'outline'} className="size-8 text-red-600">
+          <Button
+            variant={'outline'}
+            className="size-8 text-red-600"
+            onClick={() => {
+              setModalOpen('deleteTagModal', {
+                tagId: row.original.id,
+                tagType: row.original.tagType,
+              })
+            }}
+          >
             <Trash />
           </Button>
         </section>

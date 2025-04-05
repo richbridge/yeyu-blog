@@ -7,3 +7,4 @@
   - 乐观更新
 - server action 鉴权
 - tag 列表更新后刷新数据, 暂时先放一放, 后序和 blog, note 列表一起重新使用 zustand 或者其他办法优化.
+- tag 应该至少存在一个 `general` 类型不允许删除, 或者允许没有 tag, 总之之后再想办法解决

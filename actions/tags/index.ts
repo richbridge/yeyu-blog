@@ -85,3 +85,25 @@ export const updateNoteTagById = async (values: WithTagIdValues) => {
     },
   })
 }
+
+export const deleteBlogTagById = async (tagId: number) => {
+  const tag = await prisma.blogTag.findUnique({ where: { id: tagId } })
+  if (!tag) throw new Error('标签不存在')
+
+  return await prisma.blogTag.delete({
+    where: {
+      id: tagId,
+    },
+  })
+}
+
+export const deleteNoteTagById = async (tagId: number) => {
+  const tag = await prisma.noteTag.findUnique({ where: { id: tagId } })
+  if (!tag) throw new Error('标签不存在')
+
+  return await prisma.noteTag.delete({
+    where: {
+      id: tagId,
+    },
+  })
+}
