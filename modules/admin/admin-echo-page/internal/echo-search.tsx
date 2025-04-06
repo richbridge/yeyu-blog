@@ -1,39 +1,39 @@
 'use client'
 
-import { Button, buttonVariants } from '@/components/ui/button'
+import { getAllEchos, getQueryEchos } from '@/actions/echos'
+import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { cn } from '@/lib/utils'
+import { useEchoStore } from '@/hooks/use-echo-store'
 import { Plus, RotateCw, Search } from 'lucide-react'
-import Link from 'next/link'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 export function EchoSearch() {
   const [query, setQuery] = useState('')
-  // const { setNotes } = useNotes()
+  const { setEchos } = useEchoStore()
   const [refresh, setRefresh] = useState(true)
 
-  // const fetchNotes = async () => {
-  //   if (!query.trim()) return
-  //   try {
-  //     const notes = await getQueryNotes(query)
-  //     setNotes(notes)
-  //   } catch (error) {
-  //     console.error(`获取博客数据错误`, error)
-  //   }
-  // }
+  const fetchEchos = async () => {
+    if (!query.trim()) return
+    try {
+      const echos = await getQueryEchos(query)
+      setEchos(echos)
+    } catch (error) {
+      console.error(`获取博客数据错误`, error)
+    }
+  }
 
   // * 默认加载所有的数据, 先不考虑分页的事
-  // useEffect(() => {
-  //   const fetchAllNotes = async () => {
-  //     try {
-  //       const notes = await getAllNotes()
-  //       setNotes(notes)
-  //     } catch (error) {
-  //       console.error(`获取博客数据错误`, error)
-  //     }
-  //   }
-  //   fetchAllNotes()
-  // }, [refresh])
+  useEffect(() => {
+    const fetchAllEchos = async () => {
+      try {
+        const echos = await getAllEchos()
+        setEchos(echos)
+      } catch (error) {
+        console.error(`获取博客数据错误`, error)
+      }
+    }
+    fetchAllEchos()
+  }, [refresh])
 
   return (
     <section className="flex w-full gap-4">
@@ -47,12 +47,12 @@ export function EchoSearch() {
         }}
         onKeyDown={e => {
           if (e.key === 'Enter') {
-            // fetchNotes()
+            fetchEchos()
           }
         }}
       />
 
-      <Button type="button" variant={'secondary'}>
+      <Button type="button" variant={'secondary'} onClick={fetchEchos}>
         <Search /> 搜索
       </Button>
 
@@ -68,12 +68,14 @@ export function EchoSearch() {
         <RotateCw /> 重置
       </Button>
 
-      <Link
-        className={cn(buttonVariants({ variant: 'secondary' }))}
-        href={`note/edit`}
+      <Button
+        variant={'secondary'}
+        onClick={() => {
+          console.log(1)
+        }}
       >
         <Plus /> {`创建短语`}
-      </Link>
+      </Button>
     </section>
   )
 }
