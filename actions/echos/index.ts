@@ -1,5 +1,6 @@
 'use server'
 
+import { EchoValues } from '@/components/modal/create-echo-modal'
 import { prisma } from '@/db'
 
 export const toggleEchoPublished = async (
@@ -29,4 +30,14 @@ export const getQueryEchos = async (queryContent: string) => {
 
 export const getAllEchos = async () => {
   return await prisma.echo.findMany()
+}
+
+export const createEcho = async (values: EchoValues) => {
+  return await prisma.echo.create({
+    data: {
+      content: values.echoContent,
+      reference: values.echoReference,
+      isPublished: values.isPublished,
+    },
+  })
 }

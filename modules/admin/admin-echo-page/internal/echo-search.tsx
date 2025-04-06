@@ -4,6 +4,7 @@ import { getAllEchos, getQueryEchos } from '@/actions/echos'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useEchoStore } from '@/store/use-echo-store'
+import { useModalStore } from '@/store/use-modal-store'
 import { Plus, RotateCw, Search } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
@@ -11,6 +12,7 @@ export function EchoSearch() {
   const [query, setQuery] = useState('')
   const { setEchos } = useEchoStore()
   const [refresh, setRefresh] = useState(true)
+  const { setModalOpen } = useModalStore()
 
   const fetchEchos = async () => {
     if (!query.trim()) return
@@ -71,7 +73,7 @@ export function EchoSearch() {
       <Button
         variant={'secondary'}
         onClick={() => {
-          console.log(1)
+          setModalOpen('createEchoModal')
         }}
       >
         <Plus /> {`创建短语`}
