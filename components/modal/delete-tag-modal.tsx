@@ -7,7 +7,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
-import { useModalStore } from '@/hooks/use-modal-store'
+import { useModalStore } from '@/store/use-modal-store'
 
 export default function DeleteTagModal() {
   const { modalType, payload, onModalClose } = useModalStore()

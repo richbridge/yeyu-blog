@@ -10,8 +10,8 @@ import { Button, buttonVariants } from '@/components/ui/button'
 import { Edit2, Eye, Trash } from 'lucide-react'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
-import { useModalStore } from '@/hooks/use-modal-store'
-import { useBlogStore } from '@/hooks/use-blog-store'
+import { useModalStore } from '@/store/use-modal-store'
+import { useBlogStore } from '@/store/use-blog-store'
 
 type withTags = Blog & {
   tags: {

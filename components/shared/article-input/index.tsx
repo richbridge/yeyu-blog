@@ -8,8 +8,8 @@ import { Plus, RotateCw, Search } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
-import { useBlogStore } from '@/hooks/use-blog-store'
-import { useNoteStore } from '@/hooks/use-note-store'
+import { useBlogStore } from '@/store/use-blog-store'
+import { useNoteStore } from '@/store/use-note-store'
 
 export function BlogSearch() {
   const [query, setQuery] = useState('')

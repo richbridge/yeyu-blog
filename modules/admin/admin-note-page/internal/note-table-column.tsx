@@ -10,8 +10,8 @@ import { Edit2, Eye, Trash } from 'lucide-react'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
 import { deleteNoteById, toggleArticlePublished } from '@/actions/notes'
-import { useModalStore } from '@/hooks/use-modal-store'
-import { useNoteStore } from '@/hooks/use-note-store'
+import { useModalStore } from '@/store/use-modal-store'
+import { useNoteStore } from '@/store/use-note-store'
 
 type withTags = Note & {
   tags: {

@@ -3,7 +3,7 @@
 import { getAllEchos, getQueryEchos } from '@/actions/echos'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { useEchoStore } from '@/hooks/use-echo-store'
+import { useEchoStore } from '@/store/use-echo-store'
 import { Plus, RotateCw, Search } from 'lucide-react'
 import { useEffect, useState } from 'react'
 

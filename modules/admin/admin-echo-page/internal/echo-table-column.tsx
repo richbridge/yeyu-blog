@@ -6,7 +6,7 @@ import { Echo } from '@prisma/client'
 import { ColumnDef } from '@tanstack/react-table'
 import { Button } from '@/components/ui/button'
 import { Edit2, Newspaper, Trash } from 'lucide-react'
-import { useEchoStore } from '@/hooks/use-echo-store'
+import { useEchoStore } from '@/store/use-echo-store'
 import { toggleEchoPublished } from '@/actions/echos'
 
 // * 标题, 来源, 是否发布, 创建时间, 操作

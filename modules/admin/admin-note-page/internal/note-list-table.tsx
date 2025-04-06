@@ -1,6 +1,6 @@
 'use client'
 
-import { useNoteStore } from '@/hooks/use-note-store'
+import { useNoteStore } from '@/store/use-note-store'
 import { DataTable } from './data-table'
 import { columns } from './note-table-column'
 

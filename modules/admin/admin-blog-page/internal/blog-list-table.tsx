@@ -2,7 +2,7 @@
 
 import { DataTable } from './data-table'
 import { columns } from './blog-table-column'
-import { useBlogStore } from '@/hooks/use-blog-store'
+import { useBlogStore } from '@/store/use-blog-store'
 
 export default function BlogListTable() {
   const { blogs } = useBlogStore()

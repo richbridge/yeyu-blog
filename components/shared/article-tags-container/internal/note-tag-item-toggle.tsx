@@ -2,8 +2,8 @@
 
 import { getAllNotes, getNotesBySelectedTagName } from '@/actions/notes'
 import { Toggle } from '@/components/ui/toggle'
-import { useNoteStore } from '@/hooks/use-note-store'
-import { useSelectedTagStore } from '@/hooks/use-selected-tag-store'
+import { useNoteStore } from '@/store/use-note-store'
+import { useSelectedTagStore } from '@/store/use-selected-tag-store'
 import { useEffect } from 'react'
 
 // ! 后序需要重写样式, 现在稍微有些看不出来

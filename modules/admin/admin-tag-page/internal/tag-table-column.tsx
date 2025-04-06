@@ -6,7 +6,7 @@ import TagItemBadge from '@/components/shared/tag-item-badge'
 import { Badge } from '@/components/ui/badge'
 import { Edit2, Trash } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { useModalStore } from '@/hooks/use-modal-store'
+import { useModalStore } from '@/store/use-modal-store'
 
 // * 后序整一个分类排序
 type WithCountBlogTagOrNoteTag =
