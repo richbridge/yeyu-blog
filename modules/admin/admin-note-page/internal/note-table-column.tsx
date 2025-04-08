@@ -9,7 +9,7 @@ import { Button, buttonVariants } from '@/components/ui/button'
 import { Edit2, Eye, Trash } from 'lucide-react'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
-import { deleteNoteById, toggleArticlePublished } from '@/actions/notes'
+import { deleteNoteById, toggleNotePublishedById } from '@/actions/notes'
 import { useModalStore } from '@/store/use-modal-store'
 import { useNoteStore } from '@/store/use-note-store'
 
@@ -63,7 +63,7 @@ export const columns: ColumnDef<withTags>[] = [
         setNotes(updated)
 
         try {
-          await toggleArticlePublished(noteId, newStatus)
+          await toggleNotePublishedById(noteId, newStatus)
         } catch (error) {
           // * 后序也整一个全局 Message 消息提醒出错~
           setNotes(preNotes)

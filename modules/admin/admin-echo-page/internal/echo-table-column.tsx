@@ -5,9 +5,9 @@ import { prettyDateTime } from '@/lib/time'
 import { Echo } from '@prisma/client'
 import { ColumnDef } from '@tanstack/react-table'
 import { Button } from '@/components/ui/button'
-import { Edit2, Newspaper, Trash } from 'lucide-react'
+import { Edit2, Trash } from 'lucide-react'
 import { useEchoStore } from '@/store/use-echo-store'
-import { deleteEchoById, toggleEchoPublished } from '@/actions/echos'
+import { deleteEchoById, toggleEchoPublishedById } from '@/actions/echos'
 import { useModalStore } from '@/store/use-modal-store'
 
 // * 标题, 来源, 是否发布, 创建时间, 操作
@@ -49,7 +49,7 @@ export const columns: ColumnDef<Echo>[] = [
         setEchos(updated)
 
         try {
-          await toggleEchoPublished(echoId, newStatus)
+          await toggleEchoPublishedById(echoId, newStatus)
         } catch (error) {
           setEchos(preEchos)
           console.error('发布状态更新失败', error)
@@ -74,8 +74,6 @@ export const columns: ColumnDef<Echo>[] = [
     accessorKey: 'actions',
     header: '操作',
     cell: ({ row, table }) => {
-      // const echoId = row.original.id
-      // const echo = row.original
       const { id, content, isPublished, reference } = row.original
 
       const { setModalOpen } = useModalStore()

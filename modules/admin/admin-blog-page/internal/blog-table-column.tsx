@@ -1,6 +1,6 @@
 'use client'
 
-import { deleteBlogById, toggleArticlePublished } from '@/actions/blogs'
+import { deleteBlogById, toggleBlogPublishedById } from '@/actions/blogs'
 import { Switch } from '@/components/ui/switch'
 import { prettyDateTime } from '@/lib/time'
 import TagItemBadge from '@/components/shared/tag-item-badge'
@@ -62,7 +62,7 @@ export const columns: ColumnDef<withTags>[] = [
         setBlogs(updated)
 
         try {
-          await toggleArticlePublished(blogId, newStatus)
+          await toggleBlogPublishedById(blogId, newStatus)
         } catch (error) {
           // * 后序也整一个全局 Message 消息提醒出错~
           setBlogs(preBlogs)

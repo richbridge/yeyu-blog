@@ -34,7 +34,7 @@ const formSchema = z.object({
     })
     .min(1, { message: '长度不能少于1个字符' }),
   isPublished: z.boolean().optional(),
-  relatedBlogTagNames: z
+  relatedTagNames: z
     .string()
     .array()
     .min(1, { message: '最少选择 1 个标签' })
@@ -77,7 +77,7 @@ export default function AdminBlogEditPage({
       slug: articles?.slug ?? '',
       isPublished: articles?.isPublished ?? false,
       // * 后序更新用
-      relatedBlogTagNames: relatedArticleTagNames ?? [],
+      relatedTagNames: relatedArticleTagNames ?? [],
       content: articles?.content ?? '',
     },
   })
@@ -159,7 +159,7 @@ export default function AdminBlogEditPage({
 
         <FormField
           control={form.control}
-          name="relatedBlogTagNames"
+          name="relatedTagNames"
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-lg">标签</FormLabel>
