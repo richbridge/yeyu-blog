@@ -3,6 +3,42 @@
 import { WithTagIdValues } from '@/components/modal/edit-tag-modal'
 import { prisma } from '@/db'
 
+export const createBlogTag = async (tagName: string) => {
+  const existingTagName = await prisma.blogTag.findFirst({
+    where: {
+      tagName,
+    },
+  })
+
+  if (existingTagName) {
+    throw new Error('标签名已存在')
+  }
+
+  return await prisma.blogTag.create({
+    data: {
+      tagName,
+    },
+  })
+}
+
+export const createNoteTag = async (tagName: string) => {
+  const existingTagName = await prisma.noteTag.findFirst({
+    where: {
+      tagName,
+    },
+  })
+
+  if (existingTagName) {
+    throw new Error('标签名已存在')
+  }
+
+  return await prisma.noteTag.create({
+    data: {
+      tagName,
+    },
+  })
+}
+
 export const deleteBlogTagById = async (tagId: number) => {
   const tag = await prisma.blogTag.findUnique({ where: { id: tagId } })
   if (!tag) throw new Error('标签不存在')

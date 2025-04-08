@@ -6,6 +6,7 @@ import DeleteTagModal from '@/components/modal/delete-tag-modal'
 import CreateEchoModal from '@/components/modal/create-echo-modal'
 import DeleteEchoModal from '@/components/modal/delete-echo-modal'
 import EditEchoModal from '@/components/modal/edit-echo-modal'
+import CreateTagModal from '@/components/modal/create-tag-modal'
 
 export function ModalProvider() {
   return (
@@ -16,6 +17,7 @@ export function ModalProvider() {
       <CreateEchoModal />
       <DeleteEchoModal />
       <EditEchoModal />
+      <CreateTagModal />
     </>
   )
 }
