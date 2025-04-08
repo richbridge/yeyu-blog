@@ -1,13 +1,15 @@
+'use client'
+
+import { useTagStore, type Tags } from '@/store/use-tag-store'
 import { DataTable } from './data-table'
 import { columns } from './tag-table-column'
-import { getBlogTagsAndNoteTags } from '@/actions/tags'
 
-export default async function TagListTable() {
-  const allTags = await getBlogTagsAndNoteTags()
+export default function TagListTable() {
+  const { tags } = useTagStore()
 
   return (
     <main className="h-full">
-      <DataTable columns={columns} data={allTags} />
+      <DataTable columns={columns} data={tags} />
     </main>
   )
 }

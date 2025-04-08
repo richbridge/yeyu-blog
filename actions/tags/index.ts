@@ -130,14 +130,14 @@ export const getBlogTagsAndNoteTags = async () => {
   const blogTagsWithCount = blogTags.map(tag => ({
     id: tag.id,
     tagName: tag.tagName,
-    tagType: tag.tagType,
+    tagType: 'Blog',
     count: tag._count.blogs,
   }))
 
   const noteTagsWithCount = noteTags.map(tag => ({
     id: tag.id,
     tagName: tag.tagName,
-    tagType: tag.tagType,
+    tagType: 'Note',
     count: tag._count.notes,
   }))
 

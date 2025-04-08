@@ -29,7 +29,12 @@ import {
 } from '@/components/ui/select'
 
 import { Input } from '@/components/ui/input'
-import { createBlogTag, createNoteTag } from '@/actions/tags'
+import {
+  createBlogTag,
+  createNoteTag,
+  getBlogTagsAndNoteTags,
+} from '@/actions/tags'
+import { useTagStore } from '@/store/use-tag-store'
 
 const formSchema = z.object({
   tagName: z.string().min(1).max(20),
@@ -41,6 +46,7 @@ export type TagValues = z.infer<typeof formSchema>
 export default function CreateTagModal() {
   const { modalType, onModalClose } = useModalStore()
   const isModalOpen = modalType === 'createTagModal'
+  const { setTags } = useTagStore()
 
   const form = useForm<TagValues>({
     resolver: zodResolver(formSchema),
@@ -61,6 +67,9 @@ export default function CreateTagModal() {
       } else {
         throw new Error('tag type 不匹配')
       }
+
+      const allTags = await getBlogTagsAndNoteTags()
+      setTags(allTags)
     } catch (error) {
       console.error('创建标签失败~', error)
     } finally {
@@ -126,7 +135,6 @@ export default function CreateTagModal() {
               </DialogFooter>
             </form>
           </Form>
-          )
         </div>
       </DialogContent>
     </Dialog>
