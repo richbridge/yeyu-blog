@@ -74,18 +74,18 @@ export const columns: ColumnDef<Echo>[] = [
     accessorKey: 'actions',
     header: '操作',
     cell: ({ row, table }) => {
-      const echoId = row.original.id
+      // const echoId = row.original.id
+      // const echo = row.original
+      const { id, content, isPublished, reference } = row.original
 
       const { setModalOpen } = useModalStore()
       const { setEchos } = useEchoStore()
 
       const handleEchoDelete = async () => {
         try {
-          await deleteEchoById(echoId)
+          await deleteEchoById(id)
 
-          const newTables = table.options.data.filter(
-            echo => echo.id !== echoId,
-          )
+          const newTables = table.options.data.filter(echo => echo.id !== id)
           // const newTables = await getAllBlogs()
           setEchos(newTables)
         } catch (error) {
@@ -96,14 +96,24 @@ export const columns: ColumnDef<Echo>[] = [
       return (
         <section className="flex items-center gap-1">
           {/* 查看直接使用那种变形对话框!!! */}
-          <Button variant={'outline'} className="size-8">
+          <Button
+            variant={'outline'}
+            className="size-8"
+            onClick={() => {
+              setModalOpen('editEchoModal', {
+                id,
+                content,
+                isPublished,
+                reference,
+              })
+            }}
+          >
             <Edit2 className="size-4" />
           </Button>
           <Button
             variant={'outline'}
             className="size-8"
             onClick={() => {
-              console.log(echoId)
               setModalOpen('deleteEchoModal', handleEchoDelete)
             }}
           >

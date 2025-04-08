@@ -1,7 +1,10 @@
 'use server'
 
 import { EchoValues } from '@/components/modal/create-echo-modal'
+import { OmitCreatedAtEcho } from '@/components/modal/edit-echo-modal'
 import { prisma } from '@/db'
+import { Echo } from '@prisma/client'
+import { validateHeaderValue } from 'http'
 
 export const toggleEchoPublished = async (
   id: number,
@@ -46,6 +49,20 @@ export const deleteEchoById = async (id: number) => {
   return await prisma.echo.delete({
     where: {
       id,
+    },
+  })
+}
+
+export const updateEchoById = async (values: OmitCreatedAtEcho) => {
+  return await prisma.echo.update({
+    where: {
+      id: values.id,
+    },
+    data: {
+      content: values.content,
+      reference: values.reference,
+      isPublished: values.isPublished,
+      createdAt: new Date(),
     },
   })
 }
