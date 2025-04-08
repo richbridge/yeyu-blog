@@ -41,3 +41,11 @@ export const createEcho = async (values: EchoValues) => {
     },
   })
 }
+
+export const deleteEchoById = async (id: number) => {
+  return await prisma.echo.delete({
+    where: {
+      id,
+    },
+  })
+}

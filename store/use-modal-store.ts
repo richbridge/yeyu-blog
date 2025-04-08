@@ -5,6 +5,7 @@ type IModalType =
   | 'editTagModal'
   | 'deleteTagModal'
   | 'createEchoModal'
+  | 'deleteEchoModal'
   | null
 
 interface IModalStore {

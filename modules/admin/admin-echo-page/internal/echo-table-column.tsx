@@ -7,7 +7,8 @@ import { ColumnDef } from '@tanstack/react-table'
 import { Button } from '@/components/ui/button'
 import { Edit2, Newspaper, Trash } from 'lucide-react'
 import { useEchoStore } from '@/store/use-echo-store'
-import { toggleEchoPublished } from '@/actions/echos'
+import { deleteEchoById, toggleEchoPublished } from '@/actions/echos'
+import { useModalStore } from '@/store/use-modal-store'
 
 // * 标题, 来源, 是否发布, 创建时间, 操作
 export const columns: ColumnDef<Echo>[] = [
@@ -73,8 +74,24 @@ export const columns: ColumnDef<Echo>[] = [
     accessorKey: 'actions',
     header: '操作',
     cell: ({ row, table }) => {
-      // * 后序再补一个 modal 框出来让点击确认
-      const handleArticleDelete = async () => {}
+      const echoId = row.original.id
+
+      const { setModalOpen } = useModalStore()
+      const { setEchos } = useEchoStore()
+
+      const handleEchoDelete = async () => {
+        try {
+          await deleteEchoById(echoId)
+
+          const newTables = table.options.data.filter(
+            echo => echo.id !== echoId,
+          )
+          // const newTables = await getAllBlogs()
+          setEchos(newTables)
+        } catch (error) {
+          console.error(`删除 ${row.original.content} 出错~`, error)
+        }
+      }
 
       return (
         <section className="flex items-center gap-1">
@@ -86,7 +103,8 @@ export const columns: ColumnDef<Echo>[] = [
             variant={'outline'}
             className="size-8"
             onClick={() => {
-              // setModalOpen('deleteArticleModal', handleArticleDelete)
+              console.log(echoId)
+              setModalOpen('deleteEchoModal', handleEchoDelete)
             }}
           >
             <Trash />
