@@ -21,8 +21,13 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { updateBlogTagById, updateNoteTagById } from '@/actions/tags'
+import {
+  getBlogTagsAndNoteTags,
+  updateBlogTagById,
+  updateNoteTagById,
+} from '@/actions/tags'
 import { useEffect } from 'react'
+import { useTagStore } from '@/store/use-tag-store'
 
 const formSchema = z.object({
   tagName: z.string().min(2).max(50),
@@ -36,6 +41,7 @@ export type WithTagIdValues = z.infer<typeof formSchema> & {
 export default function EditTagModal() {
   const { modalType, onModalClose, payload } = useModalStore()
   const isModalOpen = modalType === 'editTagModal'
+  const { setTags } = useTagStore()
   const { tagId, tagName, tagType } = payload
     ? (payload as {
         tagId: number
@@ -65,6 +71,9 @@ export default function EditTagModal() {
     } else {
       throw new Error('标签类型错误!')
     }
+
+    const allTags = await getBlogTagsAndNoteTags()
+    setTags(allTags)
   }
 
   function onSubmit(values: z.infer<typeof formSchema>) {
