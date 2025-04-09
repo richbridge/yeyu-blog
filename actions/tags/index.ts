@@ -143,3 +143,44 @@ export const getBlogTagsAndNoteTags = async () => {
 
   return [...blogTagsWithCount, ...noteTagsWithCount]
 }
+
+export const getQueryTags = async (tagName: string) => {
+  const [blogTags, noteTags] = await Promise.all([
+    prisma.blogTag.findMany({
+      where: {
+        tagName: {
+          contains: tagName,
+        },
+      },
+      include: {
+        _count: true,
+      },
+    }),
+    prisma.noteTag.findMany({
+      where: {
+        tagName: {
+          contains: tagName,
+        },
+      },
+      include: {
+        _count: true,
+      },
+    }),
+  ])
+
+  const blogTagsWithCount = blogTags.map(tag => ({
+    id: tag.id,
+    tagName: tag.tagName,
+    tagType: 'Blog',
+    count: tag._count.blogs,
+  }))
+
+  const noteTagsWithCount = noteTags.map(tag => ({
+    id: tag.id,
+    tagName: tag.tagName,
+    tagType: 'Note',
+    count: tag._count.notes,
+  }))
+
+  return [...blogTagsWithCount, ...noteTagsWithCount]
+}

@@ -12,4 +12,9 @@
 - echos 的内容长度限制多大?
 - tags 创建功能
 - blog tag 和 note tag 可以重名...允许还是不允许?
-- 
+- tag 新增后列表闪烁...
+- 表格数据排序
+- 表格样式居中
+- onKeyDown
+- tag 更新时并没有同步列表渲染
+- 请求方式混乱, 一会从 props 获取数据, 一会 useEffect 获取...
