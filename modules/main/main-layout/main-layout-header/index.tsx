@@ -7,9 +7,12 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Fragment } from 'react'
 import { motion } from 'motion/react'
+import { getActiveMainPath } from '@/lib/url'
 
 export default function MainLayoutHeader() {
   const pathname = usePathname()
+  const activeUrl = getActiveMainPath(pathname)
+
   return (
     <header className="h-14 flex items-center justify-center sticky top-0 border-b backdrop-blur-lg z-20 mb-6">
       <MaxWidthWrapper className="flex items-center justify-center">
@@ -20,11 +23,11 @@ export default function MainLayoutHeader() {
                 href={route.path}
                 className={cn(
                   'relative text-lg px-4',
-                  pathname === route.path && 'text-emerald-300 font-bold',
+                  route.path === activeUrl && 'text-emerald-300 font-bold',
                 )}
               >
                 <h2>{route.pathName}</h2>
-                {route.path === pathname && (
+                {route.path === activeUrl && (
                   <motion.span
                     className={cn(
                       'absolute h-[2px] w-full left-0 bottom-0 bg-emerald-400 rounded-full',
