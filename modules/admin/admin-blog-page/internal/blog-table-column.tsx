@@ -4,23 +4,15 @@ import { deleteBlogById, toggleBlogPublishedById } from '@/actions/blogs'
 import { Switch } from '@/components/ui/switch'
 import { prettyDateTime } from '@/lib/time'
 import TagItemBadge from '@/components/shared/tag-item-badge'
-import { Blog } from '@prisma/client'
 import { ColumnDef } from '@tanstack/react-table'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { Edit2, Eye, Trash } from 'lucide-react'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
 import { useModalStore } from '@/store/use-modal-store'
-import { useBlogStore } from '@/store/use-blog-store'
+import { useBlogStore, WithTagsBlog } from '@/store/use-blog-store'
 
-type withTags = Blog & {
-  tags: {
-    id: number
-    tagName: string
-  }[]
-}
-
-export const columns: ColumnDef<withTags>[] = [
+export const columns: ColumnDef<WithTagsBlog>[] = [
   {
     accessorKey: 'title',
     header: '标题',

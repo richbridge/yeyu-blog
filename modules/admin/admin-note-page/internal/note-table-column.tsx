@@ -3,7 +3,6 @@
 import { Switch } from '@/components/ui/switch'
 import { prettyDateTime } from '@/lib/time'
 import TagItemBadge from '@/components/shared/tag-item-badge'
-import { Note } from '@prisma/client'
 import { ColumnDef } from '@tanstack/react-table'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { Edit2, Eye, Trash } from 'lucide-react'
@@ -11,16 +10,9 @@ import Link from 'next/link'
 import { cn } from '@/lib/utils'
 import { deleteNoteById, toggleNotePublishedById } from '@/actions/notes'
 import { useModalStore } from '@/store/use-modal-store'
-import { useNoteStore } from '@/store/use-note-store'
+import { useNoteStore, WithTagsNote } from '@/store/use-note-store'
 
-type withTags = Note & {
-  tags: {
-    id: number
-    tagName: string
-  }[]
-}
-
-export const columns: ColumnDef<withTags>[] = [
+export const columns: ColumnDef<WithTagsNote>[] = [
   {
     accessorKey: 'title',
     header: '标题',
