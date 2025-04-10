@@ -1,4 +1,8 @@
-import { deleteBlogTagById, deleteNoteTagById } from '@/actions/tags'
+import {
+  deleteBlogTagById,
+  deleteNoteTagById,
+  getBlogTagsAndNoteTags,
+} from '@/actions/tags'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -8,11 +12,13 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import { useModalStore } from '@/store/use-modal-store'
+import { useTagStore } from '@/store/use-tag-store'
 import { TagType } from '@prisma/client'
 
 export default function DeleteTagModal() {
   const { modalType, payload, onModalClose } = useModalStore()
   const isModalOpen = modalType === 'deleteTagModal'
+  const { setTags } = useTagStore()
 
   const { tagId, tagType } = payload
     ? (payload as {
@@ -29,6 +35,8 @@ export default function DeleteTagModal() {
     } else {
       throw new Error('标签类型错误或 tagId 不存在!')
     }
+    const allTags = await getBlogTagsAndNoteTags()
+    setTags(allTags)
     onModalClose()
   }
 
