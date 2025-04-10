@@ -6,6 +6,8 @@ import {
   getCoreRowModel,
   useReactTable,
   getPaginationRowModel,
+  SortingState,
+  getSortedRowModel,
 } from '@tanstack/react-table'
 
 import {
@@ -16,6 +18,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import { useState } from 'react'
 // import { Button } from '@/components/ui/button'
 // import { ChevronsLeft } from 'lucide-react'
 
@@ -28,6 +31,7 @@ export function DataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
+  const [sorting, setSorting] = useState<SortingState>([])
   const table = useReactTable({
     data,
     columns,
@@ -35,6 +39,12 @@ export function DataTable<TData, TValue>({
     // * 分页
     // getPaginationRowModel: getPaginationRowModel(),
     meta: {},
+    // * 排序
+    onSortingChange: setSorting,
+    getSortedRowModel: getSortedRowModel(),
+    state: {
+      sorting,
+    },
   })
 
   return (
@@ -82,7 +92,7 @@ export function DataTable<TData, TValue>({
               <TableRow>
                 <TableCell
                   colSpan={columns.length}
-                  className="h-24 text-center"
+                  // className="h-24 text-center"
                 >
                   No results.
                 </TableCell>

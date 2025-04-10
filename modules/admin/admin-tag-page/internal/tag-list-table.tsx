@@ -1,6 +1,6 @@
 'use client'
 
-import { useTagStore, type Tags } from '@/store/use-tag-store'
+import { useTagStore } from '@/store/use-tag-store'
 import { DataTable } from './data-table'
 import { columns } from './tag-table-column'
 

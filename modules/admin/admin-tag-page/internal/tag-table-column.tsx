@@ -4,7 +4,7 @@ import { ColumnDef } from '@tanstack/react-table'
 import type { BlogTag, NoteTag } from '@prisma/client'
 import TagItemBadge from '@/components/shared/tag-item-badge'
 import { Badge } from '@/components/ui/badge'
-import { Edit2, Trash } from 'lucide-react'
+import { Edit2, Trash, ArrowUpDown } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useModalStore } from '@/store/use-modal-store'
 
@@ -27,15 +27,27 @@ export const columns: ColumnDef<WithCountBlogTagOrNoteTag>[] = [
     cell: ({ row }) => {
       const tagType = row.original.tagType
       // * 后序整一个颜色
-      return <Badge>{tagType}</Badge>
+      return <Badge className="font-mono">{tagType}</Badge>
     },
   },
   {
-    accessorKey: 'related-article',
-    header: '关联文章数量',
+    accessorKey: 'count',
+    header: ({ column }) => {
+      return (
+        <div
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          className="cursor-pointer"
+        >
+          关联文章数量
+        </div>
+      )
+    },
     cell: ({ row }) => {
       const relatedArticleCount = row.original.count
       return <div>{relatedArticleCount}</div>
+    },
+    meta: {
+      className: 'text-center',
     },
   },
   {
