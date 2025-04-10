@@ -1,6 +1,6 @@
 'use client'
 
-import { getQueryTags } from '@/actions/tags'
+import { getBlogTagsAndNoteTags, getQueryTags } from '@/actions/tags'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useModalStore } from '@/store/use-modal-store'
@@ -12,7 +12,10 @@ export default function TagSearch({ tags }: { tags: Tags }) {
   const { setModalOpen } = useModalStore()
   const { setTags } = useTagStore()
   const [query, setQuery] = useState('')
-  const [refresh, setRefresh] = useState(true)
+
+  useEffect(() => {
+    setTags(tags)
+  }, [tags])
 
   const fetchTags = async () => {
     if (!query.trim()) return
@@ -25,10 +28,15 @@ export default function TagSearch({ tags }: { tags: Tags }) {
     }
   }
 
-  // * 默认加载所有的数据, 先不考虑分页的事
-  useEffect(() => {
-    setTags(tags)
-  }, [refresh])
+  const resetTags = async () => {
+    try {
+      const allTags = await getBlogTagsAndNoteTags()
+      setQuery('')
+      setTags(allTags)
+    } catch (error) {
+      console.error(`获取标签错误`, error)
+    }
+  }
 
   return (
     <div className="flex gap-2">
@@ -57,13 +65,7 @@ export default function TagSearch({ tags }: { tags: Tags }) {
         <Search /> 搜索
       </Button>
 
-      <Button
-        variant={'secondary'}
-        onClick={() => {
-          setQuery('')
-          setRefresh(!refresh)
-        }}
-      >
+      <Button variant={'secondary'} onClick={resetTags}>
         <RotateCw /> 重置
       </Button>
     </div>
