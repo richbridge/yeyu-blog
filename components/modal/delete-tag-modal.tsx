@@ -8,6 +8,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import { useModalStore } from '@/store/use-modal-store'
+import { TagType } from '@prisma/client'
 
 export default function DeleteTagModal() {
   const { modalType, payload, onModalClose } = useModalStore()
@@ -16,14 +17,14 @@ export default function DeleteTagModal() {
   const { tagId, tagType } = payload
     ? (payload as {
         tagId: number
-        tagType: 'Blog' | 'Note'
+        tagType: TagType
       })
     : {}
 
   const handleTagDelete = async () => {
-    if (tagType === 'Blog' && tagId) {
+    if (tagType === TagType.BLOG && tagId) {
       await deleteBlogTagById(tagId)
-    } else if (tagType === 'Note' && tagId) {
+    } else if (tagType === TagType.NOTE && tagId) {
       await deleteNoteTagById(tagId)
     } else {
       throw new Error('标签类型错误或 tagId 不存在!')

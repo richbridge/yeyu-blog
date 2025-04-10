@@ -39,18 +39,23 @@ model Note {
   updatedAt DateTime @updatedAt
 }
 
+enum TagType {
+  BLOG
+  NOTE
+}
+
 model BlogTag {
-  id      Int    @id @default(autoincrement())
-  tagName String @unique @db.VarChar(50)
-  tagType String @default("Blog")
+  id      Int     @id @default(autoincrement())
+  tagName String  @unique @db.VarChar(50)
+  tagType TagType @default(BLOG)
 
   blogs Blog[]
 }
 
 model NoteTag {
-  id      Int    @id @default(autoincrement())
-  tagName String @unique @db.VarChar(50)
-  tagType String @default("Note")
+  id      Int     @id @default(autoincrement())
+  tagName String  @unique @db.VarChar(50)
+  tagType TagType @default(NOTE)
 
   notes Note[]
 }

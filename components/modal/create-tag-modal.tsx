@@ -35,10 +35,11 @@ import {
   getBlogTagsAndNoteTags,
 } from '@/actions/tags'
 import { useTagStore } from '@/store/use-tag-store'
+import { TagType } from '@prisma/client'
 
 const formSchema = z.object({
   tagName: z.string().min(1).max(20),
-  tagType: z.enum(['Blog', 'Note']),
+  tagType: z.nativeEnum(TagType),
 })
 
 export type TagValues = z.infer<typeof formSchema>
@@ -52,16 +53,16 @@ export default function CreateTagModal() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       tagName: '',
-      tagType: 'Blog',
+      tagType: TagType.BLOG,
     },
   })
 
   const handleCreateTag = async (values: TagValues) => {
     try {
-      if (values.tagType === 'Blog') {
+      if (values.tagType === TagType.BLOG) {
         const r = await createBlogTag(values.tagName)
         console.log(r, 'blog tag res')
-      } else if (values.tagType === 'Note') {
+      } else if (values.tagType === TagType.NOTE) {
         const r = await createNoteTag(values.tagName)
         console.log(r, 'note tag res')
       } else {
@@ -121,8 +122,8 @@ export default function CreateTagModal() {
                           <SelectValue placeholder="请选择" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="Blog">Blog</SelectItem>
-                          <SelectItem value="Note">Note</SelectItem>
+                          <SelectItem value={TagType.BLOG}>BLOG</SelectItem>
+                          <SelectItem value={TagType.NOTE}>NOTE</SelectItem>
                         </SelectContent>
                       </Select>
                     </FormControl>

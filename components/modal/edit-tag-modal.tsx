@@ -28,6 +28,7 @@ import {
 } from '@/actions/tags'
 import { useEffect } from 'react'
 import { useTagStore } from '@/store/use-tag-store'
+import { TagType } from '@prisma/client'
 
 const formSchema = z.object({
   tagName: z.string().min(2).max(50),
@@ -46,7 +47,7 @@ export default function EditTagModal() {
     ? (payload as {
         tagId: number
         tagName: string
-        tagType: 'Blog' | 'Note'
+        tagType: TagType
       })
     : {}
 
@@ -64,9 +65,9 @@ export default function EditTagModal() {
   })
 
   const handleTagNameChange = async (values: WithTagIdValues) => {
-    if (tagType === 'Blog') {
+    if (tagType === TagType.BLOG) {
       await updateBlogTagById(values)
-    } else if (tagType === 'Note') {
+    } else if (tagType === TagType.NOTE) {
       await updateNoteTagById(values)
     } else {
       throw new Error('标签类型错误!')

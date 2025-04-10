@@ -2,6 +2,7 @@
 
 import { WithTagIdValues } from '@/components/modal/edit-tag-modal'
 import { prisma } from '@/db'
+import { TagType } from '@prisma/client'
 
 export const createBlogTag = async (tagName: string) => {
   const existingTagName = await prisma.blogTag.findFirst({
@@ -130,14 +131,14 @@ export const getBlogTagsAndNoteTags = async () => {
   const blogTagsWithCount = blogTags.map(tag => ({
     id: tag.id,
     tagName: tag.tagName,
-    tagType: 'Blog',
+    tagType: TagType.BLOG,
     count: tag._count.blogs,
   }))
 
   const noteTagsWithCount = noteTags.map(tag => ({
     id: tag.id,
     tagName: tag.tagName,
-    tagType: 'Note',
+    tagType: TagType.NOTE,
     count: tag._count.notes,
   }))
 
@@ -171,14 +172,14 @@ export const getQueryTags = async (tagName: string) => {
   const blogTagsWithCount = blogTags.map(tag => ({
     id: tag.id,
     tagName: tag.tagName,
-    tagType: 'Blog',
+    tagType: TagType.BLOG,
     count: tag._count.blogs,
   }))
 
   const noteTagsWithCount = noteTags.map(tag => ({
     id: tag.id,
     tagName: tag.tagName,
-    tagType: 'Note',
+    tagType: TagType.NOTE,
     count: tag._count.notes,
   }))
 

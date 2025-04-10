@@ -6,7 +6,8 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "ts:check": "tsc --noEmit"
   },
   "dependencies": {
     "@bytemd/plugin-breaks": "^1.22.0",
