@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation'
 import AdminLogo from './internal/admin-logo'
 import AvatarDropdownMenu from './internal/avatar-dropdown-menu'
 import { ModeToggle } from '@/components/ui/mode-toggle'
+import { getActiveAdminPath } from '@/lib/url'
 
 export const AdminRoutes = [
   {
@@ -32,6 +33,7 @@ export const AdminRoutes = [
 
 const AdminNavbar = () => {
   const pathname = usePathname()
+  const activeUrl = getActiveAdminPath(pathname)
 
   return (
     <header
@@ -46,7 +48,7 @@ const AdminNavbar = () => {
           <Link href={link.path} key={link.path}>
             <Button
               className="rounded-lg text-base cursor-pointer"
-              variant={pathname === link.path ? 'secondary' : 'ghost'}
+              variant={activeUrl === link.path ? 'secondary' : 'ghost'}
               size={'sm'}
             >
               {link.pathName}
