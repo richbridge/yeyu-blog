@@ -1,6 +1,10 @@
 'use client'
 
-import { deleteBlogById, toggleBlogPublishedById } from '@/actions/blogs'
+import {
+  deleteBlogById,
+  toggleBlogPublishedById,
+  WithTagsBlog,
+} from '@/actions/blogs'
 import { Switch } from '@/components/ui/switch'
 import { prettyDateTime } from '@/lib/time'
 import TagItemBadge from '@/components/shared/tag-item-badge'
@@ -10,7 +14,7 @@ import { Edit2, Eye, Trash } from 'lucide-react'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
 import { useModalStore } from '@/store/use-modal-store'
-import { useBlogStore, WithTagsBlog } from '@/store/use-blog-store'
+import { useBlogStore } from '@/store/use-blog-store'
 
 export const columns: ColumnDef<WithTagsBlog>[] = [
   {

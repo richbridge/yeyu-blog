@@ -6,6 +6,8 @@ import type {
   updateArticleParamsWithBlogId,
 } from '@/components/shared/admin-article-edit-page'
 
+export type WithTagsBlog = Awaited<ReturnType<typeof getAllBlogs>>[number]
+
 export const createBlog = async (values: createArticleParams) => {
   const existingBlog = await prisma.blog.findUnique({
     where: { slug: values.slug },
