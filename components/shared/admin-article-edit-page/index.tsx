@@ -23,8 +23,6 @@ import { redirect, usePathname } from 'next/navigation'
 import MarkdownEditor from './internal/markdown-editor'
 import { createNote, updateNoteById } from '@/actions/notes'
 
-console.log('铺货')
-
 const formSchema = z.object({
   title: z.string().min(1, { message: '长度不能少于1个字符' }).max(250),
   slug: z
@@ -100,7 +98,7 @@ export default function AdminBlogEditPage({
         await createNote(values)
       }
     }
-    redirect(`edit/${values.slug}`)
+    redirect(`/admin/${editPageType.toLowerCase()}/edit/${values.slug}`)
   }
 
   return (
