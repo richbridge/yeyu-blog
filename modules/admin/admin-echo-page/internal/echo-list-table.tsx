@@ -1,3 +1,5 @@
+'use client'
+
 import { useEchoStore } from '@/store/use-echo-store'
 import { DataTable } from './data-table'
 import { columns } from './echo-table-column'

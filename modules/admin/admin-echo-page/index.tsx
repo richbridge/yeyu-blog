@@ -1,21 +1,13 @@
-'use client'
-
 import { EchoSearch } from './internal/echo-search'
 import EchoListTable from './internal/echo-list-table'
-import { Echo } from '@prisma/client'
-import { useEchoStore } from '@/store/use-echo-store'
-import { useEffect } from 'react'
+import { prisma } from '@/db'
 
-export default function AdminEchoPage({ echos }: { echos: Echo[] }) {
-  const { setEchos } = useEchoStore()
-
-  useEffect(() => {
-    setEchos(echos)
-  }, [echos])
+export default async function AdminEchoPage() {
+  const echos = await prisma.echo.findMany()
 
   return (
     <main className="w-full flex flex-col gap-2">
-      <EchoSearch />
+      <EchoSearch echos={echos} />
       <EchoListTable />
     </main>
   )

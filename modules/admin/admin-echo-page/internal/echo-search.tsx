@@ -5,14 +5,18 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useEchoStore } from '@/store/use-echo-store'
 import { useModalStore } from '@/store/use-modal-store'
+import { Echo } from '@prisma/client'
 import { Plus, RotateCw, Search } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
-export function EchoSearch() {
+export function EchoSearch({ echos }: { echos: Echo[] }) {
   const [query, setQuery] = useState('')
   const { setEchos } = useEchoStore()
-  const [refresh, setRefresh] = useState(true)
   const { setModalOpen } = useModalStore()
+
+  useEffect(() => {
+    setEchos(echos)
+  }, [echos])
 
   const fetchEchos = async () => {
     if (!query.trim()) return
@@ -20,22 +24,19 @@ export function EchoSearch() {
       const echos = await getQueryEchos(query)
       setEchos(echos)
     } catch (error) {
-      console.error(`获取博客数据错误`, error)
+      console.error(`获取短语数据错误`, error)
     }
   }
 
-  // * 默认加载所有的数据, 先不考虑分页的事
-  useEffect(() => {
-    const fetchAllEchos = async () => {
-      try {
-        const echos = await getAllEchos()
-        setEchos(echos)
-      } catch (error) {
-        console.error(`获取博客数据错误`, error)
-      }
+  const resetEchos = async () => {
+    try {
+      const allEchos = await getAllEchos()
+      setQuery('')
+      setEchos(allEchos)
+    } catch (error) {
+      console.error(`重置短语数据错误`, error)
     }
-    fetchAllEchos()
-  }, [refresh])
+  }
 
   return (
     <section className="flex w-full gap-4">
@@ -58,15 +59,7 @@ export function EchoSearch() {
         <Search /> 搜索
       </Button>
 
-      <Button
-        variant={'secondary'}
-        onClick={() => {
-          if (query !== '') {
-            setQuery('')
-            setRefresh(!refresh)
-          }
-        }}
-      >
+      <Button variant={'secondary'} onClick={resetEchos}>
         <RotateCw /> 重置
       </Button>
 
