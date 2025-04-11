@@ -1,4 +1,4 @@
-import MainLayoutContainer from '@/modules/main/main-layout/main-layout-container'
+import MainLayoutContainer from '@/modules/main/page/main-home-page'
 
 export default function Page() {
   return <MainLayoutContainer />
