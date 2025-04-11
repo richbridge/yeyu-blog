@@ -1,5 +1,5 @@
-import AdminLayoutContainer from '@/modules/admin/admin-main-layout/admin-main-layout-container'
+import AdminHomePage from '@/modules/admin/page/admin-home-page'
 
 export default function Page() {
-  return <AdminLayoutContainer />
+  return <AdminHomePage />
 }
