@@ -1,5 +1,6 @@
 import { ModalProvider } from '@/components/provider/modal-provider'
 import AdminNavbar from '@/modules/admin/layout/admin-layout-header'
+import { Toaster } from '@/components/ui/sonner'
 import { SessionProvider } from 'next-auth/react'
 
 export default async function AdminLayout({
@@ -13,8 +14,9 @@ export default async function AdminLayout({
         <AdminNavbar />
         <div className="mt-16 px-6 m-auto w-full min-h-[calc(100vh-70px)] flex">
           <main className="flex-1 flex">{children}</main>
-          <ModalProvider />
         </div>
+        <ModalProvider />
+        <Toaster position="top-center" />
       </main>
     </SessionProvider>
   )

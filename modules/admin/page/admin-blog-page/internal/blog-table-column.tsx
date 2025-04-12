@@ -15,6 +15,8 @@ import Link from 'next/link'
 import { cn } from '@/lib/utils'
 import { useModalStore } from '@/store/use-modal-store'
 import { useBlogStore } from '@/store/use-blog-store'
+import { toast } from 'sonner'
+import { useTransition } from 'react'
 
 export const columns: ColumnDef<WithTagsBlog>[] = [
   {
@@ -44,33 +46,12 @@ export const columns: ColumnDef<WithTagsBlog>[] = [
     header: '是否发布',
     cell: ({ row }) => {
       const blog = row.original
-      const blogId = row.original.id
-      const { setBlogs, blogs } = useBlogStore()
-
-      const handleToggle = async () => {
-        const newStatus = !blog.isPublished
-
-        const preBlogs = [...blogs]
-
-        const updated = blogs.map(item =>
-          item.id === blogId ? { ...item, isPublished: newStatus } : item,
-        )
-        setBlogs(updated)
-
-        try {
-          await toggleBlogPublishedById(blogId, newStatus)
-        } catch (error) {
-          // * 后序也整一个全局 Message 消息提醒出错~
-          setBlogs(preBlogs)
-          console.error('发布状态更新失败', error)
-        }
-      }
 
       return (
-        <Switch
-          onCheckedChange={handleToggle}
-          checked={row.original.isPublished}
-          key={`${row.original.id}-${row.original.slug}`}
+        <PublishToggleSwitch
+          blogId={blog.id}
+          isPublished={blog.isPublished}
+          slug={blog.slug}
         />
       )
     },
@@ -81,61 +62,126 @@ export const columns: ColumnDef<WithTagsBlog>[] = [
     header: '创建时间',
     cell: ({ row }) => {
       const prettyTime = prettyDateTime(row.original.createdAt)
-      return <span>{prettyTime}</span>
+      return <time>{prettyTime}</time>
     },
   },
   {
     accessorKey: 'actions',
     header: '操作',
     cell: ({ row, table }) => {
-      const slug = row.original.slug
-      const blogId = row.original.id
+      const { id, slug, title } = row.original
+      const blogs = table.options.data
       const { setBlogs } = useBlogStore()
-      const { setModalOpen } = useModalStore()
-
-      const handleDeleteBlogById = async () => {
-        try {
-          await deleteBlogById(blogId)
-
-          const newTables = table.options.data.filter(
-            blog => blog.id !== blogId,
-          )
-          // const newTables = await getAllBlogs()
-          setBlogs(newTables)
-        } catch (error) {
-          console.error(`删除 ${row.original.title} 出错~`, error)
-        }
-      }
 
       return (
-        <section className="flex items-center gap-1">
-          <Link
-            href={`/blog/${slug}`}
-            className={cn(
-              buttonVariants({ variant: 'outline', className: 'size-8' }),
-            )}
-          >
-            <Eye className="size-4" />
-          </Link>
-          <Link
-            href={`blog/edit/${slug}`}
-            className={cn(
-              buttonVariants({ variant: 'outline', className: 'size-8' }),
-            )}
-          >
-            <Edit2 className="size-4" />
-          </Link>
-          <Button
-            variant={'outline'}
-            className="size-8"
-            onClick={() => {
-              setModalOpen('deleteArticleModal', handleDeleteBlogById)
-            }}
-          >
-            <Trash />
-          </Button>
-        </section>
+        <ActionButtons
+          blogId={id}
+          slug={slug}
+          title={title}
+          blogsData={blogs}
+          onUpdateBlogs={setBlogs}
+        />
       )
     },
   },
 ]
+
+function PublishToggleSwitch({
+  blogId,
+  isPublished,
+  slug,
+}: {
+  blogId: number
+  isPublished: boolean
+  slug: string
+}) {
+  const { setBlogs, blogs } = useBlogStore()
+  const [isPending, startTransition] = useTransition()
+
+  const handleToggle = async () => {
+    const newStatus = !isPublished
+    const preBlogs = [...blogs]
+
+    const updated = blogs.map(item =>
+      item.id === blogId ? { ...item, isPublished: newStatus } : item,
+    )
+    setBlogs(updated)
+
+    startTransition(async () => {
+      try {
+        await toggleBlogPublishedById(blogId, newStatus)
+      } catch (error) {
+        setBlogs(preBlogs)
+        toast.error('发布状态更新失败')
+        console.error(error)
+      }
+    })
+  }
+
+  return (
+    <Switch
+      onCheckedChange={handleToggle}
+      checked={isPublished}
+      disabled={isPending}
+      key={slug}
+    />
+  )
+}
+
+function ActionButtons({
+  blogId,
+  slug,
+  title,
+  blogsData,
+  onUpdateBlogs,
+}: {
+  blogId: number
+  slug: string
+  title: string
+  blogsData: WithTagsBlog[]
+  onUpdateBlogs: (blogs: WithTagsBlog[]) => void
+}) {
+  const { setModalOpen } = useModalStore()
+
+  const handleDelete = async () => {
+    try {
+      await deleteBlogById(blogId)
+      const filtered = blogsData.filter(blog => blog.id !== blogId)
+      onUpdateBlogs(filtered)
+    } catch (error) {
+      toast.error(`删除 ${title} 出错~ ${error}`)
+      console.error(`删除 ${title} 出错~`, error)
+    }
+  }
+
+  return (
+    <section className="flex items-center gap-1">
+      <Link
+        href={`/blog/${slug}`}
+        className={cn(
+          buttonVariants({ variant: 'outline', className: 'size-8' }),
+        )}
+      >
+        <Eye className="size-4" />
+        <span className="sr-only">查看</span>
+      </Link>
+      <Link
+        href={`/blog/edit/${slug}`}
+        className={cn(
+          buttonVariants({ variant: 'outline', className: 'size-8' }),
+        )}
+      >
+        <Edit2 className="size-4" />
+        <span className="sr-only">编辑</span>
+      </Link>
+      <Button
+        variant="outline"
+        className="size-8"
+        onClick={() => setModalOpen('deleteArticleModal', handleDelete)}
+      >
+        <Trash className="size-4" />
+        <span className="sr-only">删除</span>
+      </Button>
+    </section>
+  )
+}
