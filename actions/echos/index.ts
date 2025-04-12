@@ -3,8 +3,11 @@
 import { EchoValues } from '@/components/modal/create-echo-modal'
 import { OmitCreatedAtEcho } from '@/components/modal/edit-echo-modal'
 import { prisma } from '@/db'
+import { requireAdmin } from '@/lib/auth'
 
 export const createEcho = async (values: EchoValues) => {
+  await requireAdmin()
+
   return await prisma.echo.create({
     data: {
       content: values.echoContent,
@@ -15,6 +18,8 @@ export const createEcho = async (values: EchoValues) => {
 }
 
 export const deleteEchoById = async (id: number) => {
+  await requireAdmin()
+
   return await prisma.echo.delete({
     where: {
       id,
@@ -23,6 +28,8 @@ export const deleteEchoById = async (id: number) => {
 }
 
 export const updateEchoById = async (values: OmitCreatedAtEcho) => {
+  await requireAdmin()
+
   return await prisma.echo.update({
     where: {
       id: values.id,
@@ -40,6 +47,8 @@ export const toggleEchoPublishedById = async (
   id: number,
   newIsPublishedStatus: boolean,
 ) => {
+  await requireAdmin()
+
   return await prisma.echo.update({
     where: {
       id,

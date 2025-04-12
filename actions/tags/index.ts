@@ -2,9 +2,12 @@
 
 import { WithTagIdValues } from '@/components/modal/edit-tag-modal'
 import { prisma } from '@/db'
+import { requireAdmin } from '@/lib/auth'
 import { TagType } from '@prisma/client'
 
 export const createBlogTag = async (tagName: string) => {
+  await requireAdmin()
+
   const existingTagName = await prisma.blogTag.findFirst({
     where: {
       tagName,
@@ -23,6 +26,8 @@ export const createBlogTag = async (tagName: string) => {
 }
 
 export const createNoteTag = async (tagName: string) => {
+  await requireAdmin()
+
   const existingTagName = await prisma.noteTag.findFirst({
     where: {
       tagName,
@@ -41,6 +46,8 @@ export const createNoteTag = async (tagName: string) => {
 }
 
 export const deleteBlogTagById = async (tagId: number) => {
+  await requireAdmin()
+
   const tag = await prisma.blogTag.findUnique({ where: { id: tagId } })
   if (!tag) throw new Error('标签不存在')
 
@@ -52,6 +59,8 @@ export const deleteBlogTagById = async (tagId: number) => {
 }
 
 export const deleteNoteTagById = async (tagId: number) => {
+  await requireAdmin()
+
   const tag = await prisma.noteTag.findUnique({ where: { id: tagId } })
   if (!tag) throw new Error('标签不存在')
 
@@ -63,6 +72,8 @@ export const deleteNoteTagById = async (tagId: number) => {
 }
 
 export const updateBlogTagById = async (values: WithTagIdValues) => {
+  await requireAdmin()
+
   const { tagId, tagName } = values
 
   const existingTag = await prisma.blogTag.findFirst({
@@ -89,6 +100,8 @@ export const updateBlogTagById = async (values: WithTagIdValues) => {
 }
 
 export const updateNoteTagById = async (values: WithTagIdValues) => {
+  await requireAdmin()
+
   const { tagId, tagName } = values
 
   const existingTag = await prisma.noteTag.findFirst({

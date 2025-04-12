@@ -5,8 +5,11 @@ import type {
   createArticleParams,
   updateArticleParamsWithNoteId,
 } from '@/components/shared/admin-article-edit-page'
+import { requireAdmin } from '@/lib/auth'
 
 export const createNote = async (values: createArticleParams) => {
+  await requireAdmin()
+
   const existingNote = await prisma.note.findUnique({
     where: { slug: values.slug },
   })
@@ -42,6 +45,8 @@ export const createNote = async (values: createArticleParams) => {
 }
 
 export const deleteNoteById = async (noteId: number) => {
+  await requireAdmin()
+
   return prisma.note.delete({
     where: {
       id: noteId,
@@ -53,6 +58,8 @@ export const toggleNotePublishedById = async (
   id: number,
   newIsPublishedStatus: boolean,
 ) => {
+  await requireAdmin()
+
   return await prisma.note.update({
     where: {
       id,
@@ -63,67 +70,10 @@ export const toggleNotePublishedById = async (
   })
 }
 
-// * 获取所有的 note，模糊查询
-export const getQueryNotes = async (noteTitle: string) => {
-  return await prisma.note.findMany({
-    where: {
-      title: {
-        contains: noteTitle,
-      },
-    },
-    include: {
-      tags: true, // tags 是一个 NoteTag 数组
-    },
-  })
-}
-
-// * 获取所有的 note
-export const getAllNotes = async () => {
-  return await prisma.note.findMany({
-    include: {
-      tags: true, // 包含与 Note 关联的 NoteTag
-    },
-  })
-}
-
-// * 获取所有关联 note 的 tag
-export const getTagsOnNote = async () => {
-  return await prisma.noteTag.findMany({
-    select: {
-      tagName: true,
-    },
-  })
-}
-
-// * 根据选中的标签获取 note
-export const getNotesBySelectedTagName = async (tagNamesArray: string[]) => {
-  const notes = await prisma.note.findMany({
-    where: {
-      AND: [
-        {
-          tags: {
-            some: {
-              tagName: {
-                in: tagNamesArray,
-              },
-            },
-          },
-        },
-      ],
-    },
-    include: {
-      tags: true,
-    },
-  })
-
-  return notes.filter(note => {
-    const noteTagNames = note.tags.map(tagOnNote => tagOnNote.tagName)
-    return tagNamesArray.every(tag => noteTagNames.includes(tag)) // 选中的标签必须都在笔记的标签中
-  })
-}
-
 // todo: 函数组合, 优化代码
 export const updateNoteById = async (values: updateArticleParamsWithNoteId) => {
+  await requireAdmin()
+
   const existingNote = await prisma.note.findUnique({
     where: {
       slug: values.slug,
@@ -198,5 +148,64 @@ export const updateNoteById = async (values: updateArticleParamsWithNoteId) => {
       updatedAt: new Date(),
       content: values.content,
     },
+  })
+}
+
+// * 获取所有的 note，模糊查询
+export const getQueryNotes = async (noteTitle: string) => {
+  return await prisma.note.findMany({
+    where: {
+      title: {
+        contains: noteTitle,
+      },
+    },
+    include: {
+      tags: true, // tags 是一个 NoteTag 数组
+    },
+  })
+}
+
+// * 获取所有的 note
+export const getAllNotes = async () => {
+  return await prisma.note.findMany({
+    include: {
+      tags: true, // 包含与 Note 关联的 NoteTag
+    },
+  })
+}
+
+// * 获取所有关联 note 的 tag
+export const getTagsOnNote = async () => {
+  return await prisma.noteTag.findMany({
+    select: {
+      tagName: true,
+    },
+  })
+}
+
+// * 根据选中的标签获取 note
+export const getNotesBySelectedTagName = async (tagNamesArray: string[]) => {
+  const notes = await prisma.note.findMany({
+    where: {
+      AND: [
+        {
+          tags: {
+            some: {
+              tagName: {
+                in: tagNamesArray,
+              },
+            },
+          },
+        },
+      ],
+    },
+    include: {
+      tags: true,
+    },
+  })
+
+  return notes.filter(note => {
+    const noteTagNames = note.tags.map(tagOnNote => tagOnNote.tagName)
+    return tagNamesArray.every(tag => noteTagNames.includes(tag)) // 选中的标签必须都在笔记的标签中
   })
 }

@@ -5,10 +5,13 @@ import type {
   createArticleParams,
   updateArticleParamsWithBlogId,
 } from '@/components/shared/admin-article-edit-page'
+import { requireAdmin } from '@/lib/auth'
 
 export type WithTagsBlog = Awaited<ReturnType<typeof getAllBlogs>>[number]
 
 export const createBlog = async (values: createArticleParams) => {
+  await requireAdmin()
+
   const existingBlog = await prisma.blog.findUnique({
     where: { slug: values.slug },
   })
@@ -44,6 +47,8 @@ export const createBlog = async (values: createArticleParams) => {
 }
 
 export const deleteBlogById = async (blogId: number) => {
+  await requireAdmin()
+
   return prisma.blog.delete({
     where: {
       id: blogId,
@@ -55,6 +60,8 @@ export const toggleBlogPublishedById = async (
   id: number,
   newIsPublishedStatus: boolean,
 ) => {
+  await requireAdmin()
+
   return await prisma.blog.update({
     where: {
       id,
@@ -67,6 +74,8 @@ export const toggleBlogPublishedById = async (
 
 // todo: 函数组合, 简化逻辑
 export const updateBlogById = async (values: updateArticleParamsWithBlogId) => {
+  await requireAdmin()
+
   const existingBlog = await prisma.blog.findUnique({
     where: {
       slug: values.slug,

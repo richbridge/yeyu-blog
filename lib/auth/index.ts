@@ -14,3 +14,9 @@ export const noPermission = async () => {
     return !ADMIN_EMAILS.includes(session.user.email)
   }
 }
+
+export const requireAdmin = async () => {
+  if (await noPermission()) {
+    throw new Error('权限不够喵~')
+  }
+}
