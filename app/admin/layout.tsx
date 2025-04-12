@@ -2,7 +2,7 @@ import { ModalProvider } from '@/components/provider/modal-provider'
 import AdminNavbar from '@/modules/admin/layout/admin-layout-header'
 import { SessionProvider } from 'next-auth/react'
 
-export default function AdminLayout({
+export default async function AdminLayout({
   children,
 }: {
   children: React.ReactNode
