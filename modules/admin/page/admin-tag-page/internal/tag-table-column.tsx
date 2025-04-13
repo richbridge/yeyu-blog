@@ -1,10 +1,10 @@
 'use client'
 
 import { ColumnDef } from '@tanstack/react-table'
-import type { BlogTag, NoteTag } from '@prisma/client'
+import type { BlogTag, NoteTag, TagType } from '@prisma/client'
 import TagItemBadge from '@/components/shared/tag-item-badge'
 import { Badge } from '@/components/ui/badge'
-import { Edit2, Trash, ArrowUpDown } from 'lucide-react'
+import { Edit2, Trash } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useModalStore } from '@/store/use-modal-store'
 
@@ -53,40 +53,53 @@ export const columns: ColumnDef<WithCountBlogTagOrNoteTag>[] = [
   {
     accessorKey: 'actions',
     header: '操作',
-    cell: ({ row, table }) => {
-      // * 后序再补一个 modal 框出来让点击确认
-      const { setModalOpen } = useModalStore()
+    cell: ({ row }) => {
+      const { id, tagName, tagType } = row.original
 
-      return (
-        <section className="flex items-center gap-1">
-          <Button
-            variant={'outline'}
-            className="size-8"
-            onClick={() =>
-              setModalOpen('editTagModal', {
-                tagId: row.original.id,
-                tagName: row.original.tagName,
-                tagType: row.original.tagType,
-              })
-            }
-          >
-            <Edit2 className="size-4" />
-          </Button>
-
-          <Button
-            variant={'outline'}
-            className="size-8 text-red-600"
-            onClick={() => {
-              setModalOpen('deleteTagModal', {
-                tagId: row.original.id,
-                tagType: row.original.tagType,
-              })
-            }}
-          >
-            <Trash />
-          </Button>
-        </section>
-      )
+      return <ActionButtons tagId={id} tagName={tagName} tagType={tagType} />
     },
   },
 ]
+
+function ActionButtons({
+  tagId,
+  tagName,
+  tagType,
+}: {
+  tagId: number
+  tagName: string
+  tagType: TagType
+}) {
+  const { setModalOpen } = useModalStore()
+
+  return (
+    <section className="flex items-center gap-1">
+      <Button
+        variant={'outline'}
+        className="size-8"
+        onClick={() =>
+          setModalOpen('editTagModal', {
+            tagId,
+            tagName,
+            tagType,
+          })
+        }
+      >
+        <Edit2 className="size-4" />
+      </Button>
+
+      <Button
+        variant={'outline'}
+        className="size-8 text-red-600"
+        onClick={() => {
+          setModalOpen('deleteTagModal', {
+            tagId,
+            tagType,
+          })
+        }}
+      >
+        <Trash />
+      </Button>
+    </section>
+  )
+}
