@@ -11,6 +11,8 @@ import { cn } from '@/lib/utils'
 import { deleteNoteById, toggleNotePublishedById } from '@/actions/notes'
 import { useModalStore } from '@/store/use-modal-store'
 import { useNoteStore, WithTagsNote } from '@/store/use-note-store'
+import { useTransition } from 'react'
+import { toast } from 'sonner'
 
 export const columns: ColumnDef<WithTagsNote>[] = [
   {
@@ -39,35 +41,12 @@ export const columns: ColumnDef<WithTagsNote>[] = [
     header: '是否发布',
     cell: ({ row }) => {
       const note = row.original
-      const noteId = row.original.id
-      const { notes, setNotes } = useNoteStore()
-      // ! 后序再做性能优化
-
-      const handleToggle = async () => {
-        const newStatus = !note.isPublished
-
-        const preNotes = [...notes]
-
-        const updated = notes.map(item =>
-          item.id === noteId ? { ...item, isPublished: newStatus } : item,
-        )
-
-        setNotes(updated)
-
-        try {
-          await toggleNotePublishedById(noteId, newStatus)
-        } catch (error) {
-          // * 后序也整一个全局 Message 消息提醒出错~
-          setNotes(preNotes)
-          console.error('发布状态更新失败', error)
-        }
-      }
 
       return (
-        <Switch
-          onCheckedChange={handleToggle}
-          checked={row.original.isPublished}
-          key={`${row.original.id}-${row.original.slug}`}
+        <PublishToggleSwitch
+          noteId={note.id}
+          isPublished={note.isPublished}
+          slug={note.slug}
         />
       )
     },
@@ -85,54 +64,118 @@ export const columns: ColumnDef<WithTagsNote>[] = [
     accessorKey: 'actions',
     header: '操作',
     cell: ({ row, table }) => {
-      const slug = row.original.slug
-      const blogId = row.original.id
+      const { id, slug, title } = row.original
+      const notes = table.options.data
       const { setNotes } = useNoteStore()
-      const { setModalOpen } = useModalStore()
-
-      // * 后序再补一个 modal 框出来让点击确认
-      const handleArticleDelete = async () => {
-        try {
-          await deleteNoteById(blogId)
-
-          const newTables = table.options.data.filter(
-            blog => blog.id !== blogId,
-          )
-          setNotes(newTables)
-        } catch (error) {
-          console.error(`删除 ${row.original.title} 出错~`, error)
-        }
-      }
 
       return (
-        <section className="flex items-center gap-1">
-          <Link
-            href={`/note/${slug}`}
-            className={cn(
-              buttonVariants({ variant: 'outline', className: 'size-8' }),
-            )}
-          >
-            <Eye className="size-4" />
-          </Link>
-          <Link
-            href={`note/edit/${slug}`}
-            className={cn(
-              buttonVariants({ variant: 'outline', className: 'size-8' }),
-            )}
-          >
-            <Edit2 className="size-4" />
-          </Link>
-          <Button
-            variant={'outline'}
-            className="size-8"
-            onClick={() => {
-              setModalOpen('deleteArticleModal', handleArticleDelete)
-            }}
-          >
-            <Trash />
-          </Button>
-        </section>
+        <ActionButtons
+          noteId={id}
+          slug={slug}
+          title={title}
+          notesData={notes}
+          onUpdateBlogs={setNotes}
+        />
       )
     },
   },
 ]
+
+function PublishToggleSwitch({
+  noteId,
+  isPublished,
+  slug,
+}: {
+  noteId: number
+  isPublished: boolean
+  slug: string
+}) {
+  const { notes, setNotes } = useNoteStore()
+  const [isPending, startTransition] = useTransition()
+
+  const handleToggle = async () => {
+    const newStatus = !isPublished
+    const preBlogs = [...notes]
+
+    const updated = notes.map(item =>
+      item.id === noteId ? { ...item, isPublished: newStatus } : item,
+    )
+    setNotes(updated)
+
+    startTransition(async () => {
+      try {
+        await toggleNotePublishedById(noteId, newStatus)
+      } catch (error) {
+        setNotes(preBlogs)
+        toast.error('发布状态更新失败')
+        console.error(error)
+      }
+    })
+  }
+
+  return (
+    <Switch
+      onCheckedChange={handleToggle}
+      checked={isPublished}
+      disabled={isPending}
+      key={slug}
+    />
+  )
+}
+
+function ActionButtons({
+  noteId,
+  slug,
+  title,
+  notesData,
+  onUpdateBlogs,
+}: {
+  noteId: number
+  slug: string
+  title: string
+  notesData: WithTagsNote[]
+  onUpdateBlogs: (blogs: WithTagsNote[]) => void
+}) {
+  const { setModalOpen } = useModalStore()
+
+  const handleDelete = async () => {
+    try {
+      await deleteNoteById(noteId)
+      const filtered = notesData.filter(blog => blog.id !== noteId)
+      onUpdateBlogs(filtered)
+    } catch (error) {
+      toast.error(`删除 ${title} 出错~ ${error}`)
+      console.error(`删除 ${title} 出错~`, error)
+    }
+  }
+
+  return (
+    <section className="flex items-center gap-1">
+      <Link
+        href={`/note/${slug}`}
+        className={cn(
+          buttonVariants({ variant: 'outline', className: 'size-8' }),
+        )}
+      >
+        <Eye className="size-4" />
+      </Link>
+      <Link
+        href={`note/edit/${slug}`}
+        className={cn(
+          buttonVariants({ variant: 'outline', className: 'size-8' }),
+        )}
+      >
+        <Edit2 className="size-4" />
+      </Link>
+      <Button
+        variant={'outline'}
+        className="size-8"
+        onClick={() => {
+          setModalOpen('deleteArticleModal', handleDelete)
+        }}
+      >
+        <Trash />
+      </Button>
+    </section>
+  )
+}

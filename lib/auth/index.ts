@@ -1,6 +1,5 @@
 import { auth } from '@/auth'
 import { ADMIN_EMAILS } from '@/config/admin-emails'
-import { toast } from 'sonner'
 
 // import from (https://github.com/aifuxi/fuxiaochen/blob/master/features/user/actions/index.ts)
 // 感谢大佬带来的启发 🥹
