@@ -20,6 +20,9 @@ importers:
       '@bytemd/plugin-highlight-ssr':
         specifier: ^1.22.0
         version: 1.22.0(bytemd@1.22.0)
+      '@bytemd/plugin-medium-zoom':
+        specifier: ^1.21.0
+        version: 1.22.0(bytemd@1.22.0)
       '@bytemd/react':
         specifier: ^1.22.0
         version: 1.22.0(react@19.0.0)
@@ -215,6 +218,11 @@ packages:
 
   '@bytemd/plugin-highlight@1.22.0':
     resolution: {integrity: sha512-fMLEvsY8KQrVrtokIWeBFu8/JGGSX0V3Hf6Fhbdn9Q8vsz6u/WuI+wo78xRX7OWhUHpx99UxUcwEy/Hq4+NbpQ==}
+    peerDependencies:
+      bytemd: ^1.5.0
+
+  '@bytemd/plugin-medium-zoom@1.22.0':
+    resolution: {integrity: sha512-YmI1HuyzPnEm/j7NEzyFZlPQrBgOCOI9Qeye4gBJ0amDdz3zBKpc4jh2rBx23+eaFdJiD6qTbuyfvtNSxm0udA==}
     peerDependencies:
       bytemd: ^1.5.0
 
@@ -1637,6 +1645,9 @@ packages:
   mdast-util-to-string@4.0.0:
     resolution: {integrity: sha512-0H44vDimn51F0YwvxSJSm0eCDOJTRlmN0R1yBh4HLj9wiV1Dn0QoXGbvFAWj2hSItVTlCmBF1hqKlIyUBVFLPg==}
 
+  medium-zoom@1.1.0:
+    resolution: {integrity: sha512-ewyDsp7k4InCUp3jRmwHBRFGyjBimKps/AJLjRSox+2q/2H4p/PNpQf+pwONWlJiOudkBXtbdmVbFjqyybfTmQ==}
+
   micromark-core-commonmark@1.1.0:
     resolution: {integrity: sha512-BgHO1aRbolh2hcrzL2d1La37V0Aoz73ymF8rAcKnohLy93titmv62E0gP8Hrx9PKcKrqCZ1BbLGbP3bEhoXYlw==}
 
@@ -2307,6 +2318,11 @@ snapshots:
     dependencies:
       bytemd: 1.22.0
       highlight.js: 11.11.1
+
+  '@bytemd/plugin-medium-zoom@1.22.0(bytemd@1.22.0)':
+    dependencies:
+      bytemd: 1.22.0
+      medium-zoom: 1.1.0
 
   '@bytemd/react@1.22.0(react@19.0.0)':
     dependencies:
@@ -3779,6 +3795,8 @@ snapshots:
   mdast-util-to-string@4.0.0:
     dependencies:
       '@types/mdast': 4.0.4
+
+  medium-zoom@1.1.0: {}
 
   micromark-core-commonmark@1.1.0:
     dependencies:

@@ -166,7 +166,7 @@ function ActionButtons({
         <span className="sr-only">查看</span>
       </Link>
       <Link
-        href={`/blog/edit/${slug}`}
+        href={`blog/edit/${slug}`}
         className={cn(
           buttonVariants({ variant: 'outline', className: 'size-8' }),
         )}
