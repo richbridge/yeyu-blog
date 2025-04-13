@@ -12,7 +12,7 @@ import {
   deleteNoteTagById,
   getBlogTagsAndNoteTags,
 } from '@/actions/tags'
-import { Tags, useTagStore } from '@/store/use-tag-store'
+import { Tag, useTagStore } from '@/store/use-tag-store'
 import { toast } from 'sonner'
 
 // * 后序整一个分类排序
@@ -85,7 +85,7 @@ function ActionButtons({
   tagId: number
   tagName: string
   tagType: TagType
-  onUpdateTags: (tags: Tags) => void
+  onUpdateTags: (tags: Tag[]) => void
 }) {
   const { setModalOpen, onModalClose } = useModalStore()
 
