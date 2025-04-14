@@ -110,7 +110,7 @@ export const columns: ColumnDef<Echo>[] = [
           </Button>
           <Button
             variant={'outline'}
-            className="size-8"
+            className="size-8 text-red-600"
             onClick={() => {
               setModalOpen('deleteEchoModal', handleEchoDelete)
             }}

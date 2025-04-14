@@ -169,7 +169,7 @@ function ActionButtons({
       </Link>
       <Button
         variant={'outline'}
-        className="size-8"
+        className="size-8 text-red-600"
         onClick={() => {
           setModalOpen('deleteArticleModal', handleDelete)
         }}

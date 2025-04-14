@@ -163,7 +163,6 @@ function ActionButtons({
         )}
       >
         <Eye className="size-4" />
-        <span className="sr-only">查看</span>
       </Link>
       <Link
         href={`blog/edit/${slug}`}
@@ -172,15 +171,13 @@ function ActionButtons({
         )}
       >
         <Edit2 className="size-4" />
-        <span className="sr-only">编辑</span>
       </Link>
       <Button
         variant="outline"
-        className="size-8"
+        className="size-8 text-red-600"
         onClick={() => setModalOpen('deleteArticleModal', handleDelete)}
       >
         <Trash className="size-4" />
-        <span className="sr-only">删除</span>
       </Button>
     </section>
   )

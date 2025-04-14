@@ -10,7 +10,7 @@ export default async function AdminLayout({
 }) {
   return (
     <SessionProvider>
-      <main className="min-h-screen max-w-screen bg-black text-white flex flex-col">
+      <main className="flex flex-col min-h-screen max-w-screen dark:bg-black dark:text-white">
         <AdminNavbar />
         <div className="mt-16 px-6 m-auto w-full min-h-[calc(100vh-70px)] flex">
           <main className="flex-1 flex">{children}</main>

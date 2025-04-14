@@ -155,3 +155,18 @@
   writing-mode: vertical-rl;
   text-orientation: upright;
 }
+
+/* 自定义滚动条样式 */
+html,
+body {
+  overflow-y: scroll;
+}
+
+body::-webkit-scrollbar {
+  width: 4px;
+}
+
+body::-webkit-scrollbar-thumb {
+  background: rgba(88, 85, 85, 0.4);
+  border-radius: 8px;
+}

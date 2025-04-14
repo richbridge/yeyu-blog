@@ -37,7 +37,7 @@ const AdminNavbar = () => {
 
   return (
     <header
-      className="h-14 fixed w-full top-0 border-b backdrop-blur-lg z-50
+      className="h-14 fixed w-full top-0 backdrop-blur-lg z-50 border-b border-dashed
                   flex justify-between items-center px-2"
     >
       <nav className="flex gap-4">
@@ -56,10 +56,10 @@ const AdminNavbar = () => {
           </Link>
         ))}
       </nav>
-      <div className="px-4 flex gap-4 items-center">
+      <section className="px-5 flex gap-4 items-center">
         <ModeToggle />
         <AvatarDropdownMenu />
-      </div>
+      </section>
     </header>
   )
 }
