@@ -55,16 +55,28 @@ export function BlogSearch({ blogs }: { blogs: WithTagsBlog[] }) {
         }}
       />
 
-      <Button type="button" variant={'secondary'} onClick={fetchBlogs}>
+      <Button
+        type="button"
+        variant={'secondary'}
+        onClick={fetchBlogs}
+        className="cursor-pointer"
+      >
         <Search /> 搜索
       </Button>
 
-      <Button variant={'secondary'} onClick={resetBlogs}>
+      <Button
+        variant={'secondary'}
+        onClick={resetBlogs}
+        className="cursor-pointer"
+      >
         <RotateCw /> 重置
       </Button>
 
       <Link
-        className={cn(buttonVariants({ variant: 'secondary' }))}
+        className={cn(
+          buttonVariants({ variant: 'secondary' }),
+          'cursor-pointer',
+        )}
         href={`blog/edit`}
       >
         <Plus /> {`创建博客`}

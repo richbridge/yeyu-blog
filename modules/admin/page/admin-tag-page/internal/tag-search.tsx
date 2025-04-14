@@ -55,18 +55,29 @@ export default function TagSearch({ tags }: { tags: Tag[] }) {
         }}
       />
       <Button
-        onClick={() => {
-          setModalOpen('createTagModal')
-        }}
+        type="button"
+        variant={'secondary'}
+        onClick={fetchTags}
+        className="cursor-pointer"
       >
-        新建标签
-      </Button>
-      <Button type="button" variant={'secondary'} onClick={fetchTags}>
         <Search /> 搜索
       </Button>
 
-      <Button variant={'secondary'} onClick={resetTags}>
+      <Button
+        variant={'secondary'}
+        onClick={resetTags}
+        className="cursor-pointer"
+      >
         <RotateCw /> 重置
+      </Button>
+      <Button
+        variant={'secondary'}
+        onClick={() => {
+          setModalOpen('createTagModal')
+        }}
+        className="cursor-pointer"
+      >
+        新建标签
       </Button>
     </div>
   )

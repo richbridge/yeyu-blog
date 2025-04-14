@@ -55,15 +55,25 @@ export function EchoSearch({ echos }: { echos: Echo[] }) {
         }}
       />
 
-      <Button type="button" variant={'secondary'} onClick={fetchEchos}>
+      <Button
+        type="button"
+        variant={'secondary'}
+        onClick={fetchEchos}
+        className="cursor-pointer"
+      >
         <Search /> 搜索
       </Button>
 
-      <Button variant={'secondary'} onClick={resetEchos}>
+      <Button
+        variant={'secondary'}
+        onClick={resetEchos}
+        className="cursor-pointer"
+      >
         <RotateCw /> 重置
       </Button>
 
       <Button
+        className="cursor-pointer"
         variant={'secondary'}
         onClick={() => {
           setModalOpen('createEchoModal')

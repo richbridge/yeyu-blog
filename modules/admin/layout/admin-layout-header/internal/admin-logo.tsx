@@ -4,7 +4,7 @@ import Link from 'next/link'
 const AdminLogo = () => {
   return (
     <Link
-      className="flex items-center gap-1 px-4 py-1 rounded-lg hover:bg-pink-500 duration-200"
+      className="flex items-center gap-1 px-4 py-1 rounded-lg hover:bg-primary-foreground duration-200"
       href={'/'}
     >
       <h2>☘️ 🐟 后台管理</h2>

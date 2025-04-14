@@ -54,7 +54,12 @@ export function NoteSearch() {
         }}
       />
 
-      <Button type="button" variant={'secondary'} onClick={fetchNotes}>
+      <Button
+        type="button"
+        variant={'secondary'}
+        onClick={fetchNotes}
+        className="cursor-pointer"
+      >
         <Search /> 搜索
       </Button>
 
@@ -66,12 +71,16 @@ export function NoteSearch() {
             setRefresh(!refresh)
           }
         }}
+        className="cursor-pointer"
       >
         <RotateCw /> 重置
       </Button>
 
       <Link
-        className={cn(buttonVariants({ variant: 'secondary' }))}
+        className={cn(
+          buttonVariants({ variant: 'secondary' }),
+          'cursor-pointer',
+        )}
         href={`note/edit`}
       >
         <Plus /> {`创建笔记`}

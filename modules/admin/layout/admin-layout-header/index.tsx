@@ -48,7 +48,7 @@ const AdminNavbar = () => {
           <Link href={link.path} key={link.path}>
             <Button
               className="rounded-lg text-base cursor-pointer"
-              variant={activeUrl === link.path ? 'secondary' : 'ghost'}
+              variant={activeUrl === link.path ? 'default' : 'ghost'}
               size={'sm'}
             >
               {link.pathName}

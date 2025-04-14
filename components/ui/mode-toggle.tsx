@@ -20,7 +20,7 @@ export function ModeToggle() {
       onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
       size="sm"
     >
-      {theme === 'light' ? <Moon /> : <Sun />}
+      {theme === 'light' ? <Sun /> : <Moon />}
     </Button>
   )
 }
