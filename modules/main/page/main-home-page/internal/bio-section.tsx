@@ -10,9 +10,13 @@ export default function BioSection() {
         <span className="line-through text-pink-500">生</span>牲
       </p>
       <p>
-        以下是我常用/喜欢的技术{' '}
+        下面是我常用/喜欢的技术{' '}
         <span className="text-indigo-400">(〃'▽'〃)</span>
       </p>
+      <small>
+        话说敲两下头像可以切换主题来着{' '}
+        <span className="text-fuchsia-500">( ´◔ ‸◔`)</span>
+      </small>
     </section>
   )
 }

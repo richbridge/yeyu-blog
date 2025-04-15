@@ -29,7 +29,7 @@ export default async function Page({
     // * 后序应该考虑共用组件, note 和 blog 只有很小的区别.
     <ArticleDisplayPage
       title={title}
-      createdAt={createdAt?.toLocaleString()!}
+      createdAt={createdAt}
       content={processedContent.toString()}
       tags={tagNames}
     />

@@ -1,6 +1,5 @@
 'use client'
 
-import { RouteList } from '@/config/route'
 import { cn } from '@/lib/utils'
 import MaxWidthWrapper from '@/components/shared/max-width-wrapper'
 import Link from 'next/link'
@@ -8,6 +7,25 @@ import { usePathname } from 'next/navigation'
 import { Fragment } from 'react'
 import { motion } from 'motion/react'
 import { getActiveMainPath } from '@/lib/url'
+
+const RouteList = [
+  {
+    path: '/',
+    pathName: '首页',
+  },
+  {
+    path: '/blog',
+    pathName: '博客',
+  },
+  {
+    path: '/note',
+    pathName: '笔记',
+  },
+  {
+    path: '/about',
+    pathName: '关于',
+  },
+] as const
 
 export default function MainLayoutHeader() {
   const pathname = usePathname()

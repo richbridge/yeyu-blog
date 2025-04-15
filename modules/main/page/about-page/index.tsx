@@ -1,6 +1,5 @@
 import MaxWidthWrapper from '@/components/shared/max-width-wrapper'
 import { ArrowDownIcon } from 'lucide-react'
-import ContactMe from '../main-home-page/internal/contact-me'
 import Link from 'next/link'
 
 export default function AboutPage() {
@@ -17,7 +16,7 @@ export default function AboutPage() {
         我这先给您磕一个~ <small className="text-pink-400">orz</small>
       </p>
 
-      <hr className="w-1/2" />
+      <hr className="w-1/2 dark:border-accent border-indigo-500" />
 
       <p>我是一个死宅~</p>
       <p>不喜欢吵闹的地方, 不喜欢人多的地方~</p>
@@ -27,7 +26,7 @@ export default function AboutPage() {
       <p>现在的我在为自由而努力着~</p>
 
       <h2>接下来是我的走马灯~</h2>
-      <hr className="w-1/2" />
+      <hr className="w-1/2 dark:border-accent border-indigo-500" />
       <h3 className="text-indigo-400">2022年的暑假, 我高考考砸了...</h3>
       <p>
         看了<q>强风吹拂</q>, 一个暑假, 每天都在跑步~
@@ -82,7 +81,6 @@ export default function AboutPage() {
       </p>
       <p>这也算是我第一个合并的pr~</p>
 
-      <ContactMe />
     </MaxWidthWrapper>
   )
 }

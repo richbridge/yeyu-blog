@@ -1,5 +1,4 @@
 import BioSection from './internal/bio-section'
-import ContactMe from './internal/contact-me'
 import TechStack from './internal/tech-stack'
 import YeAvatar from './internal/ye-avatar'
 
@@ -9,7 +8,6 @@ export default function MainLayoutContainer() {
       <YeAvatar />
       <BioSection />
       <TechStack />
-      <ContactMe />
     </main>
   )
 }

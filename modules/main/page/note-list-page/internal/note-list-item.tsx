@@ -16,7 +16,8 @@ export default function NoteListItem({
     <Link
       href={`note/${slug}`}
       className="flex items-center justify-between gap-10 p-2 cursor-pointer 
-                hover:text-emerald-300 hover:bg-gray-800 rounded-sm duration-500 group"
+                hover:text-purple-600 hover:bg-slate-300
+                dark:hover:text-emerald-300 dark:hover:bg-gray-800 rounded-sm duration-500 group"
     >
       <h2 className="text-xl truncate">{noteTitle}</h2>
       <time className="shrink-0 text-sm font-light text-gray-400 group-hover:text-pink-500">
