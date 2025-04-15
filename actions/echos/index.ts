@@ -73,3 +73,12 @@ export const getQueryEchos = async (queryContent: string) => {
 export const getAllEchos = async () => {
   return await prisma.echo.findMany()
 }
+
+export const getRandomEcho = async () => {
+  const count = await prisma.echo.count()
+  const skip = Math.floor(Math.random() * count)
+
+  return await prisma.echo.findFirst({
+    skip,
+  })
+}

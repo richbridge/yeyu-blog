@@ -29,7 +29,12 @@ const YeAvatar = () => {
         className="rounded-full"
         placeholder="blur"
       />
-      <span className="absolute left-0 top-0 rounded-full w-full h-full ring-4 ring-blue-800 ring-offset-1 animate-ye-ping-one-dot-one" />
+      {/* 亮模式宽度为 2, 暗模式宽度为 4, 视觉效果 */}
+      <span
+        className="absolute left-0 top-0 rounded-full w-full h-full 
+                        ring-2 dark:ring-4 ring-pink-600 dark:ring-blue-800 
+                        ring-offset-1 animate-ye-ping-one-dot-one"
+      />
     </figure>
   )
 }

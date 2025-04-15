@@ -44,9 +44,9 @@ export default function AboutPage() {
       <Link
         href={'https://space.bilibili.com/19658621'}
         target="_blank"
-        className="bg-slate-300 dark:bg-slate-800 px-4 py-2 rounded-sm font-mono"
+        className="px-4 py-2 rounded-sm font-mono underline hover:text-pink-600"
       >
-        Micro_Frank
+        Frank
       </Link>
 
       <h3 className="text-indigo-400">2023年的暑假, 开始学习Java</h3>
@@ -73,14 +73,13 @@ export default function AboutPage() {
         感谢🙏🏻
         <Link
           href={'https://openbuild.xyz/'}
-          className="bg-slate-300 dark:bg-slate-800 px-4 py-2 rounded-sm font-mono ml-2"
+          className="px-4 py-2 rounded-sm font-mono underline hover:text-emerald-400"
           target="_blank"
         >
-          OpenBuild~
+          OpenBuild
         </Link>
       </p>
       <p>这也算是我第一个合并的pr~</p>
-
     </MaxWidthWrapper>
   )
 }
