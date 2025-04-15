@@ -159,7 +159,8 @@
 /* 自定义滚动条样式 */
 html,
 body {
-  overflow-y: scroll;
+  /* overflow-y: scroll; */
+  scrollbar-gutter: stable;
 }
 
 body::-webkit-scrollbar {

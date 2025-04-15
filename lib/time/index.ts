@@ -28,6 +28,10 @@ export const getToday = () => {
   return dayjs().format('YYYY 年 M 月 D 日')
 }
 
+export const toZhDay = (date: number | Date) => {
+  return dayjs(date).locale('zh-cn').format('YY年M月D日')
+}
+
 /**
  * 计算今年剩余的天数
  */

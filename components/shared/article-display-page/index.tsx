@@ -9,7 +9,7 @@ export default function ArticleDisplayPage({
 }: {
   title: string
   content: string
-  createdAt: string
+  createdAt: Date
   tags: string[]
 }) {
   return (

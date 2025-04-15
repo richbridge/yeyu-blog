@@ -1,5 +1,5 @@
-import NotePage from '@/modules/main/page/note-list-page'
+import NoteListPage from '@/modules/main/page/note-list-page'
 
 export default function Page() {
-  return <NotePage />
+  return <NoteListPage />
 }

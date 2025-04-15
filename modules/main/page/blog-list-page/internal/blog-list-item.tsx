@@ -1,8 +1,7 @@
 'use client'
 
-import { AnimatePresence, motion } from 'motion/react'
+import { toZhDay } from '@/lib/time'
 import Link from 'next/link'
-import { useState } from 'react'
 
 export default function BlogListItem({
   blogTitle,
@@ -10,38 +9,19 @@ export default function BlogListItem({
   slug,
 }: {
   blogTitle: string
-  createdAt: string
+  createdAt: Date
   slug: string
 }) {
-  const [hoverIndex, setHoverIndex] = useState(false)
   return (
-    <Link href={`blog/${slug}`}>
-      <motion.section
-        className={
-          'relative flex items-center justify-between gap-10 p-2 cursor-pointer duration-300 hover:text-emerald-300 group'
-        }
-        onHoverStart={() => setHoverIndex(true)}
-        onHoverEnd={() => setHoverIndex(false)}
-      >
-        <h2 className="text-xl truncate">{blogTitle}</h2>
-        <span className="shrink-0 font-mono text-sm font-light text-gray-400 group-hover:text-emerald-300 duration-300">
-          {createdAt}
-        </span>
-        <AnimatePresence>
-          {hoverIndex && (
-            <motion.span
-              className="absolute left-0 bg-purple-400/30 w-full h-full z-50 rounded-sm"
-              layoutId="white-mask"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{
-                type: 'spring',
-              }}
-            />
-          )}
-        </AnimatePresence>
-      </motion.section>
+    <Link
+      href={`blog/${slug}`}
+      className="flex items-center justify-between gap-10 p-2 cursor-pointer 
+                hover:text-emerald-300 hover:bg-gray-800 rounded-sm duration-500 group"
+    >
+      <h2 className="text-xl truncate">{blogTitle}</h2>
+      <time className="shrink-0 text-sm font-light text-gray-400 group-hover:text-pink-500">
+        {toZhDay(createdAt)}
+      </time>
     </Link>
   )
 }

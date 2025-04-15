@@ -23,7 +23,7 @@ export default async function NoteListPage() {
         <NoteListItem
           key={i}
           noteTitle={v.title}
-          createdAt={v.createdAt.toLocaleString()}
+          createdAt={v.createdAt}
           slug={v.slug}
         />
       ))}

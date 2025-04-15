@@ -26,7 +26,7 @@ export default async function BlogListPage() {
         <BlogListItem
           key={i}
           blogTitle={v.title}
-          createdAt={v.createdAt.toLocaleString()}
+          createdAt={v.createdAt}
           slug={v.slug}
         />
       ))}
