@@ -5,7 +5,15 @@ import { prettyDateTime } from '@/lib/time'
 import TagItemBadge from '@/components/shared/tag-item-badge'
 import { ColumnDef } from '@tanstack/react-table'
 import { Button, buttonVariants } from '@/components/ui/button'
-import { Edit2, Eye, Trash } from 'lucide-react'
+import {
+  Edit2,
+  Eye,
+  Trash,
+  CalendarDays,
+  TagIcon,
+  TypeIcon,
+  Wrench,
+} from 'lucide-react'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
 import { deleteNoteById, toggleNotePublishedById } from '@/actions/notes'
@@ -17,11 +25,25 @@ import { toast } from 'sonner'
 export const columns: ColumnDef<WithTagsNote>[] = [
   {
     accessorKey: 'title',
-    header: '标题',
+    header: () => {
+      return (
+        <span className="flex gap-1 items-center dark:text-gray-200 text-gray-500">
+          <TypeIcon className="size-4" />
+          标题
+        </span>
+      )
+    },
   },
   {
     accessorKey: 'tags',
-    header: '标签',
+    header: () => {
+      return (
+        <span className="flex gap-1 items-center dark:text-gray-200 text-gray-500">
+          <TagIcon className="size-4" />
+          标签
+        </span>
+      )
+    },
     cell: ({ row }) => {
       const tags = row.original.tags
       return (
@@ -38,7 +60,14 @@ export const columns: ColumnDef<WithTagsNote>[] = [
   },
   {
     accessorKey: 'isPublished',
-    header: '是否发布',
+    header: () => {
+      return (
+        <span className="flex gap-1 items-center dark:text-gray-200 text-gray-500">
+          <Eye className="size-4" />
+          是否发布
+        </span>
+      )
+    },
     cell: ({ row }) => {
       const note = row.original
 
@@ -52,15 +81,20 @@ export const columns: ColumnDef<WithTagsNote>[] = [
     },
   },
   {
-    // * 需要格式化一下时间, 并且需要排序
     accessorKey: 'createdAt',
     header: ({ column }) => {
       return (
-        <span
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        <Button
+          variant={'ghost'}
+          size={'sm'}
+          className="cursor-pointer"
+          onClick={() => {
+            column.toggleSorting(column.getIsSorted() === 'asc')
+          }}
         >
+          <CalendarDays className="size-4" />
           创建时间
-        </span>
+        </Button>
       )
     },
     cell: ({ row }) => {
@@ -70,7 +104,14 @@ export const columns: ColumnDef<WithTagsNote>[] = [
   },
   {
     accessorKey: 'actions',
-    header: '操作',
+    header: () => {
+      return (
+        <span className="flex gap-1 items-center dark:text-gray-200 text-gray-500">
+          <Wrench className="size-4" />
+          操作
+        </span>
+      )
+    },
     cell: ({ row, table }) => {
       const { id, slug, title } = row.original
       const notes = table.options.data

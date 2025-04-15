@@ -86,7 +86,6 @@ export const columns: ColumnDef<WithTagsBlog>[] = [
     },
   },
   {
-    // * 需要格式化一下时间, 并且需要排序
     accessorKey: 'createdAt',
     header: ({ column }) => {
       return (
