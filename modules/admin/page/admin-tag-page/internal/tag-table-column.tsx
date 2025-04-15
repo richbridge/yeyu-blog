@@ -4,7 +4,14 @@ import { ColumnDef } from '@tanstack/react-table'
 import { TagType, type BlogTag, type NoteTag } from '@prisma/client'
 import TagItemBadge from '@/components/shared/tag-item-badge'
 import { Badge } from '@/components/ui/badge'
-import { Edit2, Trash } from 'lucide-react'
+import {
+  Edit2,
+  Trash,
+  TypeIcon,
+  Wrench,
+  TagsIcon,
+  FileText,
+} from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useModalStore } from '@/store/use-modal-store'
 import {
@@ -23,14 +30,28 @@ type WithCountBlogTagOrNoteTag =
 export const columns: ColumnDef<WithCountBlogTagOrNoteTag>[] = [
   {
     accessorKey: 'tagName',
-    header: '标签名',
+    header: () => {
+      return (
+        <span className="flex gap-1 items-center dark:text-gray-200 text-gray-500">
+          <TypeIcon className="size-4" />
+          标签名
+        </span>
+      )
+    },
     cell: ({ row }) => {
       return <TagItemBadge tag={row.original.tagName} />
     },
   },
   {
     accessorKey: 'tagType',
-    header: '标签类型',
+    header: () => {
+      return (
+        <span className="flex gap-1 items-center dark:text-gray-200 text-gray-500">
+          <TagsIcon className="size-4" />
+          标签类型
+        </span>
+      )
+    },
     cell: ({ row }) => {
       const tagType = row.original.tagType
       // * 后序整一个颜色
@@ -41,25 +62,32 @@ export const columns: ColumnDef<WithCountBlogTagOrNoteTag>[] = [
     accessorKey: 'count',
     header: ({ column }) => {
       return (
-        <div
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        <Button
+          variant={'ghost'}
+          size={'sm'}
           className="cursor-pointer"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
+          <FileText className="size-4" />
           关联文章数量
-        </div>
+        </Button>
       )
     },
     cell: ({ row }) => {
       const relatedArticleCount = row.original.count
       return <div>{relatedArticleCount}</div>
     },
-    meta: {
-      className: 'text-center',
-    },
   },
   {
     accessorKey: 'actions',
-    header: '操作',
+    header: () => {
+      return (
+        <span className="flex gap-1 items-center dark:text-gray-200 text-gray-500">
+          <Wrench className="size-4" />
+          操作
+        </span>
+      )
+    },
     cell: ({ row }) => {
       const { id, tagName, tagType } = row.original
       const { setTags } = useTagStore()
