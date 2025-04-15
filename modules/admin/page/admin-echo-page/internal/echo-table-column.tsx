@@ -11,6 +11,7 @@ import { deleteEchoById, toggleEchoPublishedById } from '@/actions/echos'
 import { useModalStore } from '@/store/use-modal-store'
 import { toast } from 'sonner'
 import { useTransition } from 'react'
+import { spawn } from 'child_process'
 
 // * 标题, 来源, 是否发布, 创建时间, 操作
 export const columns: ColumnDef<Echo>[] = [
@@ -36,7 +37,18 @@ export const columns: ColumnDef<Echo>[] = [
   {
     // * 需要格式化一下时间, 并且需要排序
     accessorKey: 'createdAt',
-    header: '创建时间',
+    header: ({ column }) => {
+      return (
+        <span
+          onClick={() => {
+            console.log(1)
+            column.toggleSorting(column.getIsSorted() === 'asc')
+          }}
+        >
+          创建时间
+        </span>
+      )
+    },
     cell: ({ row }) => {
       const prettyTime = prettyDateTime(row.original.createdAt)
       return <time>{prettyTime}</time>
