@@ -64,6 +64,6 @@ model Echo {
   id          Int      @id @default(autoincrement())
   reference   String   @db.VarChar(50)
   isPublished Boolean  @default(true)
-  content     String
+  content     String   @db.VarChar(300)
   createdAt   DateTime @default(now())
 }
