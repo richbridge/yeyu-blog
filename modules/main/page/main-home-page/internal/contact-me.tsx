@@ -3,8 +3,8 @@ import Link from 'next/link'
 
 export default function ContactMe() {
   return (
-    <main className="mb-6 text-lg text-white flex items-center justify-center flex-col gap-4 w-full">
-      <hr className="w-1/2" />
+    <main className="mb-6 text-lg flex items-center justify-center flex-col gap-4 w-full">
+      <hr className="w-1/2 dark:border-accent border-indigo-500" />
       <h3>
         联系方式 -{' '}
         <small>
@@ -15,7 +15,7 @@ export default function ContactMe() {
       <p className="flex gap-4 underline">
         {ExternalLinks.map(link => (
           <Link
-            className="hover:text-emerald-300"
+            className="hover:text-purple-600 dark:hover:text-emerald-300"
             href={link.url}
             key={link.url}
             target="_blank"

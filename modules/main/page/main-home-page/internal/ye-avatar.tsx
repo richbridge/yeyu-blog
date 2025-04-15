@@ -1,10 +1,27 @@
+'use client'
+
 import Image from 'next/image'
 import avatar from '@/config/img/avatar.png'
+import { useTheme } from 'next-themes'
+import { useEffect, useState } from 'react'
 
 const YeAvatar = () => {
+  const { setTheme, theme } = useTheme()
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if (!mounted) return null
+
   return (
     // 摸摸头~
-    <figure className="relative cursor-grab">
+    // * 拍拍头切换亮暗模式~
+    <figure
+      className="relative cursor-grab"
+      onDoubleClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+    >
       <Image
         src={avatar}
         alt="avatar"

@@ -14,7 +14,10 @@ export default function MainLayoutHeader() {
   const activeUrl = getActiveMainPath(pathname)
 
   return (
-    <header className="h-14 flex items-center justify-center sticky top-0 border-b backdrop-blur-lg z-20 mb-6">
+    <header
+      className="h-14 flex items-center justify-center sticky top-0 backdrop-blur-lg z-20 mb-6
+                  border-b dark:border-b-accent border-b-indigo-200"
+    >
       <MaxWidthWrapper className="flex items-center justify-center">
         <nav className="flex gap-16">
           {RouteList.map(route => (
@@ -23,14 +26,15 @@ export default function MainLayoutHeader() {
                 href={route.path}
                 className={cn(
                   'relative text-lg px-4',
-                  route.path === activeUrl && 'text-emerald-300 font-bold',
+                  route.path === activeUrl &&
+                    'text-purple-600 dark:text-emerald-300 font-bold',
                 )}
               >
                 <h2>{route.pathName}</h2>
                 {route.path === activeUrl && (
                   <motion.span
                     className={cn(
-                      'absolute h-[2px] w-full left-0 bottom-0 bg-emerald-400 rounded-full',
+                      'absolute h-[2px] w-full left-0 bottom-0 bg-purple-600 dark:bg-emerald-300 rounded-full',
                       // pathname === '/' && 'bg-indigo-400',
                       // pathname === '/blog' && 'bg-pink-400',
                       // pathname === '/note' && 'bg-blue-500',

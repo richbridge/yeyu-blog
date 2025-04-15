@@ -11,7 +11,7 @@ export default function MainLayout({
   children: React.ReactNode
 }) {
   return (
-    <main className="min-h-screen max-w-screen dark:bg-slate-950 text-white relative">
+    <main className="min-h-screen max-w-screen dark:bg-slate-950 bg-slate-200 dark:text-white relative">
       <MainLayoutHeader />
       <MaxWidthWrapper className="rounded-md">{children}</MaxWidthWrapper>
 

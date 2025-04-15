@@ -5,7 +5,7 @@ import YeAvatar from './internal/ye-avatar'
 
 export default function MainLayoutContainer() {
   return (
-    <main className="text-white flex items-center justify-center flex-col gap-6 py-4">
+    <main className="flex items-center justify-center flex-col gap-6 py-4">
       <YeAvatar />
       <BioSection />
       <TechStack />

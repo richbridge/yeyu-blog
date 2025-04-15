@@ -5,7 +5,7 @@ import Link from 'next/link'
 
 export default function AboutPage() {
   return (
-    <MaxWidthWrapper className="text-lg text-center text-white flex items-center justify-center flex-col gap-4">
+    <MaxWidthWrapper className="text-lg text-center flex items-center justify-center flex-col gap-4">
       <h2>
         你可以叫我, <span className="font-bold text-purple-400">叶鱼</span> ~
       </h2>
@@ -45,7 +45,7 @@ export default function AboutPage() {
       <Link
         href={'https://space.bilibili.com/19658621'}
         target="_blank"
-        className="hover:text-emerald-400 bg-slate-800 px-4 py-2 rounded-sm hover:bg-slate-700 duration-200 font-mono"
+        className="bg-slate-300 dark:bg-slate-800 px-4 py-2 rounded-sm font-mono"
       >
         Micro_Frank
       </Link>
@@ -74,7 +74,7 @@ export default function AboutPage() {
         感谢🙏🏻
         <Link
           href={'https://openbuild.xyz/'}
-          className="ml-1 text-emerald-300"
+          className="bg-slate-300 dark:bg-slate-800 px-4 py-2 rounded-sm font-mono ml-2"
           target="_blank"
         >
           OpenBuild~
