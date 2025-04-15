@@ -54,7 +54,15 @@ export const columns: ColumnDef<WithTagsNote>[] = [
   {
     // * 需要格式化一下时间, 并且需要排序
     accessorKey: 'createdAt',
-    header: '创建时间',
+    header: ({ column }) => {
+      return (
+        <span
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          创建时间
+        </span>
+      )
+    },
     cell: ({ row }) => {
       const prettyTime = prettyDateTime(row.original.createdAt)
       return <span>{prettyTime}</span>

@@ -40,10 +40,7 @@ export const columns: ColumnDef<Echo>[] = [
     header: ({ column }) => {
       return (
         <span
-          onClick={() => {
-            console.log(1)
-            column.toggleSorting(column.getIsSorted() === 'asc')
-          }}
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           创建时间
         </span>
