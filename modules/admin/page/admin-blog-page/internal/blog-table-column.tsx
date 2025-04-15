@@ -10,7 +10,15 @@ import { prettyDateTime } from '@/lib/time'
 import TagItemBadge from '@/components/shared/tag-item-badge'
 import { ColumnDef } from '@tanstack/react-table'
 import { Button, buttonVariants } from '@/components/ui/button'
-import { Edit2, Eye, Trash } from 'lucide-react'
+import {
+  CalendarDays,
+  Edit2,
+  Eye,
+  TagIcon,
+  Trash,
+  TypeIcon,
+  Wrench,
+} from 'lucide-react'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
 import { useModalStore } from '@/store/use-modal-store'
@@ -21,11 +29,25 @@ import { useTransition } from 'react'
 export const columns: ColumnDef<WithTagsBlog>[] = [
   {
     accessorKey: 'title',
-    header: '标题',
+    header: () => {
+      return (
+        <span className="flex gap-1 items-center dark:text-gray-200 text-gray-500">
+          <TypeIcon className="size-4" />
+          标题
+        </span>
+      )
+    },
   },
   {
     accessorKey: 'tags',
-    header: '标签',
+    header: () => {
+      return (
+        <span className="flex gap-1 items-center dark:text-gray-200 text-gray-500">
+          <TagIcon className="size-4" />
+          标签
+        </span>
+      )
+    },
     cell: ({ row }) => {
       const tags = row.original.tags
 
@@ -43,7 +65,14 @@ export const columns: ColumnDef<WithTagsBlog>[] = [
   },
   {
     accessorKey: 'isPublished',
-    header: '是否发布',
+    header: () => {
+      return (
+        <span className="flex gap-1 items-center dark:text-gray-200 text-gray-500">
+          <Eye className="size-4" />
+          是否发布
+        </span>
+      )
+    },
     cell: ({ row }) => {
       const blog = row.original
 
@@ -61,13 +90,17 @@ export const columns: ColumnDef<WithTagsBlog>[] = [
     accessorKey: 'createdAt',
     header: ({ column }) => {
       return (
-        <div
+        <Button
+          variant={'ghost'}
+          size={'sm'}
+          className="cursor-pointer"
           onClick={() => {
             column.toggleSorting(column.getIsSorted() === 'asc')
           }}
         >
+          <CalendarDays className="size-4" />
           创建时间
-        </div>
+        </Button>
       )
     },
     cell: ({ row }) => {
@@ -77,7 +110,14 @@ export const columns: ColumnDef<WithTagsBlog>[] = [
   },
   {
     accessorKey: 'actions',
-    header: '操作',
+    header: () => {
+      return (
+        <span className="flex gap-1 items-center dark:text-gray-200 text-gray-500">
+          <Wrench className="size-4" />
+          操作
+        </span>
+      )
+    },
     cell: ({ row, table }) => {
       const { id, slug, title } = row.original
       const blogs = table.options.data
