@@ -5,7 +5,17 @@ import { prettyDateTime } from '@/lib/time'
 import { Echo } from '@prisma/client'
 import { ColumnDef } from '@tanstack/react-table'
 import { Button } from '@/components/ui/button'
-import { Edit2, Trash } from 'lucide-react'
+import {
+  CalendarDays,
+  Edit2,
+  Eye,
+  Quote,
+  QuoteIcon,
+  TagIcon,
+  Trash,
+  TypeIcon,
+  Wrench,
+} from 'lucide-react'
 import { useEchoStore } from '@/store/use-echo-store'
 import { deleteEchoById, toggleEchoPublishedById } from '@/actions/echos'
 import { useModalStore } from '@/store/use-modal-store'
@@ -17,11 +27,25 @@ import { spawn } from 'child_process'
 export const columns: ColumnDef<Echo>[] = [
   {
     accessorKey: 'content',
-    header: '内容',
+    header: () => {
+      return (
+        <span className="flex gap-1 items-center dark:text-gray-200 text-gray-500">
+          <TypeIcon className="size-4" />
+          标题
+        </span>
+      )
+    },
   },
   {
     accessorKey: 'reference',
-    header: '来源',
+    header: () => {
+      return (
+        <span className="flex gap-1 items-center dark:text-gray-200 text-gray-500">
+          <Quote className="size-4" />
+          来源
+        </span>
+      )
+    },
     cell: ({ row }) => {
       const reference = row.original.reference.toString()
       return <span>{reference}</span>
@@ -29,21 +53,33 @@ export const columns: ColumnDef<Echo>[] = [
   },
   {
     accessorKey: 'isPublished',
-    header: '是否发布',
+    header: () => {
+      return (
+        <span className="flex gap-1 items-center dark:text-gray-200 text-gray-500">
+          <Eye className="size-4" />
+          是否发布
+        </span>
+      )
+    },
     cell: ({ row }) => {
       return <PublishToggleSwitch echoId={row.original.id} />
     },
   },
   {
-    // * 需要格式化一下时间, 并且需要排序
     accessorKey: 'createdAt',
     header: ({ column }) => {
       return (
-        <span
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        <Button
+          variant={'ghost'}
+          size={'sm'}
+          className="cursor-pointer"
+          onClick={() => {
+            column.toggleSorting(column.getIsSorted() === 'asc')
+          }}
         >
+          <CalendarDays className="size-4" />
           创建时间
-        </span>
+        </Button>
       )
     },
     cell: ({ row }) => {
@@ -53,7 +89,14 @@ export const columns: ColumnDef<Echo>[] = [
   },
   {
     accessorKey: 'actions',
-    header: '操作',
+    header: () => {
+      return (
+        <span className="flex gap-1 items-center dark:text-gray-200 text-gray-500">
+          <Wrench className="size-4" />
+          操作
+        </span>
+      )
+    },
     cell: ({ row, table }) => {
       const { id, content, isPublished, reference } = row.original
 
