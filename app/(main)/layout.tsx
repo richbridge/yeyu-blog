@@ -14,7 +14,7 @@ export default function MainLayout({
   return (
     <main className="min-h-screen max-w-screen overflow-x-hidden dark:bg-black bg-slate-200 dark:text-white relative md:text-lg">
       <MainLayoutHeader />
-      <MaxWidthWrapper className="rounded-md">
+      <MaxWidthWrapper>
         {children}
         <ContactMe />
       </MaxWidthWrapper>

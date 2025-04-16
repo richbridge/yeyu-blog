@@ -30,7 +30,7 @@ export const processor = unified()
 // * 基础配置 => 标题颜色 => 标题大小 => 代码样式 => 字体加粗效果 => 字体斜体 => 超链接 => 图片样式
 // ! 没有高亮效果, 没有 HTML 支持, 没有下划线
 const className = `
-  prose prose-base sm:prose-lg max-w-none dark:prose-invert 
+  prose prose-base sm:prose-lg max-w-none dark:prose-invert
 
   prose-h1:text-3xl sm:prose-h1:text-5xl 
   prose-h2:text-2xl sm:prose-h2:text-4xl 
@@ -39,19 +39,32 @@ const className = `
   prose-h5:text-base sm:prose-h5:text-xl 
   prose-h6:text-base sm:prose-h6:text-xl
 
-prose-h1:text-[#e53935] 
-prose-h2:text-[#fb8c00] 
-prose-h3:text-[#43a047] 
-prose-h4:text-[#3495e9] 
-prose-h5:text-[#8d5cee] 
-prose-h6:text-[#c18470]
+prose-h1:text-[#e53935] dark:prose-h1:text-[#ef5350]
+prose-h2:text-[#fb8c00] dark:prose-h2:text-[#ffb74d]
+prose-h3:text-[#43a047] dark:prose-h3:text-[#66bb6a]
+prose-h4:text-[#3495e9] dark:prose-h4:text-[#64b5f6]
+prose-h5:text-[#8d5cee] dark:prose-h5:text-[#b39ddb]
+prose-h6:text-[#fe5a24] dark:prose-h6:text-[#d7ccc8]
+
+  prose-h1:text-center
+  prose-h2:text-center
+  prose-h3:text-center
+  prose-h4:text-center
+  prose-h5:text-center
+  prose-h6:text-center
 
   prose-code:font-normal prose-code:font-mono prose-code:rounded-sm
-  prose-strong:font-bold prose-strong:text-pink-500
-  prose-a:hover:text-pink-400 prose-a:transition-all
+  prose-strong:font-bold prose-strong:text-pink-500 dark:prose-strong:text-pink-400
+
+  prose-a:text-blue-600 prose-a:hover:text-blue-700 
+  dark:prose-a:text-blue-400 dark:prose-a:hover:text-blue-300 
+  prose-a:transition-all
+
   prose-img:border prose-img:border-dashed prose-img:rounded-sm 
   prose-img:p-1 prose-img:hover:scale-105 prose-img:duration-300 
   prose-img:m-auto
+
+  prose-ul:marker:text-gray-500 dark:prose-ul:marker:text-gray-400
 `
 
 export const customMarkdownTheme = className
