@@ -1,13 +1,13 @@
 import { getRandomEcho } from '@/actions/echos'
 
-const randomEcho = await getRandomEcho()
-
 export default async function EchoCard() {
+  const randomEcho = await getRandomEcho()
+
   return (
     <section
       className="flex flex-col w-1/2 p-2 rounded-sm
                   hover:scale-105 duration-300
-                  bg-slate-300 dark:bg-gray-950 
+                bg-slate-300 dark:bg-gray-950 
     "
     >
       <p className="underline">{randomEcho?.content}</p>
