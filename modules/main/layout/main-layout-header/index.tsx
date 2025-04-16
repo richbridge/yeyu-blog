@@ -33,7 +33,7 @@ export default function MainLayoutHeader() {
 
   return (
     <header
-      className="h-14 flex items-center justify-center sticky top-0 backdrop-blur-lg z-20 mb-6
+      className="h-14 flex items-center justify-center sticky top-0 backdrop-blur-lg z-20
                   border-b dark:border-b-accent border-b-indigo-200"
     >
       <MaxWidthWrapper className="flex items-center justify-center">
