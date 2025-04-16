@@ -5,8 +5,6 @@ const TypeScriptSvg = () => {
       version="1.1"
       xmlns="http://www.w3.org/2000/svg"
       p-id="10901"
-      width="128"
-      height="128"
     >
       <path
         d="M181.36 376h797.36v589.36H181.36z"

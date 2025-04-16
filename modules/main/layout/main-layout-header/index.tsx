@@ -37,13 +37,13 @@ export default function MainLayoutHeader() {
                   border-b dark:border-b-accent border-b-indigo-200"
     >
       <MaxWidthWrapper className="flex items-center justify-center">
-        <nav className="flex gap-16">
+        <nav className="flex md:gap-16 gap-8">
           {RouteList.map(route => (
             <Fragment key={route.path}>
               <Link
                 href={route.path}
                 className={cn(
-                  'relative text-lg px-4',
+                  'relative md:text-xl px-4',
                   route.path === activeUrl &&
                     'text-purple-600 dark:text-emerald-300 font-bold',
                 )}

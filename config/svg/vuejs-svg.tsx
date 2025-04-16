@@ -5,8 +5,6 @@ const VuejsSvg = () => {
       version="1.1"
       xmlns="http://www.w3.org/2000/svg"
       p-id="14334"
-      width="128"
-      height="128"
     >
       <path
         d="M76.416 164.31L512 916.095l435.584-748.16v-3.627H778.24L514.56 617.26 251.99 164.352z"
