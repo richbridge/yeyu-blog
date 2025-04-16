@@ -12,7 +12,7 @@ export default function ArticleDisplayHeader({
 }) {
   return (
     <header className="text-center">
-      <h1 className="text-4xl font-bold">{title}</h1>
+      <h1 className="text-2xl md:text-4xl font-bold">{title}</h1>
       <section className="flex flex-col gap-2 justify-center w-full">
         <p className="flex gap-2 justify-center w-full">
           {tags.map((tag, i) => (
@@ -22,7 +22,9 @@ export default function ArticleDisplayHeader({
             />
           ))}
         </p>
-        <time>{toZhDay(createdAt)}</time>
+        <time className="underline text-xs md:text-sm">
+          {toZhDay(createdAt)}
+        </time>
       </section>
     </header>
   )
