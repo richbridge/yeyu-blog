@@ -13,7 +13,7 @@ export default function ArticleDisplayPage({
   tags: string[]
 }) {
   return (
-    <article className="flex flex-col m-auto md:rounded-sm p-4 dark:bg-slate-900 bg-slate-300 mt-4">
+    <article className="flex flex-col m-auto md:rounded-sm p-4 dark:bg-gray-950 bg-slate-300 mt-4">
       <ArticleDisplayHeader title={title} createdAt={createdAt} tags={tags} />
       {/* 渲染的主要内容 */}
       <main
