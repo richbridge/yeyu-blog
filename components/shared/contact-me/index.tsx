@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 export default function ContactMe() {
   return (
-    <main className="flex items-center justify-center flex-col gap-2 md:gap-4 w-full mt-6">
+    <main className="flex items-center justify-center flex-col gap-2 md:gap-4 w-full mt-2">
       <hr className="w-11/12 md:w-1/2 dark:border-accent border-indigo-500" />
       <h3>
         联系方式 -{' '}

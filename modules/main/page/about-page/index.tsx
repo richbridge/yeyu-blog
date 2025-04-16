@@ -4,7 +4,8 @@ import Link from 'next/link'
 
 export default function AboutPage() {
   return (
-    <MaxWidthWrapper className="text-lg text-center flex items-center justify-center flex-col gap-4">
+    <MaxWidthWrapper className="md:text-lg text-center flex items-center justify-center flex-col gap-4 mt-4">
+      <p>嘿, 你好呀~👋🏻</p>
       <h2>
         你可以叫我, <span className="font-bold text-purple-400">叶鱼</span> ~
       </h2>
@@ -39,7 +40,7 @@ export default function AboutPage() {
       </p>
       <p>
         感谢那个教会我使用电脑和带我走向编程道路的僵尸~
-        <ArrowDownIcon className="m-auto text-purple-500 size-10 animate-bounce mt-2" />
+        <ArrowDownIcon className="m-auto text-purple-500 md:size-10 animate-bounce mt-2" />
       </p>
       <Link
         href={'https://space.bilibili.com/19658621'}
