@@ -5,19 +5,18 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useEchoStore } from '@/store/use-echo-store'
 import { useModalStore } from '@/store/use-modal-store'
-import { Echo } from '@prisma/client'
 import { Plus, RotateCw, Search } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 
-export function EchoSearch({ echos }: { echos: Echo[] }) {
+export function EchoSearch() {
   const [query, setQuery] = useState('')
   const { setEchos } = useEchoStore()
   const { setModalOpen } = useModalStore()
 
   useEffect(() => {
-    setEchos(echos)
-  }, [echos])
+    getAllEchos().then(echos => setEchos(echos))
+  }, [])
 
   const fetchEchos = async () => {
     if (!query.trim()) return
@@ -25,8 +24,8 @@ export function EchoSearch({ echos }: { echos: Echo[] }) {
       const echos = await getQueryEchos(query)
       setEchos(echos)
     } catch (error) {
-      toast.error(`获取短语数据错误 ${error}`)
-      console.error(`获取短语数据错误`, error)
+      toast.error(`获取 echo 数据错误 ${error}`)
+      console.error(`获取 echo 数据错误`, error)
     }
   }
 
@@ -36,15 +35,15 @@ export function EchoSearch({ echos }: { echos: Echo[] }) {
       setQuery('')
       setEchos(allEchos)
     } catch (error) {
-      toast.error(`重置短语数据错误 ${error}`)
-      console.error(`重置短语数据错误`, error)
+      toast.error(`重置 echo 数据错误 ${error}`)
+      console.error(`重置 echo 数据错误`, error)
     }
   }
 
   return (
     <section className="flex w-full gap-4">
       <Input
-        placeholder="请输入短语喵~"
+        placeholder="请输入引用喵~"
         className="w-1/4"
         value={query}
         onChange={e => {
