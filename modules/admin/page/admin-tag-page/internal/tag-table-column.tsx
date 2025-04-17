@@ -54,7 +54,6 @@ export const columns: ColumnDef<WithCountBlogTagOrNoteTag>[] = [
     },
     cell: ({ row }) => {
       const tagType = row.original.tagType
-      // * 后序整一个颜色
       return <Badge className="font-mono">{tagType}</Badge>
     },
   },
@@ -75,7 +74,9 @@ export const columns: ColumnDef<WithCountBlogTagOrNoteTag>[] = [
     },
     cell: ({ row }) => {
       const relatedArticleCount = row.original.count
-      return <div>{relatedArticleCount}</div>
+      return (
+        <span className="font-mono ml-8 text-base">{relatedArticleCount}</span>
+      )
     },
   },
   {
