@@ -156,8 +156,8 @@ function PublishToggleSwitch({
         await toggleNotePublishedById(noteId, newStatus)
       } catch (error) {
         setNotes(preBlogs)
-        toast.error('发布状态更新失败')
-        console.error(error)
+        toast.error(`发布状态更新失败 ${error}`)
+        console.error('发布状态更新失败', error)
       }
     })
   }

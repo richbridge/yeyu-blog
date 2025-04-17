@@ -67,8 +67,8 @@ export default function CreateEchoModal() {
       setEchos(echos)
       onModalClose()
     } catch (error) {
-      toast.error('创建echo失败~')
-      console.error('创建echo失败~', error)
+      toast.error(`创建echo失败~ ${error}`)
+      console.error('创建标签失败~', error)
     }
   }
 

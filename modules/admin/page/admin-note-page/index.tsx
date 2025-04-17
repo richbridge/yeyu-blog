@@ -3,6 +3,7 @@ import { getTagsOnNote } from '@/actions/notes'
 import NoteListTable from './internal/note-list-table'
 import { NoteTag } from '@prisma/client'
 import { NoteTagItemToggle } from '@/components/shared/tag-item-toggle'
+import { toast } from 'sonner'
 
 export default function AdminNotePage() {
   return (
@@ -20,6 +21,7 @@ async function NoteTagsContainer() {
   try {
     tags = (await getTagsOnNote()).map(v => v.tagName)
   } catch (error) {
+    toast.error(`获取 tags 数据错误 ${error}`)
     console.error(`获取 tags 数据错误`, error)
   }
 

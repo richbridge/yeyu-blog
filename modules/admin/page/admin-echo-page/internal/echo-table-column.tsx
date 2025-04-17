@@ -133,7 +133,7 @@ function PublishToggleSwitch({ echoId }: { echoId: number }) {
         await toggleEchoPublishedById(echoId, newStatus)
       } catch (error) {
         setEchos(preEchos)
-        toast.error('发布状态更新失败')
+        toast.error(`发布状态更新失败 ${error}`)
         console.error('发布状态更新失败', error)
       }
     })
@@ -169,7 +169,7 @@ function ActionButtons({
       const newTables = echos.filter(echo => echo.id !== id)
       setEchos(newTables)
     } catch (error) {
-      toast.error(`删除 echo 出错~`)
+      toast.error(`删除 echo 出错~ ${error}`)
       console.error(`删除 echo 出错~`, error)
     }
   }

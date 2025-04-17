@@ -161,7 +161,7 @@ function PublishToggleSwitch({
         await toggleBlogPublishedById(blogId, newStatus)
       } catch (error) {
         setBlogs(preBlogs)
-        toast.error('发布状态更新失败')
+        toast.error(`发布状态更新失败 ${error}`)
         console.error(error)
       }
     })

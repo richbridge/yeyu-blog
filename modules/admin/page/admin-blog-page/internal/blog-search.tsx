@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
 import { useBlogStore } from '@/store/use-blog-store'
+import { toast } from 'sonner'
 
 export function BlogSearch({ blogs }: { blogs: WithTagsBlog[] }) {
   const [query, setQuery] = useState('')
@@ -24,6 +25,7 @@ export function BlogSearch({ blogs }: { blogs: WithTagsBlog[] }) {
       const blogs = await getQueryBlogs(query)
       setBlogs(blogs)
     } catch (error) {
+      toast.error(`获取博客数据错误 ${error}`)
       console.error(`获取博客数据错误`, error)
     }
   }
@@ -34,6 +36,7 @@ export function BlogSearch({ blogs }: { blogs: WithTagsBlog[] }) {
       setQuery('')
       setBlogs(allBlogs)
     } catch (error) {
+      toast.error(`重置博客数据错误 ${error}`)
       console.error(`重置博客数据错误`, error)
     }
   }

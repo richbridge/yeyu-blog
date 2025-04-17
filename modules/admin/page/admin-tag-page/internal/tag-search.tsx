@@ -7,6 +7,7 @@ import { useModalStore } from '@/store/use-modal-store'
 import { Tag, useTagStore } from '@/store/use-tag-store'
 import { RotateCw, Search } from 'lucide-react'
 import { useEffect, useState } from 'react'
+import { toast } from 'sonner'
 
 export default function TagSearch({ tags }: { tags: Tag[] }) {
   const { setModalOpen } = useModalStore()
@@ -24,6 +25,7 @@ export default function TagSearch({ tags }: { tags: Tag[] }) {
       console.log(tags, 'tags')
       setTags(tags)
     } catch (error) {
+      toast.error(`获取博客数据错误 ${error}`)
       console.error(`获取博客数据错误`, error)
     }
   }

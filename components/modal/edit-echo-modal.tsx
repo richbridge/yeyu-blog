@@ -26,6 +26,7 @@ import { Textarea } from '../ui/textarea'
 import { Switch } from '../ui/switch'
 import { getAllEchos, updateEchoById } from '@/actions/echos'
 import { useEchoStore } from '@/store/use-echo-store'
+import { toast } from 'sonner'
 
 const formSchema = z.object({
   // ! 暂时还没确定好长度限制, 之后在考虑
@@ -80,6 +81,7 @@ export default function EditEchoModal() {
       setEchos(echos)
       onModalClose()
     } catch (error) {
+      toast.error(`更新短语失败~ ${error}`)
       console.error('更新短语失败~', error)
     }
   }

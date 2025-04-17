@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
 import { useNoteStore } from '@/store/use-note-store'
+import { toast } from 'sonner'
 
 export function NoteSearch() {
   const [query, setQuery] = useState('')
@@ -31,6 +32,7 @@ export function NoteSearch() {
         const notes = await getAllNotes()
         setNotes(notes)
       } catch (error) {
+        toast.error(`获取博客数据错误 ${error}`)
         console.error(`获取博客数据错误`, error)
       }
     }

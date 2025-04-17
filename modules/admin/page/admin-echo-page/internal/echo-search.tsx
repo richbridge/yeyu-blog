@@ -8,6 +8,7 @@ import { useModalStore } from '@/store/use-modal-store'
 import { Echo } from '@prisma/client'
 import { Plus, RotateCw, Search } from 'lucide-react'
 import { useEffect, useState } from 'react'
+import { toast } from 'sonner'
 
 export function EchoSearch({ echos }: { echos: Echo[] }) {
   const [query, setQuery] = useState('')
@@ -24,6 +25,7 @@ export function EchoSearch({ echos }: { echos: Echo[] }) {
       const echos = await getQueryEchos(query)
       setEchos(echos)
     } catch (error) {
+      toast.error(`获取短语数据错误 ${error}`)
       console.error(`获取短语数据错误`, error)
     }
   }
@@ -34,6 +36,7 @@ export function EchoSearch({ echos }: { echos: Echo[] }) {
       setQuery('')
       setEchos(allEchos)
     } catch (error) {
+      toast.error(`重置短语数据错误 ${error}`)
       console.error(`重置短语数据错误`, error)
     }
   }

@@ -3,6 +3,7 @@ import BlogListTable from './internal/blog-list-table'
 import { getAllBlogs, getTagsOnBlog } from '@/actions/blogs'
 import { BlogTag } from '@prisma/client'
 import { BlogTagItemToggle } from '@/components/shared/tag-item-toggle'
+import { toast } from 'sonner'
 
 export default async function AdminBlogPage() {
   const allBlogs = await getAllBlogs()
@@ -22,6 +23,7 @@ async function BlogTagsContainer() {
   try {
     tags = (await getTagsOnBlog()).map(v => v.tagName)
   } catch (error) {
+    toast.error(`获取 tags 数据错误 ${error}`)
     console.error(`获取 tags 数据错误`, error)
   }
 

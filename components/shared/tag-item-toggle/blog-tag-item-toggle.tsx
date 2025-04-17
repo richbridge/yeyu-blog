@@ -5,6 +5,7 @@ import { Toggle } from '@/components/ui/toggle'
 import { useBlogStore } from '@/store/use-blog-store'
 import { useSelectedTagStore } from '@/store/use-selected-tag-store'
 import { useEffect } from 'react'
+import { toast } from 'sonner'
 
 // ! 后序需要重写样式, 现在稍微有些看不出来
 export function BlogTagItemToggle({
@@ -37,6 +38,7 @@ export function BlogTagItemToggle({
           : await getBlogsBySelectedTagName(updatedTags)
       setBlogs(blogs)
     } catch (error) {
+      toast.error(`获取标签 ${updatedTags} 对应的文章失败~ ${error}`)
       console.error(`获取标签 ${updatedTags} 对应的文章失败~`, error)
     }
   }

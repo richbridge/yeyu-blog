@@ -16,7 +16,7 @@ export default async function AdminLayout({
           <main className="flex-1 flex">{children}</main>
         </div>
         <ModalProvider />
-        <Toaster position="top-center" />
+        <Toaster position="top-center" expand richColors />
       </main>
     </SessionProvider>
   )
