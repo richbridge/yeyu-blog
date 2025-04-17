@@ -4,6 +4,7 @@ import { prisma } from '@/db'
 import { notFound } from 'next/navigation'
 import { processor } from '@/lib/markdown'
 import ArticleDisplayPage from '@/components/shared/article-display-page'
+import { noPermission } from '@/lib/auth'
 
 export default async function Page({
   params,
@@ -19,6 +20,9 @@ export default async function Page({
     },
   })
   if (!articles) notFound()
+
+  const forbidden = await noPermission()
+  if (!articles.isPublished && forbidden) notFound()
 
   const { content, title, createdAt, tags } = articles
   const tagNames = tags.map(v => v.tagName)
