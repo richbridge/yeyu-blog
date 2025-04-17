@@ -22,29 +22,32 @@ import { createBlog, updateBlogById } from '@/actions/blogs'
 import { redirect, usePathname } from 'next/navigation'
 import MarkdownEditor from './internal/markdown-editor'
 import { createNote, updateNoteById } from '@/actions/notes'
+import { ARTICLE_TITLE_MAX_LENGTH } from '@/config/constant'
 
 const formSchema = z.object({
-  title: z.string().min(1, { message: '长度不能少于1个字符' }).max(250),
+  title: z
+    .string()
+    .min(1, { message: '长度不能少于1个字符' })
+    .max(ARTICLE_TITLE_MAX_LENGTH, { message: '标题超出大小限制' }),
   slug: z
     .string()
     .regex(REGEX.SLUG, {
       message: '只允许输入数字、小写字母和中横线',
     })
     .min(1, { message: '长度不能少于1个字符' }),
-  isPublished: z.boolean().optional(),
+  isPublished: z.boolean(),
   relatedTagNames: z
     .string()
     .array()
-    .min(1, { message: '最少选择 1 个标签' })
     .max(5, { message: '最多只能选择 5 个标签' }),
   content: z.string(),
 })
 
-export type updateArticleParamsWithBlogId = z.infer<typeof formSchema> & {
+export type UpdateArticleParamsWithBlogId = z.infer<typeof formSchema> & {
   id: number
 }
 
-export type updateArticleParamsWithNoteId = z.infer<typeof formSchema> & {
+export type UpdateArticleParamsWithNoteId = z.infer<typeof formSchema> & {
   id: number
 }
 

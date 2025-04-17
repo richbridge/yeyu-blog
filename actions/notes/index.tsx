@@ -3,7 +3,7 @@
 import { prisma } from '@/db'
 import type {
   createArticleParams,
-  updateArticleParamsWithNoteId,
+  UpdateArticleParamsWithNoteId,
 } from '@/components/shared/admin-article-edit-page'
 import { requireAdmin } from '@/lib/auth'
 
@@ -71,7 +71,7 @@ export const toggleNotePublishedById = async (
 }
 
 // todo: 函数组合, 优化代码
-export const updateNoteById = async (values: updateArticleParamsWithNoteId) => {
+export const updateNoteById = async (values: UpdateArticleParamsWithNoteId) => {
   await requireAdmin()
 
   const existingNote = await prisma.note.findUnique({

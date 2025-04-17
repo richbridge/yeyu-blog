@@ -3,7 +3,7 @@
 import { prisma } from '@/db'
 import type {
   createArticleParams,
-  updateArticleParamsWithBlogId,
+  UpdateArticleParamsWithBlogId,
 } from '@/components/shared/admin-article-edit-page'
 import { requireAdmin } from '@/lib/auth'
 
@@ -73,7 +73,7 @@ export const toggleBlogPublishedById = async (
 }
 
 // todo: 函数组合, 简化逻辑
-export const updateBlogById = async (values: updateArticleParamsWithBlogId) => {
+export const updateBlogById = async (values: UpdateArticleParamsWithBlogId) => {
   await requireAdmin()
 
   const existingBlog = await prisma.blog.findUnique({
