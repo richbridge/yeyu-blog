@@ -15,9 +15,12 @@
 }
 
 .bytemd .CodeMirror,
-.bytemd code,
 .bytemd kbd {
-  /* todo 后序考虑更换字体 */
+  @apply !font-ye-font;
+  @apply !text-lg;
+}
+
+.bytemd code {
   @apply !font-mono;
 }
 
@@ -128,7 +131,7 @@
 
 /* 编辑器内显示行数背景 */
 .CodeMirror-gutters {
-  @apply !border-r-muted !bg-background;
+  @apply !border-r-muted !bg-background !text-white;
 }
 
 /* 下面代码的灵感来自这个Issue: https://github.com/pd4d10/hashmd/issues/40 */
@@ -147,6 +150,8 @@
 
 .bytemd-split .bytemd-preview {
   @apply !border-l-border;
+  @apply !font-ye-font;
+  @apply !text-lg;
 }
 
 .bytemd-status {
