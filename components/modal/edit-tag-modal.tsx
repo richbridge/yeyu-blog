@@ -29,9 +29,13 @@ import {
 import { useEffect } from 'react'
 import { useTagStore } from '@/store/use-tag-store'
 import { TagType } from '@prisma/client'
+import { TAG_NAME_MAX_LENGTH } from '@/config/constant'
 
 const formSchema = z.object({
-  tagName: z.string().min(2).max(50),
+  tagName: z
+    .string()
+    .min(1, { message: '标签名不能为空' })
+    .max(TAG_NAME_MAX_LENGTH, { message: '标签名超出大小限制' }),
 })
 
 export type WithTagIdValues = z.infer<typeof formSchema> & {
@@ -52,10 +56,10 @@ export default function EditTagModal() {
     : {}
 
   useEffect(() => {
-    if (tagName) {
+    if (isModalOpen && tagName) {
       form.reset({ tagName })
     }
-  }, [tagName])
+  }, [tagName, isModalOpen])
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -82,6 +86,7 @@ export default function EditTagModal() {
       return
     }
     handleTagNameChange({ ...values, tagId })
+    onModalClose()
   }
   return (
     <Dialog open={isModalOpen} onOpenChange={onModalClose}>
@@ -108,14 +113,7 @@ export default function EditTagModal() {
                   </FormItem>
                 )}
               />
-              <Button
-                type="submit"
-                onClick={() => {
-                  onModalClose()
-                }}
-              >
-                保存修改
-              </Button>
+              <Button type="submit">保存修改</Button>
             </form>
           </Form>
         </div>

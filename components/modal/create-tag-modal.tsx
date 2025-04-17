@@ -27,7 +27,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-
 import { Input } from '@/components/ui/input'
 import {
   createBlogTag,
@@ -36,9 +35,11 @@ import {
 } from '@/actions/tags'
 import { useTagStore } from '@/store/use-tag-store'
 import { TagType } from '@prisma/client'
+import { TAG_NAME_MAX_LENGTH } from '@/config/constant'
+import { toast } from 'sonner'
 
 const formSchema = z.object({
-  tagName: z.string().min(1).max(20),
+  tagName: z.string().min(1).max(TAG_NAME_MAX_LENGTH),
   tagType: z.nativeEnum(TagType),
 })
 
@@ -60,11 +61,9 @@ export default function CreateTagModal() {
   const handleCreateTag = async (values: TagValues) => {
     try {
       if (values.tagType === TagType.BLOG) {
-        const r = await createBlogTag(values.tagName)
-        console.log(r, 'blog tag res')
+        await createBlogTag(values.tagName)
       } else if (values.tagType === TagType.NOTE) {
-        const r = await createNoteTag(values.tagName)
-        console.log(r, 'note tag res')
+        await createNoteTag(values.tagName)
       } else {
         throw new Error('tag type 不匹配')
       }
@@ -73,19 +72,20 @@ export default function CreateTagModal() {
       setTags(allTags)
     } catch (error) {
       console.error('创建标签失败~', error)
-    } finally {
-      onModalClose()
+      toast.error('创建标签失败~')
     }
   }
 
   function onSubmit(values: TagValues) {
     handleCreateTag(values)
+    onModalClose()
   }
+
   return (
     <Dialog open={isModalOpen} onOpenChange={onModalClose}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>创建标签</DialogTitle>
+          <DialogTitle>新建标签</DialogTitle>
         </DialogHeader>
         <div>
           <Form {...form}>
