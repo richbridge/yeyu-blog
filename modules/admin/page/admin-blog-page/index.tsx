@@ -1,16 +1,14 @@
 import { BlogSearch } from './internal/blog-search'
 import BlogListTable from './internal/blog-list-table'
-import { getAllBlogs, getTagsOnBlog } from '@/actions/blogs'
+import { getTagsOnBlog } from '@/actions/blogs'
 import { BlogTag } from '@prisma/client'
 import { BlogTagItemToggle } from '@/components/shared/tag-item-toggle'
 import { toast } from 'sonner'
 
 export default async function AdminBlogPage() {
-  const allBlogs = await getAllBlogs()
-
   return (
     <main className="w-full flex flex-col gap-2">
-      <BlogSearch blogs={allBlogs} />
+      <BlogSearch />
       <BlogTagsContainer />
       <BlogListTable />
     </main>

@@ -10,14 +10,14 @@ import { cn } from '@/lib/utils'
 import { useBlogStore } from '@/store/use-blog-store'
 import { toast } from 'sonner'
 
-export function BlogSearch({ blogs }: { blogs: WithTagsBlog[] }) {
+export function BlogSearch() {
   const [query, setQuery] = useState('')
   const { setBlogs } = useBlogStore()
 
   // * 初次加载
   useEffect(() => {
-    setBlogs(blogs)
-  }, [blogs])
+    getAllBlogs().then(blogs => setBlogs(blogs))
+  }, [])
 
   const fetchBlogs = async () => {
     if (!query.trim()) return
