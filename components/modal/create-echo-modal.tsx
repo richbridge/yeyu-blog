@@ -16,7 +16,6 @@ import { useForm } from 'react-hook-form'
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -27,16 +26,26 @@ import { Switch } from '../ui/switch'
 import { Textarea } from '../ui/textarea'
 import { createEcho, getAllEchos } from '@/actions/echos'
 import { useEchoStore } from '@/store/use-echo-store'
+import {
+  ECHO_CONTENT_MAX_LENGTH,
+  ECHO_REFERENCE_MAX_LENGTH,
+} from '@/config/constant'
+import { toast } from 'sonner'
 
 const formSchema = z.object({
-  echoContent: z.string().min(2).max(50),
-  echoReference: z.string().min(2).max(50),
+  echoContent: z
+    .string()
+    .min(1, { message: 'echo 内容不能为空' })
+    .max(ECHO_CONTENT_MAX_LENGTH, { message: 'echo 内容超出大小限制' }),
+  echoReference: z
+    .string()
+    .min(1, { message: 'echo 内容不能为空' })
+    .max(ECHO_REFERENCE_MAX_LENGTH, { message: 'echo 内容超出大小限制' }),
   isPublished: z.boolean(),
 })
 
 export type EchoValues = z.infer<typeof formSchema>
 
-// * 应该放一个表单
 export default function CreateEchoModal() {
   const { modalType, onModalClose } = useModalStore()
   const isModalOpen = modalType === 'createEchoModal'
@@ -53,13 +62,13 @@ export default function CreateEchoModal() {
 
   const handleCreateEcho = async (values: EchoValues) => {
     try {
-      const r = await createEcho(values)
-      console.log(r, 'ok')
+      await createEcho(values)
       const echos = await getAllEchos()
       setEchos(echos)
       onModalClose()
     } catch (error) {
-      console.error('创建短语失败~', error)
+      toast.error('创建echo失败~')
+      console.error('创建echo失败~', error)
     }
   }
 
@@ -70,9 +79,10 @@ export default function CreateEchoModal() {
     <Dialog open={isModalOpen} onOpenChange={onModalClose}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>创建短语</DialogTitle>
+          <DialogTitle>创建引用</DialogTitle>
           <DialogDescription>又看到什么有意思的话了嘛~</DialogDescription>
         </DialogHeader>
+        <div></div>
         <div>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -81,10 +91,10 @@ export default function CreateEchoModal() {
                 name="echoContent"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>短语</FormLabel>
+                    <FormLabel>引用</FormLabel>
                     <FormControl>
                       <Textarea
-                        placeholder="请输入新的短语"
+                        placeholder="请输入新的引用"
                         {...field}
                         className="resize-none h-52"
                       />
@@ -120,9 +130,6 @@ export default function CreateEchoModal() {
                         onCheckedChange={field.onChange}
                       />
                     </FormControl>
-                    <FormDescription>
-                      {field.value ? '当前为：已发布状态' : '当前为：草稿状态'}
-                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}

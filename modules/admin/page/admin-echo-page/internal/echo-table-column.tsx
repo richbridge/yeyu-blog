@@ -10,8 +10,6 @@ import {
   Edit2,
   Eye,
   Quote,
-  QuoteIcon,
-  TagIcon,
   Trash,
   TypeIcon,
   Wrench,
@@ -21,7 +19,6 @@ import { deleteEchoById, toggleEchoPublishedById } from '@/actions/echos'
 import { useModalStore } from '@/store/use-modal-store'
 import { toast } from 'sonner'
 import { useTransition } from 'react'
-import { spawn } from 'child_process'
 
 // * 标题, 来源, 是否发布, 创建时间, 操作
 export const columns: ColumnDef<Echo>[] = [
@@ -97,7 +94,7 @@ export const columns: ColumnDef<Echo>[] = [
         </span>
       )
     },
-    cell: ({ row, table }) => {
+    cell: ({ row }) => {
       const { id, content, isPublished, reference } = row.original
 
       return (
