@@ -28,7 +28,7 @@ export const columns: ColumnDef<Echo>[] = [
       return (
         <span className="flex gap-1 items-center dark:text-gray-200 text-gray-500">
           <TypeIcon className="size-4" />
-          标题
+          内容
         </span>
       )
     },
