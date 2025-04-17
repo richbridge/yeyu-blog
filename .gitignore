@@ -42,3 +42,6 @@ next-env.d.ts
 
 # 测试上传图片
 public/upload
+
+# 本地 todo 文件备忘录 
+todo/
