@@ -1,5 +1,3 @@
-// * 站点展示页的首页布局
-
 import MainLayoutHeader from '@/modules/main/layout/main-layout-header'
 import MaxWidthWrapper from '@/components/shared/max-width-wrapper'
 import StarsBackground from '@/components/shared/stars-background'
@@ -12,7 +10,11 @@ export default function MainLayout({
   children: React.ReactNode
 }) {
   return (
-    <main className="min-h-screen max-w-screen overflow-x-hidden dark:bg-black bg-slate-200 dark:text-white relative md:text-lg">
+    <main
+      className="min-h-screen max-w-screen overflow-x-hidden 
+                bg-slate-200 dark:bg-black dark:text-white
+                  md:text-lg"
+    >
       <MainLayoutHeader />
       <MaxWidthWrapper>
         {children}

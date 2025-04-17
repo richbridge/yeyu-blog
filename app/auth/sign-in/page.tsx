@@ -13,7 +13,7 @@ import { GithubIcon, RotateCcw } from 'lucide-react'
 import { signIn } from 'next-auth/react'
 import Link from 'next/link'
 
-const LoginPage = () => {
+export default function LoginPage() {
   return (
     <div className="flex flex-col m-auto">
       <Card className="relative w-[320px] rounded-3xl py-4 sm:w-full sm:min-w-[360px] sm:max-w-none">
@@ -53,5 +53,3 @@ const LoginPage = () => {
     </div>
   )
 }
-
-export default LoginPage

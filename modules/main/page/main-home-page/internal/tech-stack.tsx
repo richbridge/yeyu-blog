@@ -20,13 +20,13 @@ const TechStack = () => {
     <div>
       <ArrowDown height={100} width={40} className="animate-bounce mx-auto" />
       {/* 尺子量的~ */}
-      <section className="size-[250px] md:size-[500px] relative rounded-full animate-ye-spin-slowly">
+      <section className="relative size-[250px] md:size-[500px] rounded-full animate-ye-spin-slowly">
         {techStackSvg.map((svg, i) => (
           <div
             key={i}
-            className="absolute left-1/2 -translate-x-1/2
-                        drop-shadow-[0_0_0.75rem_#211C84] hover:drop-shadow-[0_0_0.75rem_#4D55CC] hover:cursor-pointer z-10
-                        size-1/4 md:size-32
+            className="absolute left-1/2 -translate-x-1/2 size-1/4 md:size-32 z-10
+                        drop-shadow-[0_0_0.75rem_#211C84]
+                        hover:drop-shadow-[0_0_0.75rem_#4D55CC] hover:cursor-pointer
                         origin-[center_125px] md:origin-[center_250px]
                         "
             style={{

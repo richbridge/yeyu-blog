@@ -1,9 +1,5 @@
 import { prisma } from '@/db'
 import BlogListItem from './internal/blog-list-item'
-import { notFound } from 'next/navigation'
-
-// * 在这里获取所有的链接, 然后渲染列表~
-// * 这里使用服务端组件, 让客户端组件下沉去触发事件~
 
 export default async function BlogListPage() {
   const allBlogs = await prisma.blog.findMany({
@@ -15,13 +11,15 @@ export default async function BlogListPage() {
     },
   })
   if (allBlogs.length === 0) {
-    // * 后序应该统一处理, 不应该直接 notFound ...
-    notFound()
+    return (
+      <main className="flex flex-col min-h-[80vh]">
+        <p className="m-auto">虚无。</p>
+      </main>
+    )
   }
 
   return (
-    <main className="flex flex-col p-2">
-      {/* 使用时间排序, 最新的在上面 */}
+    <main className="flex flex-col p-2 min-h-[80vh]">
       {allBlogs.map((v, i) => (
         <BlogListItem
           key={i}

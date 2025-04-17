@@ -5,7 +5,7 @@ import avatar from '@/config/img/avatar.png'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
 
-const YeAvatar = () => {
+export default function YeAvatar() {
   const { setTheme, theme } = useTheme()
   const [mounted, setMounted] = useState(false)
 
@@ -25,13 +25,12 @@ const YeAvatar = () => {
       <Image
         src={avatar}
         alt="avatar"
-        // width={200}
         className="rounded-full md:w-52 w-44"
         placeholder="blur"
       />
       {/* 亮模式宽度为 2, 暗模式宽度为 4, 视觉效果 */}
       <span
-        className="absolute left-0 top-0 rounded-full w-full h-full 
+        className="absolute left-0 top-0 size-full rounded-full
                     ring-2 dark:ring-4 
                   ring-pink-600 dark:ring-blue-800 
                     ring-offset-1 animate-ye-ping-one-dot-one"
@@ -39,5 +38,3 @@ const YeAvatar = () => {
     </figure>
   )
 }
-
-export default YeAvatar
