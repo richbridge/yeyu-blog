@@ -9,14 +9,23 @@ import { RotateCw, Search } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 
-export default function TagSearch({ tags }: { tags: Tag[] }) {
+export default function TagSearch() {
   const { setModalOpen } = useModalStore()
   const { setTags } = useTagStore()
   const [query, setQuery] = useState('')
 
   useEffect(() => {
-    setTags(tags)
-  }, [tags])
+    const fetchAllTags = async () => {
+      try {
+        const tags = await getBlogTagsAndNoteTags()
+        setTags(tags)
+      } catch (error) {
+        toast.error(`获取 tag 数据错误 ${error}`)
+        console.error(`获取 tag 数据错误`, error)
+      }
+    }
+    fetchAllTags()
+  }, [])
 
   const fetchTags = async () => {
     if (!query.trim()) return
