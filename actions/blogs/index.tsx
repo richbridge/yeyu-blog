@@ -6,6 +6,7 @@ import type {
   UpdateArticleParamsWithBlogId,
 } from '@/components/shared/admin-article-edit-page'
 import { requireAdmin } from '@/lib/auth'
+import { revalidatePath } from 'next/cache'
 
 export type WithTagsBlog = Awaited<ReturnType<typeof getAllBlogs>>[number]
 
@@ -30,7 +31,8 @@ export const createBlog = async (values: createArticleParams) => {
     select: { id: true },
   })
 
-  // 创建 Blog 并关联标签
+  revalidatePath('/blog')
+
   return await prisma.blog.create({
     data: {
       title: values.title,
@@ -49,6 +51,8 @@ export const createBlog = async (values: createArticleParams) => {
 export const deleteBlogById = async (blogId: number) => {
   await requireAdmin()
 
+  revalidatePath('/blog')
+
   return prisma.blog.delete({
     where: {
       id: blogId,
@@ -61,6 +65,8 @@ export const toggleBlogPublishedById = async (
   newIsPublishedStatus: boolean,
 ) => {
   await requireAdmin()
+
+  revalidatePath('/blog')
 
   return await prisma.blog.update({
     where: {
@@ -128,7 +134,6 @@ export const updateBlogById = async (values: UpdateArticleParamsWithBlogId) => {
     .filter(tagId => !currentTagIds.includes(tagId))
     .map(tagId => ({ id: tagId }))
 
-  // 更新 Blog 的标签关联
   await prisma.blog.update({
     where: { id: values.id },
     data: {
@@ -138,6 +143,8 @@ export const updateBlogById = async (values: UpdateArticleParamsWithBlogId) => {
       },
     },
   })
+
+  revalidatePath('/blog')
 
   return await prisma.blog.update({
     where: {
@@ -206,5 +213,16 @@ export const getBlogsBySelectedTagName = async (tagNamesArray: string[]) => {
   return blogs.filter(blog => {
     const blogTagNames = blog.tags.map(tagOnBlog => tagOnBlog.tagName)
     return tagNamesArray.every(tag => blogTagNames.includes(tag)) // 选中的标签必须都在博客的标签中
+  })
+}
+
+export const getAllShowBlogs = async () => {
+  return await prisma.blog.findMany({
+    where: {
+      isPublished: true,
+    },
+    orderBy: {
+      createdAt: 'desc',
+    },
   })
 }

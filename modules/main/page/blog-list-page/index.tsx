@@ -1,15 +1,14 @@
-import { prisma } from '@/db'
 import BlogListItem from './internal/blog-list-item'
+import { getAllShowBlogs } from '@/actions/blogs'
+
+let count = 0
 
 export default async function BlogListPage() {
-  const allBlogs = await prisma.blog.findMany({
-    where: {
-      isPublished: true,
-    },
-    orderBy: {
-      createdAt: 'desc',
-    },
-  })
+  const allBlogs = await getAllShowBlogs()
+  console.log('------------------')
+  console.log(allBlogs.length, '----------------------')
+  console.log('------------------', count++)
+
   if (allBlogs.length === 0) {
     return (
       <main className="flex flex-col min-h-[80vh]">
@@ -20,7 +19,7 @@ export default async function BlogListPage() {
 
   return (
     <main className="flex flex-col p-2 min-h-[80vh]">
-      {allBlogs.map((v, i) => (
+      {allBlogs.map((v: any, i: any) => (
         <BlogListItem
           key={i}
           blogTitle={v.title}
