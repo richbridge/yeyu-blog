@@ -6,6 +6,7 @@ import type {
   UpdateArticleParamsWithNoteId,
 } from '@/components/shared/admin-article-edit-page'
 import { requireAdmin } from '@/lib/auth'
+import { revalidatePath } from 'next/cache'
 
 export const createNote = async (values: createArticleParams) => {
   await requireAdmin()
@@ -28,7 +29,8 @@ export const createNote = async (values: createArticleParams) => {
     select: { id: true },
   })
 
-  // 创建 Note 并关联标签
+  revalidatePath('/note')
+
   return await prisma.note.create({
     data: {
       title: values.title,
@@ -47,6 +49,8 @@ export const createNote = async (values: createArticleParams) => {
 export const deleteNoteById = async (noteId: number) => {
   await requireAdmin()
 
+  revalidatePath('/note')
+
   return prisma.note.delete({
     where: {
       id: noteId,
@@ -59,6 +63,8 @@ export const toggleNotePublishedById = async (
   newIsPublishedStatus: boolean,
 ) => {
   await requireAdmin()
+
+  revalidatePath('/note')
 
   return await prisma.note.update({
     where: {
@@ -136,6 +142,8 @@ export const updateNoteById = async (values: UpdateArticleParamsWithNoteId) => {
       },
     },
   })
+
+  revalidatePath('/note')
 
   return await prisma.note.update({
     where: {
