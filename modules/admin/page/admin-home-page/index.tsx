@@ -1,14 +1,10 @@
-import {
-  getRemainingDaysOfYear,
-  getToday,
-  getYearProgress,
-  sayHi,
-} from '@/lib/time'
+import { getRemainingDaysOfYear, getToday, getYearProgress } from '@/lib/time'
+import Greeting from './internal/greeting'
 
 export default function AdminHomePage() {
   return (
     <div className="flex items-center justify-center flex-col text-lg m-auto">
-      <span className="text-pink-500">{sayHi()}🥳</span>
+      <Greeting />
       <h2 className="font-black">
         今天是 <span className="text-indigo-400">{getToday()}</span>
       </h2>
