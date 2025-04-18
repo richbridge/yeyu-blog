@@ -5,6 +5,7 @@ import { OmitCreatedAtEcho } from '@/components/modal/edit-echo-modal'
 import { prisma } from '@/db'
 import { requireAdmin } from '@/lib/auth'
 import { revalidatePath } from 'next/cache'
+import { unstable_noStore as noStore } from 'next/cache'
 
 export const createEcho = async (values: EchoValues) => {
   await requireAdmin()
@@ -86,6 +87,7 @@ export const getAllEchos = async () => {
 export const getRandomEcho = async () => {
   const count = await prisma.echo.count()
   const skip = Math.floor(Math.random() * count)
+  noStore()
 
   return await prisma.echo.findFirst({
     skip,

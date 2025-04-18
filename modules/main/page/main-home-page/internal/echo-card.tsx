@@ -1,15 +1,10 @@
-'use client'
-
-import { useEffect, useState } from 'react'
 import { getRandomEcho } from '@/actions/echos'
-import { Echo } from '@prisma/client'
 
-export default function EchoCard() {
-  const [randomEcho, setRandomEcho] = useState<Echo | null>(null)
-
-  useEffect(() => {
-    getRandomEcho().then(setRandomEcho)
-  }, [])
+// * 这里强制动态渲染也没有
+// * 解决办法就是在 server action 中使用
+// * import { unstable_noStore as noStore } from 'next/cache' 中的 noStore 函数
+export default async function EchoCard() {
+  const randomEcho = await getRandomEcho()
 
   return (
     <section
@@ -19,7 +14,7 @@ export default function EchoCard() {
       <p className="underline">
         {randomEcho?.content ?? '我在等网络加载，你在等什么？'}
       </p>
-      <footer className="ml-auto text-sm font-thin text-pink-500">
+      <footer className="ml-auto text-sm font-thin text-pink-600 dark:text-emerald-300">
         「{randomEcho?.reference ?? '叶鱼'}」
       </footer>
     </section>
