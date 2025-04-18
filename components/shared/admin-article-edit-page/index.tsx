@@ -23,6 +23,7 @@ import { redirect, usePathname } from 'next/navigation'
 import MarkdownEditor from './internal/markdown-editor'
 import { createNote, updateNoteById } from '@/actions/notes'
 import { ARTICLE_TITLE_MAX_LENGTH } from '@/config/constant'
+import { useModalStore } from '@/store/use-modal-store'
 
 const formSchema = z.object({
   title: z
@@ -71,6 +72,7 @@ export default function AdminBlogEditPage({
   relatedArticleTagNames?: string[]
   allTags: BlogTag[] | NoteTag[]
 }) {
+  const { setModalOpen } = useModalStore()
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -183,6 +185,15 @@ export default function AdminBlogEditPage({
             </FormItem>
           )}
         />
+
+        <Button
+          type="button"
+          variant="outline"
+          onClick={() => setModalOpen('createTagModal')}
+          className="cursor-pointer"
+        >
+          新建标签
+        </Button>
 
         <FormField
           control={form.control}
