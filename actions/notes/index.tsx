@@ -217,3 +217,14 @@ export const getNotesBySelectedTagName = async (tagNamesArray: string[]) => {
     return tagNamesArray.every(tag => noteTagNames.includes(tag)) // 选中的标签必须都在笔记的标签中
   })
 }
+
+export const getAllShowNotes = async () => {
+  return await prisma.note.findMany({
+    where: {
+      isPublished: true,
+    },
+    orderBy: {
+      createdAt: 'desc',
+    },
+  })
+}

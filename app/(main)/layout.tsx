@@ -11,12 +11,12 @@ export default function MainLayout({
 }) {
   return (
     <main
-      className="min-h-screen max-w-screen overflow-x-hidden 
+      className="min-h-screen max-w-screen
                 bg-slate-200 dark:bg-black dark:text-white
                   md:text-lg"
     >
       <MainLayoutHeader />
-      <MaxWidthWrapper>
+      <MaxWidthWrapper className="overflow-x-hidden">
         {children}
         <ContactMe />
       </MaxWidthWrapper>

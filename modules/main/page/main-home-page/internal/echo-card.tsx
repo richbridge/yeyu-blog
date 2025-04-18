@@ -13,8 +13,7 @@ export default function EchoCard() {
 
   return (
     <section
-      className="flex flex-col w-2/3 md:w-1/2 p-2 rounded-sm
-                  hover:scale-105 duration-300
+      className="flex flex-col w-2/3 p-2 rounded-sm
                 bg-slate-300 dark:bg-gray-950"
     >
       <p className="underline">

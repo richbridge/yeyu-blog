@@ -1,23 +1,19 @@
-import { prisma } from '@/db'
 import NoteListItem from './internal/note-list-item'
-import { notFound } from 'next/navigation'
+import { getAllShowNotes } from '@/actions/notes'
 
 export default async function NoteListPage() {
-  const allNotes = await prisma.note.findMany({
-    where: {
-      isPublished: true,
-    },
-    orderBy: {
-      createdAt: 'desc',
-    },
-  })
+  const allNotes = await getAllShowNotes()
+
   if (allNotes.length === 0) {
-    // * 后序应该统一处理, 不应该直接 notFound ...
-    notFound()
+    return (
+      <main className="flex flex-col min-h-[85vh]">
+        <p className="m-auto">虚无。</p>
+      </main>
+    )
   }
 
   return (
-    <main className="flex flex-col p-2">
+    <main className="flex flex-col p-2 min-h-[85vh]">
       {/* 使用时间排序, 最新的在上面 */}
       {allNotes.map((v, i) => (
         <NoteListItem

@@ -1,5 +1,6 @@
 'use client'
 
+import ScaleUnderline from '@/components/shared/scale-underline'
 import { toZhDay } from '@/lib/time'
 import Link from 'next/link'
 
@@ -19,7 +20,10 @@ export default function NoteListItem({
                 hover:text-purple-600 hover:bg-slate-300
                 dark:hover:text-emerald-300 dark:hover:bg-gray-800 rounded-sm duration-500 group"
     >
-      <h2 className="underline truncate">{noteTitle}</h2>
+      <h2 className="relative truncate group">
+        {noteTitle}
+        <ScaleUnderline />
+      </h2>
       <time className="shrink-0 text-sm font-light text-gray-400 group-hover:text-pink-500">
         {toZhDay(createdAt)}
       </time>
