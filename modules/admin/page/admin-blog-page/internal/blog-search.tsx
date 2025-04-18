@@ -1,6 +1,6 @@
 'use client'
 
-import { getAllBlogs, getQueryBlogs, WithTagsBlog } from '@/actions/blogs'
+import { getAllBlogs, getQueryBlogs } from '@/actions/blogs'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Plus, RotateCw, Search } from 'lucide-react'
@@ -16,11 +16,13 @@ export function BlogSearch() {
 
   // * 初次加载
   useEffect(() => {
-    getAllBlogs().then(blogs => setBlogs(blogs))
+    getAllBlogs().then(setBlogs)
   }, [])
 
   const fetchBlogs = async () => {
-    if (!query.trim()) return
+    if (!query.trim()) {
+      await loadAllBlogs()
+    }
     try {
       const blogs = await getQueryBlogs(query)
       setBlogs(blogs)
@@ -30,7 +32,7 @@ export function BlogSearch() {
     }
   }
 
-  const resetBlogs = async () => {
+  const loadAllBlogs = async () => {
     try {
       const allBlogs = await getAllBlogs()
       setQuery('')
@@ -48,8 +50,9 @@ export function BlogSearch() {
         className="w-1/4"
         value={query}
         onChange={e => {
-          if (e.target.value === ' ') return
-          setQuery(e.target.value)
+          const value = e.target.value
+          if (value === ' ') return
+          setQuery(value)
         }}
         onKeyDown={e => {
           if (e.key === 'Enter') {
@@ -69,7 +72,7 @@ export function BlogSearch() {
 
       <Button
         variant={'secondary'}
-        onClick={resetBlogs}
+        onClick={loadAllBlogs}
         className="cursor-pointer"
       >
         <RotateCw /> 重置
