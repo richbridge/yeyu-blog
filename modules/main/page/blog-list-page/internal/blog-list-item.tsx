@@ -17,14 +17,14 @@ export default function BlogListItem({
     <Link
       href={`blog/${slug}`}
       className="flex items-center justify-between gap-10 p-2 cursor-pointer 
-                hover:text-purple-600 hover:bg-slate-300
-                dark:hover:text-emerald-300 dark:hover:bg-gray-800 rounded-sm duration-500 group"
+                hover:text-purple-600
+                dark:hover:text-emerald-300 rounded-sm duration-500 group"
     >
       <h2 className="relative truncate group">
         {blogTitle}
-        <ScaleUnderline />
+        <ScaleUnderline className="bg-emerald-300" />
       </h2>
-      <time className="shrink-0 text-sm font-light text-gray-400 group-hover:text-pink-500">
+      <time className="shrink-0 text-sm font-light text-gray-400 group-hover:text-emerald-300">
         {toZhDay(createdAt)}
       </time>
     </Link>

@@ -45,7 +45,7 @@ export default function AboutPage() {
       <Link
         href={'https://space.bilibili.com/19658621'}
         target="_blank"
-        className="px-4 py-2 rounded-sm font-mono underline hover:text-pink-600"
+        className="px-4 py-2 rounded-sm font-mono underline hover:text-pink-600 hover:cursor-pointer"
       >
         Frank
       </Link>
@@ -74,7 +74,7 @@ export default function AboutPage() {
         感谢🙏🏻
         <Link
           href={'https://openbuild.xyz/'}
-          className="px-4 py-2 rounded-sm font-mono underline hover:text-emerald-400"
+          className="px-4 py-2 rounded-sm font-mono underline hover:text-emerald-400 hover:cursor-pointer"
           target="_blank"
         >
           OpenBuild

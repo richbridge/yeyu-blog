@@ -13,8 +13,7 @@ export default async function NoteListPage() {
   }
 
   return (
-    <main className="flex flex-col p-2 min-h-[85vh]">
-      {/* 使用时间排序, 最新的在上面 */}
+    <main className="flex flex-col px-4 py-2 min-h-[85vh]">
       {allNotes.map((v, i) => (
         <NoteListItem
           key={i}

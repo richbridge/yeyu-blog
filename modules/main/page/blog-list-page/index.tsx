@@ -13,7 +13,7 @@ export default async function BlogListPage() {
   }
 
   return (
-    <main className="flex flex-col p-2 min-h-[85vh]">
+    <main className="flex flex-col px-4 py-2 min-h-[85vh]">
       {allBlogs.map((v: any, i: any) => (
         <BlogListItem
           key={i}
