@@ -7,6 +7,7 @@ import {
   useReactTable,
   SortingState,
   getSortedRowModel,
+  getPaginationRowModel,
 } from '@tanstack/react-table'
 
 import {
@@ -18,6 +19,7 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { useState } from 'react'
+import { DataTablePagination } from '@/components/shared/pagination'
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -28,16 +30,24 @@ export function DataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
-  const [sorting, setSorting] = useState<SortingState>([])
+  const [sorting, setSorting] = useState<SortingState>([
+    { desc: true, id: 'count' },
+  ])
+  const [pagination, setPagination] = useState({
+    pageIndex: 0,
+    pageSize: 15,
+  })
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
-    // * 排序
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    onPaginationChange: setPagination,
     state: {
       sorting,
+      pagination,
     },
   })
 
@@ -84,16 +94,13 @@ export function DataTable<TData, TValue>({
               ))
             ) : (
               <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                >
-                  No results.
-                </TableCell>
+                <TableCell colSpan={columns.length}>No results.</TableCell>
               </TableRow>
             )}
           </TableBody>
         </Table>
       </div>
+      <DataTablePagination table={table} />
     </div>
   )
 }
