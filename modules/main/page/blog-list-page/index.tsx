@@ -5,16 +5,12 @@ export default async function BlogListPage() {
   const allBlogs = await getAllShowBlogs()
 
   if (allBlogs.length === 0) {
-    return (
-      <main className="flex flex-col min-h-[85vh]">
-        <p className="m-auto">虚无。</p>
-      </main>
-    )
+    return <p className="m-auto">虚无。</p>
   }
 
   return (
-    <main className="flex flex-col px-4 py-2 min-h-[85vh]">
-      {allBlogs.map((v: any, i: any) => (
+    <main className="flex flex-col px-4">
+      {allBlogs.map((v, i) => (
         <BlogListItem
           key={i}
           blogTitle={v.title}

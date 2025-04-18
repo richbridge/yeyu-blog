@@ -12,12 +12,13 @@ export default function MainLayout({
   return (
     <main
       className="min-h-screen max-w-screen
+                  flex flex-col justify-between gap-2
                 bg-slate-200 dark:bg-black dark:text-white
                   md:text-lg"
     >
       <MainLayoutHeader />
-      <MaxWidthWrapper className="overflow-x-hidden">
-        {children}
+      <MaxWidthWrapper className="overflow-x-hidden flex flex-col justify-between flex-1">
+        <main className="flex flex-col flex-1">{children}</main>
         <ContactMe />
       </MaxWidthWrapper>
 
