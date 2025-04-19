@@ -22,9 +22,9 @@ export default function NoteListItem({
     >
       <h2 className="relative truncate group">
         {noteTitle}
-        <ScaleUnderline className="bg-emerald-300" />
+        <ScaleUnderline className="dark:bg-emerald-300 bg-purple-600" />
       </h2>
-      <time className="shrink-0 text-sm font-light text-gray-400 group-hover:text-emerald-300">
+      <time className="shrink-0 text-sm font-light text-gray-400 dark:group-hover:text-emerald-300 group-hover:text-purple-600">
         {toZhDay(createdAt)}
       </time>
     </Link>
