@@ -27,11 +27,20 @@ import { Switch } from '../ui/switch'
 import { getAllEchos, updateEchoById } from '@/actions/echos'
 import { useEchoStore } from '@/store/use-echo-store'
 import { toast } from 'sonner'
+import {
+  ECHO_CONTENT_MAX_LENGTH,
+  ECHO_REFERENCE_MAX_LENGTH,
+} from '@/config/constant'
 
 const formSchema = z.object({
-  // ! 暂时还没确定好长度限制, 之后在考虑
-  content: z.string().min(1).max(10_000),
-  reference: z.string().min(1).max(50),
+  content: z
+    .string()
+    .min(1, { message: 'echo 不能为空' })
+    .max(ECHO_CONTENT_MAX_LENGTH, { message: 'echo 长度过长' }),
+  reference: z
+    .string()
+    .min(1, { message: '来源不能为空' })
+    .max(ECHO_REFERENCE_MAX_LENGTH, { message: '来源长度过长' }),
   isPublished: z.boolean(),
 })
 
@@ -81,8 +90,8 @@ export default function EditEchoModal() {
       setEchos(echos)
       onModalClose()
     } catch (error) {
-      toast.error(`更新短语失败~ ${error}`)
-      console.error('更新短语失败~', error)
+      toast.error(`更新 echo 失败~ ${error}`)
+      console.error('更新 echo 失败~', error)
     }
   }
 
