@@ -64,7 +64,7 @@ export function NoteTagsContainer() {
         }}
         setApi={setApi}
         // * 魔法值，后序考虑使用计算得到
-        className="w-full max-w-[96vw]"
+        className="w-full max-w-[97vw]"
       >
         <CarouselContent>
           {tags.map(tag => (
