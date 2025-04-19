@@ -1,3 +1,4 @@
+// * 生成版本
 import { PrismaClient } from '@prisma/client'
 
 const globalForPrisma = globalThis as unknown as {
@@ -8,7 +9,7 @@ export const prisma = globalForPrisma.prisma ?? new PrismaClient()
 
 if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma
 
-// * 测试脚本
+// * 测试环境 测试脚本
 // import { PrismaClient } from '@prisma/client'
 // import fs from 'fs'
 
@@ -16,28 +17,28 @@ if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma
 
 // const filePath = `md/2.md`
 // const fileContent = fs.readFileSync(filePath, 'utf-8')
-// // const randomTag = [
-// //   'React',
-// //   'Vue',
-// //   'TypeScript',
-// //   'Go',
-// //   'Nextjs',
-// //   'Remix',
-// //   'JavaScript',
-// // ] as const
-
 // const randomTag = [
-//   '读书',
-//   '日常',
-//   '好累',
-//   '测试',
-//   '现在21:41',
-//   '写一天了',
-//   '还在测试!',
+//   'React',
+//   'Vue',
+//   'TypeScript',
+//   'Go',
+//   'Nextjs',
+//   'Remix',
+//   'JavaScript',
 // ] as const
 
+// // const randomTag = [
+// //   '读书',
+// //   '日常',
+// //   '好累',
+// //   '测试',
+// //   '现在21:41',
+// //   '写一天了',
+// //   '还在测试!',
+// // ] as const
+
 // async function main() {
-//   // await mockData(100)
+//   // await mockData(20)
 //   // await mockEchoData(50)
 //   // console.log('over')
 // }
@@ -62,9 +63,9 @@ if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma
 //     Array(count)
 //       .fill(0)
 //       .map(async _ => {
-//         await prisma.note.create({
+//         await prisma.blog.create({
 //           data: {
-//             title: `note 测试 ${generateRandomString()}`,
+//             title: `blog 测试 ${generateRandomString()}`,
 //             slug: `life-style-${generateRandomString()}`,
 //             tags: {
 //               connectOrCreate: getRandomTags().map(tagName => ({
