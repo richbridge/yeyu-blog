@@ -45,3 +45,6 @@ public/upload
 
 # 本地 todo 文件备忘录 
 todo/
+
+# 测试的 markdown 文件
+/md
