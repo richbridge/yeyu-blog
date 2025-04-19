@@ -4,7 +4,7 @@ import { getBlogTagsAndNoteTags, getQueryTags } from '@/actions/tags'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useModalStore } from '@/store/use-modal-store'
-import { Tag, useTagStore } from '@/store/use-tag-store'
+import { useTagStore } from '@/store/use-tag-store'
 import { RotateCw, Search } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
@@ -15,31 +15,24 @@ export default function TagSearch() {
   const [query, setQuery] = useState('')
 
   useEffect(() => {
-    const fetchAllTags = async () => {
-      try {
-        const tags = await getBlogTagsAndNoteTags()
-        setTags(tags)
-      } catch (error) {
-        toast.error(`获取 tag 数据错误 ${error}`)
-        console.error(`获取 tag 数据错误`, error)
-      }
-    }
-    fetchAllTags()
+    getBlogTagsAndNoteTags().then(setTags)
   }, [])
 
   const fetchTags = async () => {
-    if (!query.trim()) return
+    if (!query.trim()) {
+      return await loadAllTags()
+    }
     try {
       const tags = await getQueryTags(query)
       console.log(tags, 'tags')
       setTags(tags)
     } catch (error) {
-      toast.error(`获取博客数据错误 ${error}`)
-      console.error(`获取博客数据错误`, error)
+      toast.error(`获取标签数据错误 ${error}`)
+      console.error(`获取标签数据错误`, error)
     }
   }
 
-  const resetTags = async () => {
+  const loadAllTags = async () => {
     try {
       const allTags = await getBlogTagsAndNoteTags()
       setQuery('')
@@ -76,7 +69,7 @@ export default function TagSearch() {
 
       <Button
         variant={'secondary'}
-        onClick={resetTags}
+        onClick={loadAllTags}
         className="cursor-pointer"
       >
         <RotateCw /> 重置
