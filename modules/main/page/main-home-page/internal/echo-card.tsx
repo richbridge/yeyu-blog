@@ -1,8 +1,5 @@
 import { getRandomPublishedEcho } from '@/actions/echos'
 
-// * 这里强制动态渲染也没有
-// * 解决办法就是在 server action 中使用
-// * import { unstable_noStore as noStore } from 'next/cache' 中的 noStore 函数
 export default async function EchoCard() {
   const randomEcho = await getRandomPublishedEcho()
 
