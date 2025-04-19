@@ -12,6 +12,9 @@ import {
   CarouselItem,
 } from '@/components/ui/carousel'
 import { cn } from '@/lib/utils'
+import { Skeleton } from '@/components/ui/skeleton'
+import { Toggle, toggleVariants } from '@/components/ui/toggle'
+import TagContainerSkeleton from '@/components/shared/tag-container-skeleton'
 
 export function BlogTagsContainer() {
   const [tags, setTags] = useState<BlogTag['tagName'][]>([])
@@ -67,11 +70,15 @@ export function BlogTagsContainer() {
         className="w-full max-w-[97vw]"
       >
         <CarouselContent>
-          {tags.map(tag => (
-            <CarouselItem className="basis-auto" key={tag.toLowerCase()}>
-              <BlogTagItemToggle tag={tag} />
-            </CarouselItem>
-          ))}
+          {tags.length === 0 ? (
+            <TagContainerSkeleton />
+          ) : (
+            tags.map(tag => (
+              <CarouselItem className="basis-auto" key={tag.toLowerCase()}>
+                <BlogTagItemToggle tag={tag} />
+              </CarouselItem>
+            ))
+          )}
         </CarouselContent>
       </Carousel>
 
