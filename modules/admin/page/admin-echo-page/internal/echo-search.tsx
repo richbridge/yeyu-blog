@@ -15,11 +15,13 @@ export function EchoSearch() {
   const { setModalOpen } = useModalStore()
 
   useEffect(() => {
-    getAllEchos().then(echos => setEchos(echos))
+    getAllEchos().then(setEchos)
   }, [])
 
   const fetchEchos = async () => {
-    if (!query.trim()) return
+    if (!query.trim()) {
+      return await loadAllEchos()
+    }
     try {
       const echos = await getQueryEchos(query)
       setEchos(echos)
@@ -29,7 +31,7 @@ export function EchoSearch() {
     }
   }
 
-  const resetEchos = async () => {
+  const loadAllEchos = async () => {
     try {
       const allEchos = await getAllEchos()
       setQuery('')
@@ -47,8 +49,9 @@ export function EchoSearch() {
         className="w-1/4"
         value={query}
         onChange={e => {
-          if (e.target.value === ' ') return
-          setQuery(e.target.value)
+          const value = e.target.value
+          if (value === ' ') return
+          setQuery(value)
         }}
         onKeyDown={e => {
           if (e.key === 'Enter') {
@@ -68,7 +71,7 @@ export function EchoSearch() {
 
       <Button
         variant={'secondary'}
-        onClick={resetEchos}
+        onClick={loadAllEchos}
         className="cursor-pointer"
       >
         <RotateCw /> 重置
