@@ -84,8 +84,12 @@ export const getAllEchos = async () => {
   return await prisma.echo.findMany()
 }
 
-export const getRandomEcho = async () => {
-  const count = await prisma.echo.count()
+export const getRandomPublishedEcho = async () => {
+  const count = await prisma.echo.count({
+    where: {
+      isPublished: true,
+    },
+  })
   const skip = Math.floor(Math.random() * count)
   noStore()
 
