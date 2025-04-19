@@ -12,8 +12,6 @@ import {
   CarouselItem,
 } from '@/components/ui/carousel'
 import { cn } from '@/lib/utils'
-import { Skeleton } from '@/components/ui/skeleton'
-import { Toggle, toggleVariants } from '@/components/ui/toggle'
 import TagContainerSkeleton from '@/components/shared/tag-container-skeleton'
 
 export function BlogTagsContainer() {

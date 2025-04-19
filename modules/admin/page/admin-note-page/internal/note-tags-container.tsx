@@ -12,6 +12,7 @@ import {
   CarouselItem,
 } from '@/components/ui/carousel'
 import { cn } from '@/lib/utils'
+import TagContainerSkeleton from '@/components/shared/tag-container-skeleton'
 
 export function NoteTagsContainer() {
   const [tags, setTags] = useState<NoteTag['tagName'][]>([])
@@ -67,11 +68,15 @@ export function NoteTagsContainer() {
         className="w-full max-w-[97vw]"
       >
         <CarouselContent>
-          {tags.map(tag => (
-            <CarouselItem className="basis-auto" key={tag.toLowerCase()}>
-              <NoteTagItemToggle tag={tag} />
-            </CarouselItem>
-          ))}
+          {tags.length === 0 ? (
+            <TagContainerSkeleton />
+          ) : (
+            tags.map(tag => (
+              <CarouselItem className="basis-auto" key={tag.toLowerCase()}>
+                <NoteTagItemToggle tag={tag} />
+              </CarouselItem>
+            ))
+          )}
         </CarouselContent>
       </Carousel>
 
