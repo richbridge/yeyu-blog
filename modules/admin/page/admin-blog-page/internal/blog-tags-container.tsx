@@ -16,6 +16,7 @@ import TagContainerSkeleton from '@/components/shared/tag-container-skeleton'
 
 export function BlogTagsContainer() {
   const [tags, setTags] = useState<BlogTag['tagName'][]>([])
+  const [loading, setLoading] = useState(true)
   const [api, setApi] = useState<CarouselApi>()
   const [current, setCurrent] = useState(1)
   const [count, setCount] = useState(0)
@@ -41,6 +42,8 @@ export function BlogTagsContainer() {
       } catch (error) {
         toast.error(`获取 tags 数据错误 ${error}`)
         console.error(`获取 tags 数据错误`, error)
+      } finally {
+        setLoading(false)
       }
     }
 
@@ -68,8 +71,10 @@ export function BlogTagsContainer() {
         className="w-full max-w-[97vw]"
       >
         <CarouselContent>
-          {tags.length === 0 ? (
+          {loading ? (
             <TagContainerSkeleton />
+          ) : tags.length === 0 ? (
+            <p className="text-muted-foreground m-auto">没有标签 (｡•́︿•̀｡)</p>
           ) : (
             tags.map(tag => (
               <CarouselItem className="basis-auto" key={tag.toLowerCase()}>
