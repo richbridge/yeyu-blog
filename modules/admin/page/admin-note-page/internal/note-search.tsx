@@ -13,10 +13,15 @@ import { toast } from 'sonner'
 export function NoteSearch() {
   const [query, setQuery] = useState('')
   const { setNotes } = useNoteStore()
-  const [refresh, setRefresh] = useState(true)
+
+  useEffect(() => {
+    getAllNotes().then(setNotes)
+  }, [])
 
   const fetchNotes = async () => {
-    if (!query.trim()) return
+    if (!query.trim()) {
+      return await loadAllNotes()
+    }
     try {
       const notes = await getQueryNotes(query)
       setNotes(notes)
@@ -25,19 +30,16 @@ export function NoteSearch() {
     }
   }
 
-  // * 默认加载所有的数据, 先不考虑分页的事
-  useEffect(() => {
-    const fetchAllNotes = async () => {
-      try {
-        const notes = await getAllNotes()
-        setNotes(notes)
-      } catch (error) {
-        toast.error(`获取博客数据错误 ${error}`)
-        console.error(`获取博客数据错误`, error)
-      }
+  const loadAllNotes = async () => {
+    try {
+      const allNotes = await getAllNotes()
+      setQuery('')
+      setNotes(allNotes)
+    } catch (error) {
+      toast.error(`获取笔记数据错误 ${error}`)
+      console.error(`获取笔记数据错误`, error)
     }
-    fetchAllNotes()
-  }, [refresh])
+  }
 
   return (
     <section className="flex w-full gap-4">
@@ -46,7 +48,8 @@ export function NoteSearch() {
         className="w-1/4"
         value={query}
         onChange={e => {
-          if (e.target.value === ' ') return
+          const value = e.target.value
+          if (value === ' ') return
           setQuery(e.target.value)
         }}
         onKeyDown={e => {
@@ -67,12 +70,7 @@ export function NoteSearch() {
 
       <Button
         variant={'secondary'}
-        onClick={() => {
-          if (query !== '') {
-            setQuery('')
-            setRefresh(!refresh)
-          }
-        }}
+        onClick={loadAllNotes}
         className="cursor-pointer"
       >
         <RotateCw /> 重置

@@ -21,7 +21,7 @@ export function BlogSearch() {
 
   const fetchBlogs = async () => {
     if (!query.trim()) {
-      await loadAllBlogs()
+      return await loadAllBlogs()
     }
     try {
       const blogs = await getQueryBlogs(query)
