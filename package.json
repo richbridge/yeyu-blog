@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "ts:check": "tsc --noEmit"
+    "ts:check": "tsc --noEmit",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@bytemd/plugin-breaks": "^1.22.0",
