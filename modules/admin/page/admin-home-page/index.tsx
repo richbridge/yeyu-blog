@@ -1,16 +1,23 @@
-import { getRemainingDaysOfYear, getToday, getYearProgress } from '@/lib/time'
+import {
+  getRemainingDaysOfYear,
+  getTodayDayInfo,
+  getYearProgress,
+} from '@/lib/time'
 import Greeting from './internal/greeting'
 
 export default function AdminHomePage() {
+  const { year, dayOfYear } = getTodayDayInfo()
+
   return (
     <div className="flex items-center justify-center flex-col text-lg m-auto">
       <Greeting />
       <h2 className="font-black">
-        今天是 <span className="text-indigo-400">{getToday()}</span>
+        今天是 <span className="text-indigo-400">{year}</span> 的第{' '}
+        <span className="text-indigo-500">{dayOfYear}</span> 天
       </h2>
       <p>
         今年已经过去了
-        <span className="text-pink-400">{getYearProgress().passed}%</span>
+        <span className="text-pink-400">{getYearProgress().passed}%</span>{' '}
         距离今年结束还有{' '}
         <span className="text-pink-400">{getRemainingDaysOfYear()}</span> 天~
       </p>
