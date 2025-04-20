@@ -24,6 +24,7 @@ import MarkdownEditor from './internal/markdown-editor'
 import { createNote, updateNoteById } from '@/actions/notes'
 import { ARTICLE_TITLE_MAX_LENGTH } from '@/config/constant'
 import { useModalStore } from '@/store/use-modal-store'
+import { toast } from 'sonner'
 
 const formSchema = z.object({
   title: z
@@ -90,20 +91,27 @@ export default function AdminBlogEditPage({
   // * 保存按扭, 更新文章
   async function onSubmit(values: z.infer<typeof formSchema>) {
     // * 也不能说是💩山吧, 先放一放...
-    if (articles?.id) {
-      if (editPageType === 'BLOG') {
-        await updateBlogById({ ...values, id: articles.id })
+    try {
+      // * 也不能说是💩山吧, 先放一放...
+      if (articles?.id) {
+        if (editPageType === 'BLOG') {
+          await updateBlogById({ ...values, id: articles.id })
+        } else {
+          await updateNoteById({ ...values, id: articles.id })
+        }
       } else {
-        await updateNoteById({ ...values, id: articles.id })
+        if (editPageType === 'BLOG') {
+          await createBlog(values)
+        } else {
+          await createNote(values)
+        }
       }
-    } else {
-      if (editPageType === 'BLOG') {
-        await createBlog(values)
-      } else {
-        await createNote(values)
-      }
+
+      redirect(`/admin/${editPageType.toLowerCase()}/edit/${values.slug}`)
+    } catch (error) {
+      toast.error(`提交失败：${error}`)
+      console.error('提交失败：', error)
     }
-    redirect(`/admin/${editPageType.toLowerCase()}/edit/${values.slug}`)
   }
 
   return (
