@@ -8,8 +8,14 @@ generator client {
   provider = "prisma-client-js"
 }
 
+// * 一开始使用 mysql 的，但是为了适配 vercel，白嫖免费的数据库，测试一下 postgresql 
+// datasource db {
+//   provider = "mysql"
+//   url      = env("DATABASE_URL")
+// }
+
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 

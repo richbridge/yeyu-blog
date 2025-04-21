@@ -1,5 +1,0 @@
--- AlterTable
-ALTER TABLE `BlogTag` MODIFY `tagType` VARCHAR(191) NOT NULL DEFAULT 'Blog';
-
--- AlterTable
-ALTER TABLE `NoteTag` MODIFY `tagType` VARCHAR(191) NOT NULL DEFAULT 'Note';

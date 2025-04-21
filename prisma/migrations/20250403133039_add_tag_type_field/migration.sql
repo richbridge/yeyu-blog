@@ -1,5 +1,0 @@
--- AlterTable
-ALTER TABLE `BlogTag` ADD COLUMN `tagType` VARCHAR(191) NOT NULL DEFAULT 'BlogTag';
-
--- AlterTable
-ALTER TABLE `NoteTag` ADD COLUMN `tagType` VARCHAR(191) NOT NULL DEFAULT 'NoteTag';
