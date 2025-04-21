@@ -19,12 +19,13 @@ import { Switch } from '@/components/ui/switch'
 import { Combobox } from '@/components/ui/combobox'
 import { File } from 'lucide-react'
 import { createBlog, updateBlogById } from '@/actions/blogs'
-import { redirect, usePathname } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 import MarkdownEditor from './internal/markdown-editor'
 import { createNote, updateNoteById } from '@/actions/notes'
 import { ARTICLE_TITLE_MAX_LENGTH } from '@/config/constant'
 import { useModalStore } from '@/store/use-modal-store'
 import { toast } from 'sonner'
+import { useRouter } from 'next/navigation'
 
 const formSchema = z.object({
   title: z
@@ -73,6 +74,7 @@ export default function AdminBlogEditPage({
   relatedArticleTagNames?: string[]
   allTags: BlogTag[] | NoteTag[]
 }) {
+  const router = useRouter()
   const { setModalOpen } = useModalStore()
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -107,7 +109,8 @@ export default function AdminBlogEditPage({
         }
       }
 
-      redirect(`/admin/${editPageType.toLowerCase()}/edit/${values.slug}`)
+      // redirect(`/admin/${editPageType.toLowerCase()}/edit/${values.slug}`)
+      router.push(`/admin/${editPageType.toLowerCase()}/edit/${values.slug}`)
     } catch (error) {
       toast.error(`提交失败：${error}`)
       console.error('提交失败：', error)
