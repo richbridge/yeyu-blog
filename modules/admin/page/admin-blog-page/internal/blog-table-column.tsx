@@ -77,11 +77,7 @@ export const columns: ColumnDef<WithTagsBlog>[] = [
       const blog = row.original
 
       return (
-        <PublishToggleSwitch
-          blogId={blog.id}
-          isPublished={blog.isPublished}
-          slug={blog.slug}
-        />
+        <PublishToggleSwitch blogId={blog.id} isPublished={blog.isPublished} />
       )
     },
   },
@@ -138,11 +134,9 @@ export const columns: ColumnDef<WithTagsBlog>[] = [
 function PublishToggleSwitch({
   blogId,
   isPublished,
-  slug,
 }: {
   blogId: number
   isPublished: boolean
-  slug: string
 }) {
   const { setBlogs, blogs } = useBlogStore()
   const [isPending, startTransition] = useTransition()
@@ -172,7 +166,6 @@ function PublishToggleSwitch({
       onCheckedChange={handleToggle}
       checked={isPublished}
       disabled={isPending}
-      key={slug}
     />
   )
 }
