@@ -168,3 +168,23 @@ body::-webkit-scrollbar-thumb {
   background: rgba(88, 85, 85, 0.4);
   border-radius: 8px;
 }
+
+html.dark .shiki,
+html.dark .shiki span {
+  color: var(--shiki-dark) !important;
+  background-color: var(--shiki-dark-bg) !important;
+}
+
+/* 覆盖transformerCopyButton的样式, 不覆盖的话按扭会在底下，且出现滚动条 */
+pre button.rehype-pretty-copy {
+  top: 0.5rem;
+  right: 0.5rem;
+  position: absolute;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  border-radius: 0.375rem;
+  backdrop-filter: blur(3px);
+  z-index: 10;
+}

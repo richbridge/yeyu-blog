@@ -2,21 +2,23 @@ import { unified } from 'unified'
 import remarkParse from 'remark-parse'
 import remarkRehype from 'remark-rehype'
 import rehypeStringify from 'rehype-stringify'
-import rehypePrettyCode from 'rehype-pretty-code'
 import remarkGfm from 'remark-gfm'
 import { transformerCopyButton } from '@rehype-pretty/transformers'
+import rehypeShiki from '@shikijs/rehype'
 
 // * markdown文档渲染配置
 export const processor = unified()
   .use(remarkParse)
   .use(remarkGfm)
   .use(remarkRehype)
-  .use(rehypePrettyCode, {
-    theme: 'aurora-x',
-    defaultLang: 'js',
+  .use(rehypeShiki, {
+    themes: {
+      light: 'min-light',
+      dark: 'aurora-x',
+    },
     transformers: [
       transformerCopyButton({
-        visibility: 'hover',
+        visibility: 'always',
         feedbackDuration: 3_000,
       }),
     ],
