@@ -2,37 +2,10 @@
 
 import { motion, useScroll } from 'motion/react'
 
-type HexChar =
-  | '0'
-  | '1'
-  | '2'
-  | '3'
-  | '4'
-  | '5'
-  | '6'
-  | '7'
-  | '8'
-  | '9'
-  | 'a'
-  | 'b'
-  | 'c'
-  | 'd'
-  | 'e'
-  | 'f'
-  | 'A'
-  | 'B'
-  | 'C'
-  | 'D'
-  | 'E'
-  | 'F'
-
-type SixDigitHex =
-  `#${HexChar}${HexChar}${HexChar}${HexChar}${HexChar}${HexChar}`
-
 export default function ScrollIndicator({
   backgroundColor = `#7886C7`,
 }: {
-  backgroundColor?: SixDigitHex
+  backgroundColor?: string
 }) {
   const { scrollYProgress } = useScroll()
 
