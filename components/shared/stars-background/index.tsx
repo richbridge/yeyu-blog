@@ -3,7 +3,7 @@ import './animated-stars.css'
 
 export default function StarsBackground() {
   return (
-    <div className="fixed top-0 left-0 w-screen h-screen pointer-events-none">
+    <div className="fixed top-0 left-0 w-screen h-screen pointer-events-none z-0">
       <div id="stars"></div>
       <div id="stars2"></div>
       <div id="stars3"></div>
