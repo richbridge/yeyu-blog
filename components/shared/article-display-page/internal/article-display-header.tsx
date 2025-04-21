@@ -11,8 +11,11 @@ export default function ArticleDisplayHeader({
   tags: string[]
 }) {
   return (
-    <header className="text-center">
-      <h1 className="text-3xl md:text-4xl font-extrabold">{title}</h1>
+    <header className="flex flex-col justify-center items-center gap-1">
+      <h1 className="text-3xl md:text-4xl font-extrabold text-purple-600 dark:text-emerald-300">
+        {title}
+      </h1>
+
       <section className="flex flex-col gap-2 justify-center w-full">
         <p className="flex gap-2 justify-center w-full">
           {tags.map((tag, i) => (
@@ -22,10 +25,9 @@ export default function ArticleDisplayHeader({
             />
           ))}
         </p>
-        <time className="underline text-xs md:text-sm">
-          {toZhDay(createdAt)}
-        </time>
       </section>
+
+      <time className="underline text-xs md:text-sm">{toZhDay(createdAt)}</time>
     </header>
   )
 }

@@ -14,7 +14,7 @@ export default function ArticleDisplayPage({
 }) {
   return (
     <article
-      className="flex flex-col py-2 px-6 max-w-3xl flex-1 dark:bg-gray-900/30 bg-slate-300/30 rounded-sm
+      className="flex flex-col gap-10 py-2 px-6 max-w-3xl flex-1 dark:bg-gray-900/30 bg-slate-300/30 rounded-sm
                   border border-dashed border-indigo-200 dark:border-accent 
                   backdrop-blur-[1px] z-10"
     >

@@ -58,15 +58,15 @@ prose-h6:text-[#fe5a24] dark:prose-h6:text-[#d7ccc8]
   prose-code:font-normal prose-code:font-mono prose-code:rounded-sm
   prose-strong:font-bold prose-strong:text-pink-500 dark:prose-strong:text-pink-400
 
-  prose-a:text-blue-600 prose-a:hover:text-blue-700 
-  dark:prose-a:text-blue-400 dark:prose-a:hover:text-blue-300 
+prose-a:text-blue-600 prose-a:hover:text-blue-700 
+dark:prose-a:text-blue-400 dark:prose-a:hover:text-blue-300 
   prose-a:transition-all
 
   prose-img:border prose-img:border-dashed prose-img:rounded-sm 
   prose-img:p-1 prose-img:hover:scale-105 prose-img:duration-300 
   prose-img:m-auto
 
-  prose-ul:marker:text-gray-500 dark:prose-ul:marker:text-gray-400
+prose-ul:marker:text-gray-500 dark:prose-ul:marker:text-gray-400
 `
 
 export const customMarkdownTheme = className
