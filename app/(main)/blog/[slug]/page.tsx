@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation'
 import { processor } from '@/lib/markdown'
 import ArticleDisplayPage from '@/components/shared/article-display-page'
 import { noPermission } from '@/lib/auth'
+import ScrollIndicator from '@/components/shared/scroll-indicator'
 
 export default async function Page({
   params,
@@ -31,11 +32,14 @@ export default async function Page({
 
   return (
     // * 后序应该考虑共用组件, note 和 blog 只有很小的区别.
-    <ArticleDisplayPage
-      title={title}
-      createdAt={createdAt}
-      content={processedContent.toString()}
-      tags={tagNames}
-    />
+    <>
+      <ArticleDisplayPage
+        title={title}
+        createdAt={createdAt}
+        content={processedContent.toString()}
+        tags={tagNames}
+      />
+      <ScrollIndicator />
+    </>
   )
 }

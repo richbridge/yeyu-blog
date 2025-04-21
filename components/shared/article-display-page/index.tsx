@@ -23,7 +23,7 @@ export default function ArticleDisplayPage({
       <main
         className={customMarkdownTheme}
         dangerouslySetInnerHTML={{ __html: content }}
-      ></main>
+      />
     </article>
   )
 }
