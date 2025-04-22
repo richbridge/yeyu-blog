@@ -169,20 +169,20 @@ body::-webkit-scrollbar-thumb {
   border-radius: 8px;
 }
 
-/* rehypePrettyCode 需要手动配置 */
-code[data-theme*=' '],
-code[data-theme*=' '] span,
-pre[data-theme*=' '],
-figure[data-theme*=' '] {
+/* ! 这里的 data-theme='${ }' lib/markdown/index.ts 中的主题名 */
+code[data-theme*='github-light'],
+code[data-theme*='github-light'] span,
+pre[data-theme*='github-light'],
+figure[data-theme*='github-light'] {
   color: var(--shiki-light);
   background-color: var(--shiki-light-bg);
 }
 
-html.dark [data-theme*=' '],
-html.dark code[data-theme*=' '],
-html.dark code[data-theme*=' '] span,
-html.dark pre[data-theme*=' '],
-html.dark figure[data-theme*=' '] {
+html.dark [data-theme*='aurora-x'],
+html.dark code[data-theme*='aurora-x'],
+html.dark code[data-theme*='aurora-x'] span,
+html.dark pre[data-theme*='aurora-x'],
+html.dark figure[data-theme*='aurora-x'] {
   color: var(--shiki-dark);
   background-color: var(--shiki-dark-bg);
 }

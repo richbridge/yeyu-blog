@@ -12,6 +12,7 @@ export const processor = unified()
   .use(remarkGfm)
   .use(remarkRehype)
   .use(rehypePrettyCode, {
+    // ! 这里写没用，需要再去 globals.css 中去写一下名字，不然打包压缩会报错
     theme: {
       dark: 'aurora-x',
       light: 'github-light',
