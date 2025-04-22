@@ -12,7 +12,10 @@ export const processor = unified()
   .use(remarkGfm)
   .use(remarkRehype)
   .use(rehypePrettyCode, {
-    theme: 'aurora-x',
+    theme: {
+      dark: 'aurora-x',
+      light: 'github-light',
+    },
     transformers: [
       transformerCopyButton({
         visibility: 'always',
