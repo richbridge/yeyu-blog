@@ -1,5 +1,13 @@
 import { ThemeProvider } from '@/components/ui/theme-provider'
+import { LXGW_WenKai_Mono_TC } from 'next/font/google'
 import './globals.css'
+
+const LXGW = LXGW_WenKai_Mono_TC({
+  weight: ['300', '700'],
+  display: 'swap',
+  variable: '--ye-font',
+  preload: false,
+})
 
 export default function RootLayout({
   children,
@@ -8,13 +16,7 @@ export default function RootLayout({
 }>) {
   return (
     // * 添加亮暗切换必报水合错误错误😅
-    <html lang="zh-CN" suppressHydrationWarning>
-      <head>
-        <link
-          rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/lxgw-wenkai-webfont/1.7.0/lxgwwenkai-regular.min.css"
-        />
-      </head>
+    <html lang="zh-CN" suppressHydrationWarning className={LXGW.variable}>
       <body className="font-ye-font">
         <ThemeProvider
           attribute="class"
