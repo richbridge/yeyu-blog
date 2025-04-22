@@ -4,18 +4,15 @@ import remarkRehype from 'remark-rehype'
 import rehypeStringify from 'rehype-stringify'
 import remarkGfm from 'remark-gfm'
 import { transformerCopyButton } from '@rehype-pretty/transformers'
-import rehypeShiki from '@shikijs/rehype'
+import rehypePrettyCode from 'rehype-pretty-code'
 
 // * markdown文档渲染配置
 export const processor = unified()
   .use(remarkParse)
   .use(remarkGfm)
   .use(remarkRehype)
-  .use(rehypeShiki, {
-    themes: {
-      light: 'min-light',
-      dark: 'aurora-x',
-    },
+  .use(rehypePrettyCode, {
+    theme: 'aurora-x',
     transformers: [
       transformerCopyButton({
         visibility: 'always',
