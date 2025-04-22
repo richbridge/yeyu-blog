@@ -7,6 +7,20 @@ import ArticleDisplayPage from '@/components/shared/article-display-page'
 import { noPermission } from '@/lib/auth'
 import ScrollIndicator from '@/components/shared/scroll-indicator'
 
+export const dynamicParams = true
+
+export async function generateStaticParams() {
+  const allArticles = await prisma.blog.findMany({
+    where: {
+      isPublished: true,
+    },
+  })
+
+  return allArticles.map(article => ({
+    slug: article.slug,
+  }))
+}
+
 export default async function Page({
   params,
 }: {
