@@ -1,13 +1,8 @@
 import { ThemeProvider } from '@/components/ui/theme-provider'
-import { LXGW_WenKai_Mono_TC } from 'next/font/google'
+import { LXGW, metadata } from '@/config/constant'
 import './globals.css'
 
-const LXGW = LXGW_WenKai_Mono_TC({
-  weight: ['300', '700'],
-  display: 'swap',
-  variable: '--ye-font',
-  preload: false,
-})
+export { metadata }
 
 export default function RootLayout({
   children,
