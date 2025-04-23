@@ -13,6 +13,8 @@ import {
   TagIcon,
   TypeIcon,
   Wrench,
+  ArrowUp,
+  ArrowDown,
 } from 'lucide-react'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
@@ -27,7 +29,7 @@ export const columns: ColumnDef<WithTagsNote>[] = [
     accessorKey: 'title',
     header: () => {
       return (
-        <span className="flex gap-1 items-center dark:text-gray-200 text-gray-500">
+        <span className="flex gap-1 items-center">
           <TypeIcon className="size-4" />
           标题
         </span>
@@ -38,7 +40,7 @@ export const columns: ColumnDef<WithTagsNote>[] = [
     accessorKey: 'tags',
     header: () => {
       return (
-        <span className="flex gap-1 items-center dark:text-gray-200 text-gray-500">
+        <span className="flex gap-1 items-center">
           <TagIcon className="size-4" />
           标签
         </span>
@@ -47,12 +49,9 @@ export const columns: ColumnDef<WithTagsNote>[] = [
     cell: ({ row }) => {
       const tags = row.original.tags
       return (
-        <div className="flex gap-1">
-          {tags.map((tag, i) => (
-            <TagItemBadge
-              tag={tag.tagName}
-              key={`${tag.id}+${i}+${tag.toString()}`}
-            />
+        <div className="flex gap-1 items-center">
+          {tags.map(tag => (
+            <TagItemBadge tag={tag.tagName} key={tag.id} />
           ))}
         </div>
       )
@@ -62,7 +61,7 @@ export const columns: ColumnDef<WithTagsNote>[] = [
     accessorKey: 'isPublished',
     header: () => {
       return (
-        <span className="flex gap-1 items-center dark:text-gray-200 text-gray-500">
+        <span className="flex gap-1 items-center">
           <Eye className="size-4" />
           是否发布
         </span>
@@ -83,6 +82,7 @@ export const columns: ColumnDef<WithTagsNote>[] = [
   {
     accessorKey: 'createdAt',
     header: ({ column }) => {
+      const sorted = column.getIsSorted()
       return (
         <Button
           variant={'ghost'}
@@ -94,6 +94,11 @@ export const columns: ColumnDef<WithTagsNote>[] = [
         >
           <CalendarDays className="size-4" />
           创建时间
+          {sorted === 'asc' ? (
+            <ArrowUp />
+          ) : sorted === 'desc' ? (
+            <ArrowDown />
+          ) : null}
         </Button>
       )
     },
@@ -112,20 +117,10 @@ export const columns: ColumnDef<WithTagsNote>[] = [
         </span>
       )
     },
-    cell: ({ row, table }) => {
+    cell: ({ row }) => {
       const { id, slug, title } = row.original
-      const notes = table.options.data
-      const { setNotes } = useNoteStore()
 
-      return (
-        <ActionButtons
-          noteId={id}
-          slug={slug}
-          title={title}
-          notesData={notes}
-          onUpdateBlogs={setNotes}
-        />
-      )
+      return <ActionButtons noteId={id} slug={slug} title={title} />
     },
   },
 ]
@@ -154,10 +149,10 @@ function PublishToggleSwitch({
     startTransition(async () => {
       try {
         await toggleNotePublishedById(noteId, newStatus)
+        toast.success(`更新成功`)
       } catch (error) {
         setNotes(preBlogs)
-        toast.error(`发布状态更新失败 ${error}`)
-        console.error('发布状态更新失败', error)
+        toast.error(`发布状态更新失败`)
       }
     })
   }
@@ -176,25 +171,21 @@ function ActionButtons({
   noteId,
   slug,
   title,
-  notesData,
-  onUpdateBlogs,
 }: {
   noteId: number
   slug: string
   title: string
-  notesData: WithTagsNote[]
-  onUpdateBlogs: (blogs: WithTagsNote[]) => void
 }) {
   const { setModalOpen } = useModalStore()
+  const { setNotes, notes } = useNoteStore()
 
   const handleDelete = async () => {
     try {
       await deleteNoteById(noteId)
-      const filtered = notesData.filter(blog => blog.id !== noteId)
-      onUpdateBlogs(filtered)
+      const filtered = notes.filter(blog => blog.id !== noteId)
+      setNotes(filtered)
     } catch (error) {
-      toast.error(`删除 ${title} 出错~ ${error}`)
-      console.error(`删除 ${title} 出错~`, error)
+      toast.error(`删除 ${title} 出错~`)
     }
   }
 
