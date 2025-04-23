@@ -57,6 +57,12 @@ export default function EditEchoModal() {
     ? (payload as OmitCreatedAtEcho)
     : {}
 
+  const initialValues = {
+    content: content ?? '',
+    reference: reference ?? '',
+    isPublished: isPublished ?? true,
+  }
+
   const form = useForm<EchoForm>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -66,19 +72,11 @@ export default function EditEchoModal() {
     },
   })
 
-  const initialValues = {
-    content: content ?? '',
-    reference: reference ?? '',
-    isPublished: isPublished ?? true,
-  }
-
   useEffect(() => {
-    form.reset(initialValues)
-
-    return () => {
+    if (isModalOpen) {
       form.reset(initialValues)
     }
-  }, [content, isPublished, reference])
+  }, [isModalOpen])
 
   const handleEditEcho = async (values: EchoForm) => {
     if (!id) {
@@ -88,7 +86,7 @@ export default function EditEchoModal() {
       await updateEchoById({ ...values, id })
       const echos = await getAllEchos()
       setEchos(echos)
-      onModalClose()
+      toast.success(`修改成功~`)
     } catch (error) {
       toast.error(`更新 echo 失败~ ${error}`)
       console.error('更新 echo 失败~', error)
@@ -97,6 +95,7 @@ export default function EditEchoModal() {
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     handleEditEcho(values)
+    onModalClose()
   }
   return (
     <Dialog
@@ -108,7 +107,7 @@ export default function EditEchoModal() {
     >
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>编辑短语</DialogTitle>
+          <DialogTitle>编辑引用</DialogTitle>
         </DialogHeader>
         <div>
           <Form {...form}>
@@ -118,7 +117,7 @@ export default function EditEchoModal() {
                 name="content"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>短语</FormLabel>
+                    <FormLabel>引用</FormLabel>
                     <FormControl>
                       <Textarea
                         className="resize-none h-52"

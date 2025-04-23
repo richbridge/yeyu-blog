@@ -31,16 +31,17 @@ import {
   ECHO_REFERENCE_MAX_LENGTH,
 } from '@/config/constant'
 import { toast } from 'sonner'
+import { useEffect } from 'react'
 
 const formSchema = z.object({
   echoContent: z
     .string()
-    .min(1, { message: 'echo 内容不能为空' })
-    .max(ECHO_CONTENT_MAX_LENGTH, { message: 'echo 内容超出大小限制' }),
+    .min(1, { message: 'echo 不能为空' })
+    .max(ECHO_CONTENT_MAX_LENGTH, { message: 'echo 长度过长' }),
   echoReference: z
     .string()
-    .min(1, { message: 'echo 内容不能为空' })
-    .max(ECHO_REFERENCE_MAX_LENGTH, { message: 'echo 内容超出大小限制' }),
+    .min(1, { message: '来源不能为空' })
+    .max(ECHO_REFERENCE_MAX_LENGTH, { message: '来源长度过长' }),
   isPublished: z.boolean(),
 })
 
@@ -65,7 +66,7 @@ export default function CreateEchoModal() {
       await createEcho(values)
       const echos = await getAllEchos()
       setEchos(echos)
-      onModalClose()
+      toast.success(`创建成功喵~`)
     } catch (error) {
       toast.error(`创建echo失败~ ${error}`)
       console.error('创建标签失败~', error)
@@ -74,15 +75,22 @@ export default function CreateEchoModal() {
 
   function onSubmit(values: EchoValues) {
     handleCreateEcho(values)
+    onModalClose()
   }
+
+  useEffect(() => {
+    if (!isModalOpen) {
+      form.reset()
+    }
+  }, [isModalOpen])
+
   return (
     <Dialog open={isModalOpen} onOpenChange={onModalClose}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>创建引用</DialogTitle>
-          <DialogDescription>又看到什么有意思的话了嘛~</DialogDescription>
+          <DialogDescription>又看到什么有意思的东西了嘛~</DialogDescription>
         </DialogHeader>
-        <div></div>
         <div>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">

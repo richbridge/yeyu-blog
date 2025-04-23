@@ -20,7 +20,6 @@ import { useModalStore } from '@/store/use-modal-store'
 import { toast } from 'sonner'
 import { useTransition } from 'react'
 
-// * 标题, 来源, 是否发布, 创建时间, 操作
 export const columns: ColumnDef<Echo>[] = [
   {
     accessorKey: 'content',
@@ -131,6 +130,7 @@ function PublishToggleSwitch({ echoId }: { echoId: number }) {
     startTransition(async () => {
       try {
         await toggleEchoPublishedById(echoId, newStatus)
+        toast.success(`${newStatus ? '发布成功' : '隐藏成功'}`)
       } catch (error) {
         setEchos(preEchos)
         toast.error(`发布状态更新失败 ${error}`)
@@ -168,6 +168,7 @@ function ActionButtons({
 
       const newTables = echos.filter(echo => echo.id !== id)
       setEchos(newTables)
+      toast.success(`删除成功~`)
     } catch (error) {
       toast.error(`删除 echo 出错~ ${error}`)
       console.error(`删除 echo 出错~`, error)

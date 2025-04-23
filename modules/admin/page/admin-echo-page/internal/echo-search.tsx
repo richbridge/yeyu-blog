@@ -84,7 +84,8 @@ export function EchoSearch() {
           setModalOpen('createEchoModal')
         }}
       >
-        <Plus /> {`创建短语`}
+        <Plus />
+        创建引用
       </Button>
     </section>
   )
