@@ -23,12 +23,16 @@ export default function EchoCard() {
   return (
     <section
       className="flex flex-col w-2/3 p-2 rounded-sm
-                bg-slate-300 dark:bg-gray-950"
+                bg-slate-300/40 dark:bg-gray-900/30
+                  backdrop-blur-3xl"
     >
-      <p className="underline">
+      <p className="underline drop-shadow-[0_0_0.75rem_#211C84] dark:drop-shadow-[0_0_0.75rem_#91DDCF]">
         {echo?.content ?? '我在等网络加载，你在等什么？'}
       </p>
-      <footer className="ml-auto text-sm font-thin text-pink-600 dark:text-emerald-300">
+      <footer
+        className="ml-auto text-sm font-thin text-pink-600 dark:text-emerald-300 
+                    drop-shadow-[0_0_0.75rem_#211C84] dark:drop-shadow-[0_0_0.75rem_#91DDCF]"
+      >
         「{echo?.reference ?? '叶鱼'}」
       </footer>
     </section>
