@@ -10,6 +10,8 @@ import {
   CarouselItem,
 } from '@/components/ui/carousel'
 import { cn } from '@/lib/utils'
+import { motion } from 'motion/react'
+import { itemVariants, listVariants } from '@/lib/animation/variants'
 
 export function BlogTagsContainer({ tags }: { tags: BlogTag['tagName'][] }) {
   const [api, setApi] = useState<CarouselApi>()
@@ -53,11 +55,20 @@ export function BlogTagsContainer({ tags }: { tags: BlogTag['tagName'][] }) {
           {tags.length === 0 ? (
             <p className="text-muted-foreground m-auto">没有标签 (｡•́︿•̀｡)</p>
           ) : (
-            tags.map(tag => (
-              <CarouselItem className="basis-auto" key={tag.toLowerCase()}>
-                <BlogTagItemToggle tag={tag} />
-              </CarouselItem>
-            ))
+            <motion.section
+              className="flex"
+              variants={listVariants}
+              initial="hidden"
+              animate="show"
+            >
+              {tags.map(tag => (
+                <motion.div key={tag.toLowerCase()} variants={itemVariants}>
+                  <CarouselItem className="basis-auto">
+                    <BlogTagItemToggle tag={tag} />
+                  </CarouselItem>
+                </motion.div>
+              ))}
+            </motion.section>
           )}
         </CarouselContent>
       </Carousel>
