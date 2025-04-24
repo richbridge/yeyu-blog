@@ -11,6 +11,8 @@ import {
   Wrench,
   TagsIcon,
   FileText,
+  ArrowUp,
+  ArrowDown,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useModalStore } from '@/store/use-modal-store'
@@ -19,7 +21,7 @@ import {
   deleteNoteTagById,
   getBlogTagsAndNoteTags,
 } from '@/actions/tags'
-import { Tag, useTagStore } from '@/store/use-tag-store'
+import { useTagStore } from '@/store/use-tag-store'
 import { toast } from 'sonner'
 
 // * 后序整一个分类排序
@@ -32,7 +34,7 @@ export const columns: ColumnDef<WithCountBlogTagOrNoteTag>[] = [
     accessorKey: 'tagName',
     header: () => {
       return (
-        <span className="flex gap-1 items-center dark:text-gray-200 text-gray-500">
+        <span className="flex gap-1 items-center">
           <TypeIcon className="size-4" />
           标签名
         </span>
@@ -46,7 +48,7 @@ export const columns: ColumnDef<WithCountBlogTagOrNoteTag>[] = [
     accessorKey: 'tagType',
     header: () => {
       return (
-        <span className="flex gap-1 items-center dark:text-gray-200 text-gray-500">
+        <span className="flex gap-1 items-center">
           <TagsIcon className="size-4" />
           标签类型
         </span>
@@ -60,6 +62,8 @@ export const columns: ColumnDef<WithCountBlogTagOrNoteTag>[] = [
   {
     accessorKey: 'count',
     header: ({ column }) => {
+      const sorted = column.getIsSorted()
+
       return (
         <Button
           variant={'ghost'}
@@ -69,6 +73,11 @@ export const columns: ColumnDef<WithCountBlogTagOrNoteTag>[] = [
         >
           <FileText className="size-4" />
           关联文章数量
+          {sorted === 'asc' ? (
+            <ArrowUp />
+          ) : sorted === 'desc' ? (
+            <ArrowDown />
+          ) : null}
         </Button>
       )
     },
@@ -83,7 +92,7 @@ export const columns: ColumnDef<WithCountBlogTagOrNoteTag>[] = [
     accessorKey: 'actions',
     header: () => {
       return (
-        <span className="flex gap-1 items-center dark:text-gray-200 text-gray-500">
+        <span className="flex gap-1 items-center">
           <Wrench className="size-4" />
           操作
         </span>
@@ -91,16 +100,8 @@ export const columns: ColumnDef<WithCountBlogTagOrNoteTag>[] = [
     },
     cell: ({ row }) => {
       const { id, tagName, tagType } = row.original
-      const { setTags } = useTagStore()
 
-      return (
-        <ActionButtons
-          tagId={id}
-          tagName={tagName}
-          tagType={tagType}
-          onUpdateTags={setTags}
-        />
-      )
+      return <ActionButtons tagId={id} tagName={tagName} tagType={tagType} />
     },
   },
 ]
@@ -109,14 +110,13 @@ function ActionButtons({
   tagId,
   tagName,
   tagType,
-  onUpdateTags,
 }: {
   tagId: number
   tagName: string
   tagType: TagType
-  onUpdateTags: (tags: Tag[]) => void
 }) {
   const { setModalOpen, onModalClose } = useModalStore()
+  const { setTags } = useTagStore()
 
   const handleDelete = async () => {
     try {
@@ -128,11 +128,10 @@ function ActionButtons({
         throw new Error('标签类型错误或 tagId 不存在!')
       }
     } catch (error) {
-      toast.error(`删除 ${tagName} 出错~ ${error}`)
-      console.error(`删除 ${tagName} 出错~`, error)
+      toast.error(`删除 ${tagName} 出错~`)
     }
     const allTags = await getBlogTagsAndNoteTags()
-    onUpdateTags(allTags)
+    setTags(allTags)
     onModalClose()
   }
 

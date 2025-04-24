@@ -28,7 +28,7 @@ export function EchoSearch() {
           if (value === ' ') return
           setQuery(value)
         }}
-        onKeyDown={e => e.key === 'Enter' && fetchEchos}
+        onKeyDown={e => e.key === 'Enter' && fetchEchos()}
       />
 
       <Button
