@@ -5,8 +5,9 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useEchoStore } from '@/store/use-echo-store'
 import { useModalStore } from '@/store/use-modal-store'
+import { Echo } from '@prisma/client'
 import { Plus, RotateCw, Search } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { toast } from 'sonner'
 
 export function EchoSearch() {
@@ -14,31 +15,23 @@ export function EchoSearch() {
   const { setEchos } = useEchoStore()
   const { setModalOpen } = useModalStore()
 
-  useEffect(() => {
-    getAllEchos().then(setEchos)
-  }, [])
-
-  const fetchEchos = async () => {
-    if (!query.trim()) {
-      return await loadAllEchos()
-    }
+  const load = async (fetchFn: () => Promise<Echo[]>, resetQuery = false) => {
     try {
-      const echos = await getQueryEchos(query)
-      setEchos(echos)
+      const data = await fetchFn()
+      if (resetQuery) {
+        setQuery('')
+      }
+      setEchos(data)
     } catch (error) {
-      toast.error(`获取 echo 数据错误 ${error}`)
-      console.error(`获取 echo 数据错误`, error)
+      toast.error(resetQuery ? '重新加载 echo 数据出错~' : '获取 echo 数据错误')
     }
   }
 
-  const loadAllEchos = async () => {
-    try {
-      const allEchos = await getAllEchos()
-      setQuery('')
-      setEchos(allEchos)
-    } catch (error) {
-      toast.error(`重置 echo 数据错误 ${error}`)
-      console.error(`重置 echo 数据错误`, error)
+  const fetchEchos = async () => {
+    if (!query.trim()) {
+      load(getAllEchos, true)
+    } else {
+      load(() => getQueryEchos(query))
     }
   }
 
@@ -71,7 +64,7 @@ export function EchoSearch() {
 
       <Button
         variant={'secondary'}
-        onClick={loadAllEchos}
+        onClick={() => load(getAllEchos, true)}
         className="cursor-pointer"
       >
         <RotateCw /> 重置

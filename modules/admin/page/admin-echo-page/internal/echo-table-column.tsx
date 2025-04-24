@@ -170,8 +170,7 @@ function ActionButtons({
       setEchos(newTables)
       toast.success(`删除成功~`)
     } catch (error) {
-      toast.error(`删除 echo 出错~ ${error}`)
-      console.error(`删除 echo 出错~`, error)
+      toast.error(`删除 echo 出错~`)
     }
   }
 

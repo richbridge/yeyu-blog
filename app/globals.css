@@ -118,6 +118,8 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 
+  --font-ye-font: var(--ye-font);
+
   /* 麻了, 找半天 bug, 结果是没有加 分号... */
   /* ! 这里有两个问题, 做个记录 */
   /* ! 1. 使用内置 tailwindcss 类没有提示 */
@@ -136,11 +138,6 @@
       opacity: 0;
     }
   }
-}
-
-/* * 听官网的话 https://tailwindcss.com/docs/theme#referencing-other-variables */
-@theme inline {
-  --font-ye-font: var(--ye-font);
 }
 
 @layer base {
