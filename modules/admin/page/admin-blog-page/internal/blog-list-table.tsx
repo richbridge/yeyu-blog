@@ -4,6 +4,7 @@ import { DataTable } from './data-table'
 import { columns } from './blog-table-column'
 import { useBlogs } from '@/hooks/use-blogs'
 import Loading from '@/components/shared/loading'
+import { motion } from 'motion/react'
 
 export default function BlogListTable() {
   const { blogs, loading, error } = useBlogs()
@@ -25,8 +26,17 @@ export default function BlogListTable() {
   }
 
   return (
-    <main className="h-full">
+    <motion.main
+      className="h-full"
+      initial={{ opacity: 0, y: 20, scale: 0.95 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      transition={{
+        type: 'spring',
+        stiffness: 120,
+        damping: 20,
+      }}
+    >
       <DataTable columns={columns} data={blogs} />
-    </main>
+    </motion.main>
   )
 }

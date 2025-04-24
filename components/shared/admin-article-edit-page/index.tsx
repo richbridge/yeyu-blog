@@ -109,7 +109,7 @@ export default function AdminBlogEditPage({
         }
       }
 
-      // redirect(`/admin/${editPageType.toLowerCase()}/edit/${values.slug}`)
+      toast.success('保存成功')
       router.push(`/admin/${editPageType.toLowerCase()}/edit/${values.slug}`)
     } catch (error) {
       toast.error(`提交失败：${error}`)
@@ -161,7 +161,6 @@ export default function AdminBlogEditPage({
                 <Switch
                   checked={field.value}
                   onCheckedChange={checked => {
-                    console.log('发布状态 => ', checked)
                     field.onChange(checked)
                   }}
                 ></Switch>
