@@ -140,6 +140,14 @@ export const updateNoteTagById = async (values: WithTagIdValues) => {
   })
 }
 
+export const getBlogTags = async () => {
+  return await prisma.blogTag.findMany()
+}
+
+export const getNoteTags = async () => {
+  return await prisma.noteTag.findMany()
+}
+
 export const getBlogTagsAndNoteTags = async () => {
   const [blogTags, noteTags] = await Promise.all([
     prisma.blogTag.findMany({

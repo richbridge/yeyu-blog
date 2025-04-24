@@ -66,11 +66,11 @@ const getEditPageType = (url: string): 'BLOG' | 'NOTE' => {
 
 // * 表单渲染, markdown 编辑器集成
 export default function AdminBlogEditPage({
-  articles,
+  article,
   relatedArticleTagNames,
   allTags,
 }: {
-  articles: Blog | Note | null
+  article: Blog | Note | null
   relatedArticleTagNames?: string[]
   allTags: BlogTag[] | NoteTag[]
 }) {
@@ -79,12 +79,12 @@ export default function AdminBlogEditPage({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: articles?.title ?? '',
-      slug: articles?.slug ?? '',
-      isPublished: articles?.isPublished ?? false,
+      title: article?.title ?? '',
+      slug: article?.slug ?? '',
+      isPublished: article?.isPublished ?? false,
       // * 后序更新用
       relatedTagNames: relatedArticleTagNames ?? [],
-      content: articles?.content ?? '',
+      content: article?.content ?? '',
     },
   })
   const url = usePathname()
@@ -95,11 +95,11 @@ export default function AdminBlogEditPage({
     // * 也不能说是💩山吧, 先放一放...
     try {
       // * 也不能说是💩山吧, 先放一放...
-      if (articles?.id) {
+      if (article?.id) {
         if (editPageType === 'BLOG') {
-          await updateBlogById({ ...values, id: articles.id })
+          await updateBlogById({ ...values, id: article.id })
         } else {
-          await updateNoteById({ ...values, id: articles.id })
+          await updateNoteById({ ...values, id: article.id })
         }
       } else {
         if (editPageType === 'BLOG') {

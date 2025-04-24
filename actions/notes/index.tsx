@@ -228,3 +228,14 @@ export const getAllShowNotes = async () => {
     },
   })
 }
+
+export const getNoteBySlug = async (slug: string) => {
+  return await prisma.note.findUnique({
+    where: {
+      slug,
+    },
+    include: {
+      tags: true,
+    },
+  })
+}

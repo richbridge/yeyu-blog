@@ -226,3 +226,14 @@ export const getAllShowBlogs = async () => {
     },
   })
 }
+
+export const getBlogBySlug = async (slug: string) => {
+  return await prisma.blog.findUnique({
+    where: {
+      slug,
+    },
+    include: {
+      tags: true,
+    },
+  })
+}
