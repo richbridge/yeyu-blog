@@ -3,44 +3,19 @@
 import { getBlogTagsAndNoteTags, getQueryTags } from '@/actions/tags'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { useTagLoader } from '@/hooks/use-tag-loader'
 import { useModalStore } from '@/store/use-modal-store'
 import { useTagStore } from '@/store/use-tag-store'
 import { RotateCw, Search } from 'lucide-react'
-import { useEffect, useState } from 'react'
-import { toast } from 'sonner'
 
 export default function TagSearch() {
   const { setModalOpen } = useModalStore()
   const { setTags } = useTagStore()
-  const [query, setQuery] = useState('')
-
-  useEffect(() => {
-    getBlogTagsAndNoteTags().then(setTags)
-  }, [])
-
-  const fetchTags = async () => {
-    if (!query.trim()) {
-      return await loadAllTags()
-    }
-    try {
-      const tags = await getQueryTags(query)
-      console.log(tags, 'tags')
-      setTags(tags)
-    } catch (error) {
-      toast.error(`获取标签数据错误 ${error}`)
-      console.error(`获取标签数据错误`, error)
-    }
-  }
-
-  const loadAllTags = async () => {
-    try {
-      const allTags = await getBlogTagsAndNoteTags()
-      setQuery('')
-      setTags(allTags)
-    } catch (error) {
-      console.error(`获取标签错误`, error)
-    }
-  }
+  const { query, fetchTags, resetTags, setQuery } = useTagLoader(
+    getBlogTagsAndNoteTags,
+    getQueryTags,
+    setTags,
+  )
 
   return (
     <div className="flex gap-2">
@@ -52,11 +27,7 @@ export default function TagSearch() {
           if (e.target.value === ' ') return
           setQuery(e.target.value)
         }}
-        onKeyDown={e => {
-          if (e.key === 'Enter') {
-            fetchTags()
-          }
-        }}
+        onKeyDown={e => e.key === 'Enter' && fetchTags()}
       />
       <Button
         type="button"
@@ -69,7 +40,7 @@ export default function TagSearch() {
 
       <Button
         variant={'secondary'}
-        onClick={loadAllTags}
+        onClick={resetTags}
         className="cursor-pointer"
       >
         <RotateCw /> 重置

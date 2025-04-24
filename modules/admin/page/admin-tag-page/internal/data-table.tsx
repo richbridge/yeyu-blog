@@ -94,7 +94,7 @@ export function DataTable<TData, TValue>({
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={columns.length}>No results.</TableCell>
+                <TableCell colSpan={columns.length}>虚无。</TableCell>
               </TableRow>
             )}
           </TableBody>
