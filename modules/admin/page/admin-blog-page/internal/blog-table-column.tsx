@@ -11,6 +11,8 @@ import TagItemBadge from '@/components/shared/tag-item-badge'
 import { ColumnDef } from '@tanstack/react-table'
 import { Button, buttonVariants } from '@/components/ui/button'
 import {
+  ArrowDown,
+  ArrowUp,
   CalendarDays,
   Edit2,
   Eye,
@@ -31,7 +33,7 @@ export const columns: ColumnDef<WithTagsBlog>[] = [
     accessorKey: 'title',
     header: () => {
       return (
-        <span className="flex gap-1 items-center dark:text-gray-200 text-gray-500">
+        <span className="flex gap-1 items-center">
           <TypeIcon className="size-4" />
           标题
         </span>
@@ -42,7 +44,7 @@ export const columns: ColumnDef<WithTagsBlog>[] = [
     accessorKey: 'tags',
     header: () => {
       return (
-        <span className="flex gap-1 items-center dark:text-gray-200 text-gray-500">
+        <span className="flex gap-1 items-center">
           <TagIcon className="size-4" />
           标签
         </span>
@@ -54,10 +56,7 @@ export const columns: ColumnDef<WithTagsBlog>[] = [
       return (
         <div className="flex gap-1">
           {tags.map((tag, i) => (
-            <TagItemBadge
-              tag={tag.tagName}
-              key={`${tag.id}+${i}+${tag.toString()}`}
-            />
+            <TagItemBadge tag={tag.tagName} key={tag.id} />
           ))}
         </div>
       )
@@ -67,7 +66,7 @@ export const columns: ColumnDef<WithTagsBlog>[] = [
     accessorKey: 'isPublished',
     header: () => {
       return (
-        <span className="flex gap-1 items-center dark:text-gray-200 text-gray-500">
+        <span className="flex gap-1 items-center">
           <Eye className="size-4" />
           是否发布
         </span>
@@ -84,6 +83,8 @@ export const columns: ColumnDef<WithTagsBlog>[] = [
   {
     accessorKey: 'createdAt',
     header: ({ column }) => {
+      const sorted = column.getIsSorted()
+
       return (
         <Button
           variant={'ghost'}
@@ -95,6 +96,11 @@ export const columns: ColumnDef<WithTagsBlog>[] = [
         >
           <CalendarDays className="size-4" />
           创建时间
+          {sorted === 'asc' ? (
+            <ArrowUp />
+          ) : sorted === 'desc' ? (
+            <ArrowDown />
+          ) : null}
         </Button>
       )
     },
@@ -107,26 +113,16 @@ export const columns: ColumnDef<WithTagsBlog>[] = [
     accessorKey: 'actions',
     header: () => {
       return (
-        <span className="flex gap-1 items-center dark:text-gray-200 text-gray-500">
+        <span className="flex gap-1 items-center">
           <Wrench className="size-4" />
           操作
         </span>
       )
     },
-    cell: ({ row, table }) => {
+    cell: ({ row }) => {
       const { id, slug, title } = row.original
-      const blogs = table.options.data
-      const { setBlogs } = useBlogStore()
 
-      return (
-        <ActionButtons
-          blogId={id}
-          slug={slug}
-          title={title}
-          blogsData={blogs}
-          onUpdateBlogs={setBlogs}
-        />
-      )
+      return <ActionButtons blogId={id} slug={slug} title={title} />
     },
   },
 ]
@@ -153,10 +149,10 @@ function PublishToggleSwitch({
     startTransition(async () => {
       try {
         await toggleBlogPublishedById(blogId, newStatus)
+        toast.success(`更新成功`)
       } catch (error) {
         setBlogs(preBlogs)
-        toast.error(`发布状态更新失败 ${error}`)
-        console.error(error)
+        toast.error(`发布状态更新失败`)
       }
     })
   }
@@ -174,25 +170,21 @@ function ActionButtons({
   blogId,
   slug,
   title,
-  blogsData,
-  onUpdateBlogs,
 }: {
   blogId: number
   slug: string
   title: string
-  blogsData: WithTagsBlog[]
-  onUpdateBlogs: (blogs: WithTagsBlog[]) => void
 }) {
   const { setModalOpen } = useModalStore()
+  const { blogs, setBlogs } = useBlogStore()
 
   const handleDelete = async () => {
     try {
       await deleteBlogById(blogId)
-      const filtered = blogsData.filter(blog => blog.id !== blogId)
-      onUpdateBlogs(filtered)
+      const filtered = blogs.filter(blog => blog.id !== blogId)
+      setBlogs(filtered)
     } catch (error) {
-      toast.error(`删除 ${title} 出错~ ${error}`)
-      console.error(`删除 ${title} 出错~`, error)
+      toast.error(`删除 ${title} 出错~`)
     }
   }
 

@@ -74,7 +74,7 @@ export const columns: ColumnDef<WithTagsNote>[] = [
         <PublishToggleSwitch
           noteId={note.id}
           isPublished={note.isPublished}
-          slug={note.slug}
+          key={note.id}
         />
       )
     },
@@ -83,6 +83,7 @@ export const columns: ColumnDef<WithTagsNote>[] = [
     accessorKey: 'createdAt',
     header: ({ column }) => {
       const sorted = column.getIsSorted()
+
       return (
         <Button
           variant={'ghost'}
@@ -111,7 +112,7 @@ export const columns: ColumnDef<WithTagsNote>[] = [
     accessorKey: 'actions',
     header: () => {
       return (
-        <span className="flex gap-1 items-center dark:text-gray-200 text-gray-500">
+        <span className="flex gap-1 items-center">
           <Wrench className="size-4" />
           操作
         </span>
@@ -128,18 +129,16 @@ export const columns: ColumnDef<WithTagsNote>[] = [
 function PublishToggleSwitch({
   noteId,
   isPublished,
-  slug,
 }: {
   noteId: number
   isPublished: boolean
-  slug: string
 }) {
   const { notes, setNotes } = useNoteStore()
   const [isPending, startTransition] = useTransition()
 
   const handleToggle = async () => {
     const newStatus = !isPublished
-    const preBlogs = [...notes]
+    const preNotes = [...notes]
 
     const updated = notes.map(item =>
       item.id === noteId ? { ...item, isPublished: newStatus } : item,
@@ -151,7 +150,7 @@ function PublishToggleSwitch({
         await toggleNotePublishedById(noteId, newStatus)
         toast.success(`更新成功`)
       } catch (error) {
-        setNotes(preBlogs)
+        setNotes(preNotes)
         toast.error(`发布状态更新失败`)
       }
     })
@@ -162,7 +161,6 @@ function PublishToggleSwitch({
       onCheckedChange={handleToggle}
       checked={isPublished}
       disabled={isPending}
-      key={slug}
     />
   )
 }
