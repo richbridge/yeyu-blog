@@ -1,10 +1,12 @@
 'use client'
 
+import { INITIAL_WELCOME_TEXT } from '@/config/constant'
 import {
   motion,
   useMotionValue,
   useMotionValueEvent,
   animate,
+  useTransform,
 } from 'motion/react'
 import { useEffect } from 'react'
 
@@ -16,13 +18,13 @@ export default function StartUpMotion() {
 
   useMotionValueEvent(scaleY, 'animationComplete', () => {
     animate(toLeft, '-100%', {
-      duration: 1.5,
+      duration: 0.8,
       ease: [0.65, 0, 0.35, 1],
       delay: 0.1,
     })
 
     animate(toRight, '100%', {
-      duration: 1.5,
+      duration: 0.8,
       ease: [0.65, 0, 0.35, 1],
       delay: 0.1,
     })
@@ -74,8 +76,8 @@ export default function StartUpMotion() {
           }}
           transition={{ duration: 2.4, ease: 'easeInOut' }}
         >
-          {/* 后序抽离出配置 */}
-          {'业余'.split('').map((char, i) => (
+          {/* 文字展示 */}
+          {INITIAL_WELCOME_TEXT.split('').map((char, i) => (
             <span key={`${i}+${char}`}>{char}</span>
           ))}
         </motion.div>

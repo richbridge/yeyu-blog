@@ -47,3 +47,6 @@ export const metadata: Metadata = {
   authors: [{ name: '叶鱼', url: 'https://yeyu.fun' }],
   creator: '叶鱼',
 }
+
+// * 首页动画加载的文字，建议不要超过 5 个字，你也可以去修改样式~
+export const INITIAL_WELCOME_TEXT = '业余'
