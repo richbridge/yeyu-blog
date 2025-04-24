@@ -2,10 +2,27 @@
 
 import { DataTable } from './data-table'
 import { columns } from './blog-table-column'
-import { useBlogStore } from '@/store/use-blog-store'
+import { useBlogs } from '@/hooks/use-blogs'
+import Loading from '@/components/shared/loading'
 
 export default function BlogListTable() {
-  const { blogs } = useBlogStore()
+  const { blogs, loading, error } = useBlogs()
+
+  if (loading) {
+    return (
+      <div className="flex h-full items-center justify-center">
+        <Loading />
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="flex h-full items-center justify-center text-red-500">
+        加载出错...
+      </div>
+    )
+  }
 
   return (
     <main className="h-full">

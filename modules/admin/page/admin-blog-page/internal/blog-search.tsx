@@ -4,44 +4,18 @@ import { getAllBlogs, getQueryBlogs } from '@/actions/blogs'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Plus, RotateCw, Search } from 'lucide-react'
-import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
 import { useBlogStore } from '@/store/use-blog-store'
-import { toast } from 'sonner'
+import { useBlogLoader } from '@/hooks/use-blog-loader'
 
 export function BlogSearch() {
-  const [query, setQuery] = useState('')
   const { setBlogs } = useBlogStore()
-
-  // * 初次加载
-  useEffect(() => {
-    getAllBlogs().then(setBlogs)
-  }, [])
-
-  const fetchBlogs = async () => {
-    if (!query.trim()) {
-      return await loadAllBlogs()
-    }
-    try {
-      const blogs = await getQueryBlogs(query)
-      setBlogs(blogs)
-    } catch (error) {
-      toast.error(`获取博客数据错误 ${error}`)
-      console.error(`获取博客数据错误`, error)
-    }
-  }
-
-  const loadAllBlogs = async () => {
-    try {
-      const allBlogs = await getAllBlogs()
-      setQuery('')
-      setBlogs(allBlogs)
-    } catch (error) {
-      toast.error(`重置博客数据错误 ${error}`)
-      console.error(`重置博客数据错误`, error)
-    }
-  }
+  const { query, fetchBlogs, setQuery, resetNotes } = useBlogLoader(
+    getAllBlogs,
+    getQueryBlogs,
+    setBlogs,
+  )
 
   return (
     <section className="flex w-full gap-4">
@@ -72,7 +46,7 @@ export function BlogSearch() {
 
       <Button
         variant={'secondary'}
-        onClick={loadAllBlogs}
+        onClick={resetNotes}
         className="cursor-pointer"
       >
         <RotateCw /> 重置
