@@ -1,10 +1,8 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { getTagsOnNote } from '@/actions/notes'
 import { NoteTag } from '@prisma/client'
 import { NoteTagItemToggle } from '@/components/shared/tag-item-toggle'
-import { toast } from 'sonner'
 import {
   Carousel,
   CarouselApi,
@@ -12,11 +10,8 @@ import {
   CarouselItem,
 } from '@/components/ui/carousel'
 import { cn } from '@/lib/utils'
-import TagContainerSkeleton from '@/components/shared/tag-container-skeleton'
 
-export function NoteTagsContainer() {
-  const [tags, setTags] = useState<NoteTag['tagName'][]>([])
-  const [loading, setLoading] = useState(true)
+export function NoteTagsContainer({ tags }: { tags: NoteTag['tagName'][] }) {
   const [api, setApi] = useState<CarouselApi>()
   const [current, setCurrent] = useState(1)
   const [count, setCount] = useState(0)
@@ -33,22 +28,6 @@ export function NoteTagsContainer() {
       setCurrent(api.selectedScrollSnap() + 1)
     })
   }, [api])
-
-  useEffect(() => {
-    const fetchTags = async () => {
-      try {
-        const res = await getTagsOnNote()
-        setTags(res.map(v => v.tagName))
-      } catch (error) {
-        toast.error(`获取 tags 数据错误 ${error}`)
-        console.error(`获取 tags 数据错误`, error)
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    fetchTags()
-  }, [])
 
   return (
     <section className="relative w-full">
@@ -71,9 +50,7 @@ export function NoteTagsContainer() {
         className="w-full max-w-[97vw]"
       >
         <CarouselContent>
-          {loading ? (
-            <TagContainerSkeleton />
-          ) : tags.length === 0 ? (
+          {tags.length === 0 ? (
             <p className="text-muted-foreground m-auto">没有标签 (｡•́︿•̀｡)</p>
           ) : (
             tags.map(tag => (
