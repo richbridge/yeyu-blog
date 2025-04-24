@@ -3,37 +3,19 @@
 import { getAllEchos, getQueryEchos } from '@/actions/echos'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { useEchoLoader } from '@/hooks/use-echo-loader'
 import { useEchoStore } from '@/store/use-echo-store'
 import { useModalStore } from '@/store/use-modal-store'
-import { Echo } from '@prisma/client'
 import { Plus, RotateCw, Search } from 'lucide-react'
-import { useState } from 'react'
-import { toast } from 'sonner'
 
 export function EchoSearch() {
-  const [query, setQuery] = useState('')
   const { setEchos } = useEchoStore()
+  const { query, setQuery, fetchEchos, resetEchos } = useEchoLoader(
+    getAllEchos,
+    getQueryEchos,
+    setEchos,
+  )
   const { setModalOpen } = useModalStore()
-
-  const load = async (fetchFn: () => Promise<Echo[]>, resetQuery = false) => {
-    try {
-      const data = await fetchFn()
-      if (resetQuery) {
-        setQuery('')
-      }
-      setEchos(data)
-    } catch (error) {
-      toast.error(resetQuery ? '重新加载 echo 数据出错~' : '获取 echo 数据错误')
-    }
-  }
-
-  const fetchEchos = async () => {
-    if (!query.trim()) {
-      load(getAllEchos, true)
-    } else {
-      load(() => getQueryEchos(query))
-    }
-  }
 
   return (
     <section className="flex w-full gap-4">
@@ -46,11 +28,7 @@ export function EchoSearch() {
           if (value === ' ') return
           setQuery(value)
         }}
-        onKeyDown={e => {
-          if (e.key === 'Enter') {
-            fetchEchos()
-          }
-        }}
+        onKeyDown={e => e.key === 'Enter' && fetchEchos}
       />
 
       <Button
@@ -64,7 +42,7 @@ export function EchoSearch() {
 
       <Button
         variant={'secondary'}
-        onClick={() => load(getAllEchos, true)}
+        onClick={resetEchos}
         className="cursor-pointer"
       >
         <RotateCw /> 重置

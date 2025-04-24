@@ -4,42 +4,18 @@ import { getAllNotes, getQueryNotes } from '@/actions/notes'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Plus, RotateCw, Search } from 'lucide-react'
-import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
 import { useNoteStore } from '@/store/use-note-store'
-import { toast } from 'sonner'
+import { useNoteLoader } from '@/hooks/use-note-loader'
 
 export function NoteSearch() {
-  const [query, setQuery] = useState('')
   const { setNotes } = useNoteStore()
-
-  useEffect(() => {
-    getAllNotes().then(setNotes)
-  }, [])
-
-  const fetchNotes = async () => {
-    if (!query.trim()) {
-      return await loadAllNotes()
-    }
-    try {
-      const notes = await getQueryNotes(query)
-      setNotes(notes)
-    } catch (error) {
-      console.error(`获取博客数据错误`, error)
-    }
-  }
-
-  const loadAllNotes = async () => {
-    try {
-      const allNotes = await getAllNotes()
-      setQuery('')
-      setNotes(allNotes)
-    } catch (error) {
-      toast.error(`获取笔记数据错误 ${error}`)
-      console.error(`获取笔记数据错误`, error)
-    }
-  }
+  const { query, setQuery, fetchNotes, resetNotes } = useNoteLoader(
+    getAllNotes,
+    getQueryNotes,
+    setNotes,
+  )
 
   return (
     <section className="flex w-full gap-4">
@@ -52,11 +28,7 @@ export function NoteSearch() {
           if (value === ' ') return
           setQuery(e.target.value)
         }}
-        onKeyDown={e => {
-          if (e.key === 'Enter') {
-            fetchNotes()
-          }
-        }}
+        onKeyDown={e => e.key === 'Enter' && fetchNotes()}
       />
 
       <Button
@@ -70,7 +42,7 @@ export function NoteSearch() {
 
       <Button
         variant={'secondary'}
-        onClick={loadAllNotes}
+        onClick={resetNotes}
         className="cursor-pointer"
       >
         <RotateCw /> 重置
