@@ -2,12 +2,19 @@
 
 import { DataTable } from './data-table'
 import { columns } from './tag-table-column'
-import { useTags } from '@/hooks/use-tags'
 import Loading from '@/components/shared/loading'
 import { motion } from 'motion/react'
+import { useStoreLoader } from '@/hooks/use-store-loader'
+import { useTagStore } from '@/store/use-tag-store'
+import { getBlogTagsAndNoteTags } from '@/actions/tags'
 
 export default function TagListTable() {
-  const { tags, loading, error } = useTags()
+  const { tags, setTags } = useTagStore()
+  const { data, error, loading } = useStoreLoader(
+    getBlogTagsAndNoteTags,
+    setTags,
+    tags,
+  )
 
   if (loading) {
     return (
@@ -36,7 +43,7 @@ export default function TagListTable() {
         damping: 20,
       }}
     >
-      <DataTable columns={columns} data={tags} />
+      <DataTable columns={columns} data={data} />
     </motion.main>
   )
 }

@@ -2,12 +2,15 @@
 
 import { DataTable } from './data-table'
 import { columns } from './note-table-column'
-import { useNotes } from '@/hooks/use-notes'
 import Loading from '@/components/shared/loading'
 import { motion } from 'motion/react'
+import { useNoteStore } from '@/store/use-note-store'
+import { useStoreLoader } from '@/hooks/use-store-loader'
+import { getAllNotes } from '@/actions/notes'
 
 export default function NoteListTable() {
-  const { notes, loading, error } = useNotes()
+  const { notes, setNotes } = useNoteStore()
+  const { data, error, loading } = useStoreLoader(getAllNotes, setNotes, notes)
 
   if (loading) {
     return (
@@ -36,7 +39,7 @@ export default function NoteListTable() {
         damping: 20,
       }}
     >
-      <DataTable columns={columns} data={notes} />
+      <DataTable columns={columns} data={data} />
     </motion.main>
   )
 }

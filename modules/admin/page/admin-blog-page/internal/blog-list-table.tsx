@@ -2,12 +2,15 @@
 
 import { DataTable } from './data-table'
 import { columns } from './blog-table-column'
-import { useBlogs } from '@/hooks/use-blogs'
 import Loading from '@/components/shared/loading'
 import { motion } from 'motion/react'
+import { useStoreLoader } from '@/hooks/use-store-loader'
+import { getAllBlogs } from '@/actions/blogs'
+import { useBlogStore } from '@/store/use-blog-store'
 
 export default function BlogListTable() {
-  const { blogs, loading, error } = useBlogs()
+  const { blogs, setBlogs } = useBlogStore()
+  const { data, error, loading } = useStoreLoader(getAllBlogs, setBlogs, blogs)
 
   if (loading) {
     return (
@@ -36,7 +39,7 @@ export default function BlogListTable() {
         damping: 20,
       }}
     >
-      <DataTable columns={columns} data={blogs} />
+      <DataTable columns={columns} data={data} />
     </motion.main>
   )
 }

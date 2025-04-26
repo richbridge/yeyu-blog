@@ -3,11 +3,14 @@
 import Loading from '@/components/shared/loading'
 import { DataTable } from './data-table'
 import { columns } from './echo-table-column'
-import { useEchos } from '@/hooks/use-echos'
 import { motion } from 'motion/react'
+import { useStoreLoader } from '@/hooks/use-store-loader'
+import { getAllEchos } from '@/actions/echos'
+import { useEchoStore } from '@/store/use-echo-store'
 
 export default function EchoListTable() {
-  const { echos, loading, error } = useEchos()
+  const { echos, setEchos } = useEchoStore()
+  const { data, error, loading } = useStoreLoader(getAllEchos, setEchos, echos)
 
   if (loading) {
     return (
@@ -36,7 +39,7 @@ export default function EchoListTable() {
         damping: 20,
       }}
     >
-      <DataTable columns={columns} data={echos} />
+      <DataTable columns={columns} data={data} />
     </motion.main>
   )
 }
