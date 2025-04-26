@@ -4,6 +4,7 @@ import Image from 'next/image'
 import avatar from '@/config/img/avatar.png'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
+import { motion } from 'motion/react'
 
 export default function YeAvatar() {
   const { setTheme, theme } = useTheme()
@@ -18,9 +19,10 @@ export default function YeAvatar() {
   return (
     // 摸摸头~
     // * 拍拍头切换亮暗模式~
-    <figure
-      className="relative cursor-grab"
+    <motion.figure
+      className="relative cursor-grab  drop-shadow-2xl active:drop-shadow-purple-300 dark:active:drop-shadow-emerald-300"
       onDoubleClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+      whileTap={{ scale: 0.9, rotate: 1 }}
     >
       <Image
         src={avatar}
@@ -35,6 +37,6 @@ export default function YeAvatar() {
                   ring-pink-600 dark:ring-blue-800 
                     ring-offset-1 animate-ye-ping-one-dot-one"
       />
-    </figure>
+    </motion.figure>
   )
 }
