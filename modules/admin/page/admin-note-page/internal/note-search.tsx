@@ -7,11 +7,11 @@ import { Plus, RotateCw, Search } from 'lucide-react'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
 import { useNoteStore } from '@/store/use-note-store'
-import { useNoteLoader } from '@/hooks/use-note-loader'
+import { useQueryLoader } from '@/hooks/use-query-loader'
 
 export function NoteSearch() {
   const { setNotes } = useNoteStore()
-  const { query, setQuery, fetchNotes, resetNotes } = useNoteLoader(
+  const { query, setQuery, fetchData, resetData } = useQueryLoader(
     getAllNotes,
     getQueryNotes,
     setNotes,
@@ -28,13 +28,13 @@ export function NoteSearch() {
           if (value === ' ') return
           setQuery(e.target.value)
         }}
-        onKeyDown={e => e.key === 'Enter' && fetchNotes()}
+        onKeyDown={e => e.key === 'Enter' && fetchData()}
       />
 
       <Button
         type="button"
         variant={'secondary'}
-        onClick={fetchNotes}
+        onClick={fetchData}
         className="cursor-pointer"
       >
         <Search /> 搜索
@@ -42,7 +42,7 @@ export function NoteSearch() {
 
       <Button
         variant={'secondary'}
-        onClick={resetNotes}
+        onClick={resetData}
         className="cursor-pointer"
       >
         <RotateCw /> 重置

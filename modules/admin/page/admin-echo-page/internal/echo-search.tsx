@@ -3,14 +3,14 @@
 import { getAllEchos, getQueryEchos } from '@/actions/echos'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { useEchoLoader } from '@/hooks/use-echo-loader'
+import { useQueryLoader } from '@/hooks/use-query-loader'
 import { useEchoStore } from '@/store/use-echo-store'
 import { useModalStore } from '@/store/use-modal-store'
 import { Plus, RotateCw, Search } from 'lucide-react'
 
 export function EchoSearch() {
   const { setEchos } = useEchoStore()
-  const { query, setQuery, fetchEchos, resetEchos } = useEchoLoader(
+  const { query, setQuery, fetchData, resetData } = useQueryLoader(
     getAllEchos,
     getQueryEchos,
     setEchos,
@@ -28,13 +28,13 @@ export function EchoSearch() {
           if (value === ' ') return
           setQuery(value)
         }}
-        onKeyDown={e => e.key === 'Enter' && fetchEchos()}
+        onKeyDown={e => e.key === 'Enter' && fetchData()}
       />
 
       <Button
         type="button"
         variant={'secondary'}
-        onClick={fetchEchos}
+        onClick={fetchData}
         className="cursor-pointer"
       >
         <Search /> 搜索
@@ -42,7 +42,7 @@ export function EchoSearch() {
 
       <Button
         variant={'secondary'}
-        onClick={resetEchos}
+        onClick={resetData}
         className="cursor-pointer"
       >
         <RotateCw /> 重置

@@ -7,11 +7,11 @@ import { Plus, RotateCw, Search } from 'lucide-react'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
 import { useBlogStore } from '@/store/use-blog-store'
-import { useBlogLoader } from '@/hooks/use-blog-loader'
+import { useQueryLoader } from '@/hooks/use-query-loader'
 
 export function BlogSearch() {
   const { setBlogs } = useBlogStore()
-  const { query, fetchBlogs, setQuery, resetNotes } = useBlogLoader(
+  const { query, fetchData, setQuery, resetData } = useQueryLoader(
     getAllBlogs,
     getQueryBlogs,
     setBlogs,
@@ -28,17 +28,13 @@ export function BlogSearch() {
           if (value === ' ') return
           setQuery(value)
         }}
-        onKeyDown={e => {
-          if (e.key === 'Enter') {
-            fetchBlogs()
-          }
-        }}
+        onKeyDown={e => e.key === 'Enter' && fetchData()}
       />
 
       <Button
         type="button"
         variant={'secondary'}
-        onClick={fetchBlogs}
+        onClick={fetchData}
         className="cursor-pointer"
       >
         <Search /> 搜索
@@ -46,7 +42,7 @@ export function BlogSearch() {
 
       <Button
         variant={'secondary'}
-        onClick={resetNotes}
+        onClick={resetData}
         className="cursor-pointer"
       >
         <RotateCw /> 重置

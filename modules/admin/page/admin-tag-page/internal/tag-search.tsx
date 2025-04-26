@@ -3,7 +3,7 @@
 import { getBlogTagsAndNoteTags, getQueryTags } from '@/actions/tags'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { useTagLoader } from '@/hooks/use-tag-loader'
+import { useQueryLoader } from '@/hooks/use-query-loader'
 import { useModalStore } from '@/store/use-modal-store'
 import { useTagStore } from '@/store/use-tag-store'
 import { RotateCw, Search } from 'lucide-react'
@@ -11,7 +11,7 @@ import { RotateCw, Search } from 'lucide-react'
 export default function TagSearch() {
   const { setModalOpen } = useModalStore()
   const { setTags } = useTagStore()
-  const { query, fetchTags, resetTags, setQuery } = useTagLoader(
+  const { query, setQuery, fetchData, resetData } = useQueryLoader(
     getBlogTagsAndNoteTags,
     getQueryTags,
     setTags,
@@ -27,12 +27,12 @@ export default function TagSearch() {
           if (e.target.value === ' ') return
           setQuery(e.target.value)
         }}
-        onKeyDown={e => e.key === 'Enter' && fetchTags()}
+        onKeyDown={e => e.key === 'Enter' && fetchData()}
       />
       <Button
         type="button"
         variant={'secondary'}
-        onClick={fetchTags}
+        onClick={fetchData}
         className="cursor-pointer"
       >
         <Search /> 搜索
@@ -40,7 +40,7 @@ export default function TagSearch() {
 
       <Button
         variant={'secondary'}
-        onClick={resetTags}
+        onClick={resetData}
         className="cursor-pointer"
       >
         <RotateCw /> 重置
