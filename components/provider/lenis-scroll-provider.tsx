@@ -1,0 +1,23 @@
+// lenis-provider.tsx
+'use client'
+import { ReactLenis } from 'lenis/react'
+import { FC } from 'react'
+
+type LenisScrollProviderProps = {
+  children: React.ReactNode
+}
+const LenisScrollProvider: FC<LenisScrollProviderProps> = ({ children }) => {
+  return (
+    <ReactLenis
+      options={{
+        duration: 1.2,
+        easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      }}
+      root
+    >
+      {children}
+    </ReactLenis>
+  )
+}
+
+export default LenisScrollProvider
