@@ -14,11 +14,10 @@ export default function ArticleDisplayPage({
   tags: string[]
 }) {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen backdrop-blur-[1px] z-10">
       <motion.article
-        className="flex flex-col gap-10 py-2 px-6 max-w-3xl flex-1 dark:bg-gray-900/30 bg-slate-300/30 rounded-sm
-                    border border-dashed border-indigo-200 dark:border-accent 
-                    backdrop-blur-[1px] z-10"
+        className="flex flex-col gap-10 py-2 px-6 max-w-3xl flex-1 dark:b-gray-900/30 b-slate-300/30 rounded-sm
+                    border border-dashed border-indigo-200 dark:border-accent"
         initial={{
           opacity: 0,
           y: 40,
