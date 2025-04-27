@@ -27,6 +27,8 @@ import { useModalStore } from '@/store/use-modal-store'
 import { useBlogStore } from '@/store/use-blog-store'
 import { toast } from 'sonner'
 import { useTransition } from 'react'
+import { requireAdmin } from '@/lib/auth'
+import { useRouter } from 'next/navigation'
 
 export const columns: ColumnDef<WithTagsBlog>[] = [
   {
@@ -152,7 +154,11 @@ function PublishToggleSwitch({
         toast.success(`更新成功`)
       } catch (error) {
         setBlogs(preBlogs)
-        toast.error(`发布状态更新失败`)
+        if (error instanceof Error) {
+          toast.error(`发布状态更新失败 ${error?.message}`)
+        } else {
+          toast.error(`发布状态更新失败`)
+        }
       }
     })
   }
@@ -177,6 +183,7 @@ function ActionButtons({
 }) {
   const { setModalOpen } = useModalStore()
   const { blogs, setBlogs } = useBlogStore()
+  const router = useRouter()
 
   const handleDelete = async () => {
     try {
@@ -184,7 +191,11 @@ function ActionButtons({
       const filtered = blogs.filter(blog => blog.id !== blogId)
       setBlogs(filtered)
     } catch (error) {
-      toast.error(`删除 ${title} 出错~`)
+      if (error instanceof Error) {
+        toast.error(`删除 「${title}」 出错~ ${error?.message}`)
+      } else {
+        toast.error(`删除 「${title}」 出错~`)
+      }
     }
   }
 
@@ -198,14 +209,25 @@ function ActionButtons({
       >
         <Eye className="size-4" />
       </Link>
+
       <Link
         href={`blog/edit/${slug}`}
+        onClick={async e => {
+          e.preventDefault()
+          try {
+            await requireAdmin()
+            router.push(`blog/edit/${slug}`)
+          } catch (error) {
+            toast.error(`权限不够哦~`)
+          }
+        }}
         className={cn(
           buttonVariants({ variant: 'outline', className: 'size-8' }),
         )}
       >
         <Edit2 className="size-4" />
       </Link>
+
       <Button
         variant="outline"
         className="size-8 text-red-600"
