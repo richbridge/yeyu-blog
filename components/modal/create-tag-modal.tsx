@@ -71,8 +71,11 @@ export default function CreateTagModal() {
       const allTags = await getBlogTagsAndNoteTags()
       setTags(allTags)
     } catch (error) {
-      toast.error(`创建标签失败~ ${error}`)
-      console.error(`创建标签失败~ ${error}`)
+      if (error instanceof Error) {
+        toast.error(`创建标签失败~ ${error.message}`)
+      } else {
+        toast.error(`创建标签失败~`)
+      }
     }
   }
 

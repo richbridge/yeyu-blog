@@ -128,7 +128,11 @@ function ActionButtons({
         throw new Error('标签类型错误或 tagId 不存在!')
       }
     } catch (error) {
-      toast.error(`删除 ${tagName} 出错~`)
+      if (error instanceof Error) {
+        toast.error(`删除标签 ${tagName} 失败~ ${error.message}`)
+      } else {
+        toast.error(`删除标签 ${tagName} 出错~`)
+      }
     }
     const allTags = await getBlogTagsAndNoteTags()
     setTags(allTags)

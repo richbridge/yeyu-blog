@@ -82,7 +82,6 @@ export default function AdminBlogEditPage({
       title: article?.title ?? '',
       slug: article?.slug ?? '',
       isPublished: article?.isPublished ?? false,
-      // * 后序更新用
       relatedTagNames: relatedArticleTagNames ?? [],
       content: article?.content ?? '',
     },
@@ -90,11 +89,8 @@ export default function AdminBlogEditPage({
   const url = usePathname()
   const editPageType = getEditPageType(url)
 
-  // * 保存按扭, 更新文章
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    // * 也不能说是💩山吧, 先放一放...
     try {
-      // * 也不能说是💩山吧, 先放一放...
       if (article?.id) {
         if (editPageType === 'BLOG') {
           await updateBlogById({ ...values, id: article.id })
@@ -112,8 +108,11 @@ export default function AdminBlogEditPage({
       toast.success('保存成功')
       router.push(`/admin/${editPageType.toLowerCase()}/edit/${values.slug}`)
     } catch (error) {
-      toast.error(`提交失败：${error}`)
-      console.error('提交失败：', error)
+      if (error instanceof Error) {
+        toast.error(`保存失败 ${error.message}`)
+      } else {
+        toast.error(`保存失败`)
+      }
     }
   }
 

@@ -82,21 +82,26 @@ export default function EditEchoModal() {
     if (!id) {
       throw new Error('echo id 不存在')
     }
+
+    await updateEchoById({ ...values, id })
+    const echos = await getAllEchos()
+    setEchos(echos)
+  }
+
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      await updateEchoById({ ...values, id })
-      const echos = await getAllEchos()
-      setEchos(echos)
-      toast.success(`修改成功~`)
+      await handleEditEcho(values)
+      toast.success('修改成功~')
+      onModalClose()
     } catch (error) {
-      toast.error(`更新 echo 失败~ ${error}`)
-      console.error('更新 echo 失败~', error)
+      if (error instanceof Error) {
+        toast.error(`更新 echo 失败~ ${error.message}`)
+      } else {
+        toast.error('更新 echo 失败~')
+      }
     }
   }
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    handleEditEcho(values)
-    onModalClose()
-  }
   return (
     <Dialog
       open={isModalOpen}

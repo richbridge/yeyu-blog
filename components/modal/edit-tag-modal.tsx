@@ -30,6 +30,7 @@ import { useEffect } from 'react'
 import { useTagStore } from '@/store/use-tag-store'
 import { TagType } from '@prisma/client'
 import { TAG_NAME_MAX_LENGTH } from '@/config/constant'
+import { toast } from 'sonner'
 
 const formSchema = z.object({
   tagName: z
@@ -81,11 +82,19 @@ export default function EditTagModal() {
     setTags(allTags)
   }
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     if (!tagId || !tagName) {
       return
     }
-    handleTagNameChange({ ...values, tagId })
+    try {
+      await handleTagNameChange({ ...values, tagId })
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(`修改标签出错 ${error.message}`)
+      } else {
+        toast.error(`修改标签出错`)
+      }
+    }
     onModalClose()
   }
   return (

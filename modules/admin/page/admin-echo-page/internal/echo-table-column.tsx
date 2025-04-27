@@ -133,8 +133,11 @@ function PublishToggleSwitch({ echoId }: { echoId: number }) {
         toast.success(`${newStatus ? '发布成功' : '隐藏成功'}`)
       } catch (error) {
         setEchos(preEchos)
-        toast.error(`发布状态更新失败 ${error}`)
-        console.error('发布状态更新失败', error)
+        if (error instanceof Error) {
+          toast.error(`发布状态更新失败 ${error.message}`)
+        } else {
+          toast.error(`发布状态更新失败`)
+        }
       }
     })
   }
@@ -170,13 +173,16 @@ function ActionButtons({
       setEchos(newTables)
       toast.success(`删除成功~`)
     } catch (error) {
-      toast.error(`删除 echo 出错~`)
+      if (error instanceof Error) {
+        toast.error(`删除 echo 失败 ${error.message}`)
+      } else {
+        toast.error(`删除 echo 失败`)
+      }
     }
   }
 
   return (
     <section className="flex items-center gap-1">
-      {/* 查看直接使用那种变形对话框!!! */}
       <Button
         variant={'outline'}
         className="size-8"

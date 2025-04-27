@@ -66,10 +66,13 @@ export default function CreateEchoModal() {
       await createEcho(values)
       const echos = await getAllEchos()
       setEchos(echos)
-      toast.success(`创建成功喵~`)
+      toast.success(`创建成功~`)
     } catch (error) {
-      toast.error(`创建echo失败~ ${error}`)
-      console.error('创建标签失败~', error)
+      if (error instanceof Error) {
+        toast.error(`创建 echo 失败 ${error.message}`)
+      } else {
+        toast.error(`创建 echo 失败`)
+      }
     }
   }
 
