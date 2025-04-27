@@ -22,7 +22,11 @@ export default function YeAvatar() {
     <motion.figure
       className="relative cursor-grab  drop-shadow-2xl active:drop-shadow-purple-300 dark:active:drop-shadow-emerald-300"
       onDoubleClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-      whileTap={{ scale: 0.9, rotate: 1 }}
+      whileTap={{ scale: 0.99, rotate: 1 }}
+      drag
+      dragConstraints={{ top: 0, right: 0, bottom: 0, left: 0 }}
+      dragTransition={{ bounceStiffness: 500, bounceDamping: 15 }}
+      dragElastic={0.2}
     >
       <Image
         src={avatar}

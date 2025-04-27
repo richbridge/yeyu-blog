@@ -149,12 +149,6 @@
   }
 }
 
-/* 文字竖直显示 */
-@utility text-vertical {
-  writing-mode: vertical-rl;
-  text-orientation: upright;
-}
-
 /* 自定义滚动条样式 */
 html,
 body {
