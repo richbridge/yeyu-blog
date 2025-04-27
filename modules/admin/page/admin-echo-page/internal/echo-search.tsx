@@ -18,7 +18,7 @@ export function EchoSearch() {
   const { setModalOpen } = useModalStore()
 
   return (
-    <section className="flex w-full gap-4">
+    <section className="flex gap-2">
       <Input
         placeholder="请输入引用喵~"
         className="w-1/4"

@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input'
 import { useQueryLoader } from '@/hooks/use-query-loader'
 import { useModalStore } from '@/store/use-modal-store'
 import { useTagStore } from '@/store/use-tag-store'
-import { RotateCw, Search } from 'lucide-react'
+import { Plus, RotateCw, Search } from 'lucide-react'
 
 export default function TagSearch() {
   const { setModalOpen } = useModalStore()
@@ -52,6 +52,7 @@ export default function TagSearch() {
         }}
         className="cursor-pointer"
       >
+        <Plus />
         新建标签
       </Button>
     </div>

@@ -18,7 +18,7 @@ export function NoteSearch() {
   )
 
   return (
-    <section className="flex w-full gap-4">
+    <section className="flex gap-2">
       <Input
         placeholder="请输入标题喵~"
         className="w-1/4"
