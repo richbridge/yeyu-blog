@@ -1,6 +1,5 @@
 import { auth } from '@/auth'
 import { ADMIN_EMAILS } from '@/config/constant'
-import { toast } from 'sonner'
 
 // import from (https://github.com/aifuxi/fuxiaochen/blob/master/features/user/actions/index.ts)
 // 感谢大佬带来的启发 🥹
@@ -18,7 +17,6 @@ export const noPermission = async () => {
 
 export const requireAdmin = async () => {
   if (await noPermission()) {
-    toast.error(`权限不够喵~`)
     throw new Error('权限不够喵~')
   }
 }

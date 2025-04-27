@@ -23,6 +23,8 @@ import { useModalStore } from '@/store/use-modal-store'
 import { useNoteStore, WithTagsNote } from '@/store/use-note-store'
 import { useTransition } from 'react'
 import { toast } from 'sonner'
+import { requireAdmin } from '@/lib/auth'
+import { useRouter } from 'next/navigation'
 
 export const columns: ColumnDef<WithTagsNote>[] = [
   {
@@ -151,7 +153,11 @@ function PublishToggleSwitch({
         toast.success(`更新成功`)
       } catch (error) {
         setNotes(preNotes)
-        toast.error(`发布状态更新失败`)
+        if (error instanceof Error) {
+          toast.error(`发布状态更新失败 ${error?.message}`)
+        } else {
+          toast.error(`发布状态更新失败`)
+        }
       }
     })
   }
@@ -176,6 +182,7 @@ function ActionButtons({
 }) {
   const { setModalOpen } = useModalStore()
   const { setNotes, notes } = useNoteStore()
+  const router = useRouter()
 
   const handleDelete = async () => {
     try {
@@ -183,7 +190,11 @@ function ActionButtons({
       const filtered = notes.filter(blog => blog.id !== noteId)
       setNotes(filtered)
     } catch (error) {
-      toast.error(`删除 ${title} 出错~`)
+      if (error instanceof Error) {
+        toast.error(`删除 「${title}」 出错~ ${error?.message}`)
+      } else {
+        toast.error(`删除 「${title}」 出错~`)
+      }
     }
   }
 
@@ -197,14 +208,25 @@ function ActionButtons({
       >
         <Eye className="size-4" />
       </Link>
+
       <Link
         href={`note/edit/${slug}`}
+        onClick={async e => {
+          e.preventDefault()
+          try {
+            await requireAdmin()
+            router.push(`note/edit/${slug}`)
+          } catch (error) {
+            toast.error(`权限不够哦~`)
+          }
+        }}
         className={cn(
           buttonVariants({ variant: 'outline', className: 'size-8' }),
         )}
       >
         <Edit2 className="size-4" />
       </Link>
+
       <Button
         variant={'outline'}
         className="size-8 text-red-600"
