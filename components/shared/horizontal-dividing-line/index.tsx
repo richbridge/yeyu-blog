@@ -1,12 +1,15 @@
 'use client'
 
 import Mandala from '@/config/svg/mandala'
+import { useTransitionTheme } from '@/hooks/use-transition-theme'
 import { motion, useAnimationFrame, useMotionValue } from 'motion/react'
-import { useTheme } from 'next-themes'
 import { useState } from 'react'
 
+// * 拖拽两边移动距离阈值，超过触发
+const THRESHOLD = 400
+
 export default function HorizontalDividingLine() {
-  const { setTheme } = useTheme()
+  const { setTransitionTheme } = useTransitionTheme()
   const rotate = useMotionValue(0)
   const [duration, setDuration] = useState(4)
 
@@ -28,11 +31,10 @@ export default function HorizontalDividingLine() {
         onDragStart={() => setDuration(0.8)}
         onDragEnd={(event, info) => {
           setDuration(4)
-          const THRESHOLD = 500
           if (info.offset.x < -THRESHOLD) {
-            setTheme('light')
+            setTransitionTheme('light')
           } else if (info.offset.x > THRESHOLD) {
-            setTheme('dark')
+            setTransitionTheme('dark')
           }
         }}
       >

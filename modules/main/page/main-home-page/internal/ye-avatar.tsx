@@ -2,12 +2,12 @@
 
 import Image from 'next/image'
 import avatar from '@/config/img/avatar.png'
-import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
 import { motion } from 'motion/react'
+import { useTransitionTheme } from '@/hooks/use-transition-theme'
 
 export default function YeAvatar() {
-  const { setTheme, theme } = useTheme()
+  const { setTransitionTheme, theme } = useTransitionTheme()
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
@@ -21,7 +21,9 @@ export default function YeAvatar() {
     // * 拍拍头切换亮暗模式~
     <motion.figure
       className="relative cursor-grab  drop-shadow-2xl active:drop-shadow-purple-300 dark:active:drop-shadow-emerald-300"
-      onDoubleClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+      onDoubleClick={() =>
+        setTransitionTheme(theme === 'light' ? 'dark' : 'light')
+      }
       whileTap={{ scale: 0.99, rotate: 1 }}
       drag
       dragConstraints={{ top: 0, right: 0, bottom: 0, left: 0 }}
