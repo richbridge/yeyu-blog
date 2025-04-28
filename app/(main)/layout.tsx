@@ -4,6 +4,7 @@ import StarsBackground from '@/components/shared/stars-background'
 import StartUpMotion from '@/components/shared/start-up-motion'
 import ContactMe from '@/components/shared/contact-me'
 import LenisScrollProvider from '@/components/provider/lenis-scroll-provider'
+import HorizontalDividingLine from '@/components/shared/horizontal-dividing-line'
 
 export default function MainLayout({
   children,
@@ -20,8 +21,10 @@ export default function MainLayout({
       >
         <MainLayoutHeader />
 
-        <MaxWidthWrapper className="overflow-x-hidden flex flex-col justify-between flex-1">
+        <MaxWidthWrapper className="overflow-x-hidden flex flex-col justify-between flex-1 gap-2">
           <main className="flex flex-col flex-1">{children}</main>
+
+          <HorizontalDividingLine />
           <ContactMe />
         </MaxWidthWrapper>
 
