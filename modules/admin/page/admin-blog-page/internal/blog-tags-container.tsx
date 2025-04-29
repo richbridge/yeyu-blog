@@ -21,16 +21,21 @@ export function BlogTagsContainer({ tags }: { tags: BlogTag['tagName'][] }) {
   const [count, setCount] = useState(0)
 
   useEffect(() => {
-    if (!api) {
+    if (!api)
       return
+
+    const updateCurrent = () => {
+      setCurrent(api.selectedScrollSnap() + 1)
     }
 
     setCount(api.scrollSnapList().length)
-    setCurrent(api.selectedScrollSnap() + 1)
+    updateCurrent()
 
-    api.on('select', () => {
-      setCurrent(api.selectedScrollSnap() + 1)
-    })
+    api.on('select', updateCurrent)
+
+    return () => {
+      api.off('select', updateCurrent)
+    }
   }, [api])
 
   return (

@@ -11,7 +11,7 @@ export default function TagContainerSkeleton() {
             toggleVariants({ variant: 'outline', size: 'sm' }),
             'mr-4',
           )}
-          key={i}
+          key={`${i.toString()}`}
         >
           &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
         </Skeleton>

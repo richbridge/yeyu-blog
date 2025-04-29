@@ -18,9 +18,9 @@ export default function ArticleDisplayHeader({
 
       <section className="flex flex-col gap-2 justify-center w-full">
         <p className="flex gap-2 justify-center w-full">
-          {tags.map((tag, i) => (
+          {tags.map(tag => (
             <TagItemBadge
-              key={`${i}+${tag.toString()}+${tag[i]?.toString()}`}
+              key={`${tag.toString()}`}
               tag={tag}
             />
           ))}

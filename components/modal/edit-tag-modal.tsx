@@ -67,7 +67,7 @@ export default function EditTagModal() {
     if (isModalOpen && tagName) {
       form.reset({ tagName })
     }
-  }, [tagName, isModalOpen])
+  }, [tagName, isModalOpen, form])
 
   const handleTagNameChange = async (values: WithTagIdValues) => {
     if (tagType === TagType.BLOG) {

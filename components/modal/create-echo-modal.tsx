@@ -87,7 +87,7 @@ export default function CreateEchoModal() {
     if (!isModalOpen) {
       form.reset()
     }
-  }, [isModalOpen])
+  }, [isModalOpen, form])
 
   return (
     <Dialog open={isModalOpen} onOpenChange={onModalClose}>

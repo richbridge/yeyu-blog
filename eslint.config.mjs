@@ -15,6 +15,7 @@ export default antfu(
     rules: {
       'node/prefer-global/process': 'off',
       'node/prefer-global/buffer': 'off',
+      'react-dom/no-dangerously-set-innerhtml': 'off',
     },
   },
   {

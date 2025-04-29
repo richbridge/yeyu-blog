@@ -73,7 +73,7 @@ function TechStack() {
       <section className="relative size-[250px] md:size-[500px] rounded-full animate-ye-spin-slowly">
         {techStackSvg.map((svg, i) => (
           <div
-            key={i}
+            key={svg.key}
             onClick={() => handleClick(i)}
             className={cn(
               `absolute left-1/2 -translate-x-1/2 size-1/4 md:size-32 z-10 origin-[center_125px] md:origin-[center_250px]

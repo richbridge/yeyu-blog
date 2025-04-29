@@ -34,6 +34,7 @@ export default function StartUpMotion() {
       duration: 2,
       ease: [0.65, 0, 0.35, 1],
     })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
@@ -77,7 +78,7 @@ export default function StartUpMotion() {
         >
           {/* 文字展示 */}
           {INITIAL_WELCOME_TEXT.split('').map((char, i) => (
-            <span key={`${i}+${char}`}>{char}</span>
+            <span key={`${i.toString()}+${char}`}>{char}</span>
           ))}
         </motion.div>
       </>

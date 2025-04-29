@@ -22,6 +22,7 @@ export function NoteTagItemToggle({
     return () => {
       setSelectedTags([])
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const handleSelectedTagChange = async (selected: boolean) => {

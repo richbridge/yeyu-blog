@@ -76,7 +76,8 @@ export default function EditEchoModal() {
     if (isModalOpen) {
       form.reset(initialValues)
     }
-  }, [isModalOpen])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isModalOpen, form])
 
   const handleEditEcho = async (values: EchoForm) => {
     if (!id) {
