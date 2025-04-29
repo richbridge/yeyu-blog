@@ -2,30 +2,20 @@
 
 import type { WithTagsNote } from '@/store/use-note-store'
 import type { ColumnDef } from '@tanstack/react-table'
-import { deleteNoteById, toggleNotePublishedById } from '@/actions/notes'
 import TagItemBadge from '@/components/shared/tag-item-badge'
-import { Button, buttonVariants } from '@/components/ui/button'
-import { Switch } from '@/components/ui/switch'
-import { requireAdmin } from '@/lib/auth'
+import { Button } from '@/components/ui/button'
 import { prettyDateTime } from '@/lib/time'
-import { cn } from '@/lib/utils'
-import { useModalStore } from '@/store/use-modal-store'
-import { useNoteStore } from '@/store/use-note-store'
 import {
   ArrowDown,
   ArrowUp,
   CalendarDays,
-  Edit2,
   Eye,
   TagIcon,
-  Trash,
   TypeIcon,
   Wrench,
 } from 'lucide-react'
-import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import { useTransition } from 'react'
-import { toast } from 'sonner'
+import ActionButtons from './action-buttons'
+import PublishToggleSwitch from './publish-toggle-switch'
 
 export const columns: ColumnDef<WithTagsNote>[] = [
   {
@@ -132,120 +122,3 @@ export const columns: ColumnDef<WithTagsNote>[] = [
     },
   },
 ]
-
-function PublishToggleSwitch({
-  noteId,
-  isPublished,
-}: {
-  noteId: number
-  isPublished: boolean
-}) {
-  const { notes, setNotes } = useNoteStore()
-  const [isPending, startTransition] = useTransition()
-
-  const handleToggle = async () => {
-    const newStatus = !isPublished
-    const preNotes = [...notes]
-
-    const updated = notes.map(item =>
-      item.id === noteId ? { ...item, isPublished: newStatus } : item,
-    )
-    setNotes(updated)
-
-    startTransition(async () => {
-      try {
-        await toggleNotePublishedById(noteId, newStatus)
-        toast.success(`更新成功`)
-      }
-      catch (error) {
-        setNotes(preNotes)
-        if (error instanceof Error) {
-          toast.error(`发布状态更新失败 ${error?.message}`)
-        }
-        else {
-          toast.error(`发布状态更新失败`)
-        }
-      }
-    })
-  }
-
-  return (
-    <Switch
-      onCheckedChange={handleToggle}
-      checked={isPublished}
-      disabled={isPending}
-    />
-  )
-}
-
-function ActionButtons({
-  noteId,
-  slug,
-  title,
-}: {
-  noteId: number
-  slug: string
-  title: string
-}) {
-  const { setModalOpen } = useModalStore()
-  const { setNotes, notes } = useNoteStore()
-  const router = useRouter()
-
-  const handleDelete = async () => {
-    try {
-      await deleteNoteById(noteId)
-      const filtered = notes.filter(blog => blog.id !== noteId)
-      setNotes(filtered)
-    }
-    catch (error) {
-      if (error instanceof Error) {
-        toast.error(`删除 「${title}」 出错~ ${error?.message}`)
-      }
-      else {
-        toast.error(`删除 「${title}」 出错~`)
-      }
-    }
-  }
-
-  return (
-    <section className="flex items-center gap-1">
-      <Link
-        href={`/note/${slug}`}
-        className={cn(
-          buttonVariants({ variant: 'outline', className: 'size-8' }),
-        )}
-      >
-        <Eye className="size-4" />
-      </Link>
-
-      <Link
-        href={`note/edit/${slug}`}
-        onClick={async (e) => {
-          e.preventDefault()
-          try {
-            await requireAdmin()
-            router.push(`note/edit/${slug}`)
-          }
-          catch {
-            toast.error(`权限不够哦~`)
-          }
-        }}
-        className={cn(
-          buttonVariants({ variant: 'outline', className: 'size-8' }),
-        )}
-      >
-        <Edit2 className="size-4" />
-      </Link>
-
-      <Button
-        variant="outline"
-        className="size-8 text-red-600"
-        onClick={() => {
-          setModalOpen('deleteArticleModal', handleDelete)
-        }}
-      >
-        <Trash />
-      </Button>
-    </section>
-  )
-}

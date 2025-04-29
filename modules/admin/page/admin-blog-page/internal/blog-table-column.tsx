@@ -4,33 +4,20 @@ import type {
   WithTagsBlog,
 } from '@/actions/blogs'
 import type { ColumnDef } from '@tanstack/react-table'
-import {
-  deleteBlogById,
-  toggleBlogPublishedById,
-} from '@/actions/blogs'
 import TagItemBadge from '@/components/shared/tag-item-badge'
-import { Button, buttonVariants } from '@/components/ui/button'
-import { Switch } from '@/components/ui/switch'
-import { requireAdmin } from '@/lib/auth'
+import { Button } from '@/components/ui/button'
 import { prettyDateTime } from '@/lib/time'
-import { cn } from '@/lib/utils'
-import { useBlogStore } from '@/store/use-blog-store'
-import { useModalStore } from '@/store/use-modal-store'
 import {
   ArrowDown,
   ArrowUp,
   CalendarDays,
-  Edit2,
   Eye,
   TagIcon,
-  Trash,
   TypeIcon,
   Wrench,
 } from 'lucide-react'
-import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import { useTransition } from 'react'
-import { toast } from 'sonner'
+import ActionButtons from './action-buttons'
+import PublishToggleSwitch from './publish-toggle-switch'
 
 export const columns: ColumnDef<WithTagsBlog>[] = [
   {
@@ -134,118 +121,3 @@ export const columns: ColumnDef<WithTagsBlog>[] = [
     },
   },
 ]
-
-function PublishToggleSwitch({
-  blogId,
-  isPublished,
-}: {
-  blogId: number
-  isPublished: boolean
-}) {
-  const { setBlogs, blogs } = useBlogStore()
-  const [isPending, startTransition] = useTransition()
-
-  const handleToggle = async () => {
-    const newStatus = !isPublished
-    const preBlogs = [...blogs]
-
-    const updated = blogs.map(item =>
-      item.id === blogId ? { ...item, isPublished: newStatus } : item,
-    )
-    setBlogs(updated)
-
-    startTransition(async () => {
-      try {
-        await toggleBlogPublishedById(blogId, newStatus)
-        toast.success(`更新成功`)
-      }
-      catch (error) {
-        setBlogs(preBlogs)
-        if (error instanceof Error) {
-          toast.error(`发布状态更新失败 ${error?.message}`)
-        }
-        else {
-          toast.error(`发布状态更新失败`)
-        }
-      }
-    })
-  }
-
-  return (
-    <Switch
-      onCheckedChange={handleToggle}
-      checked={isPublished}
-      disabled={isPending}
-    />
-  )
-}
-
-function ActionButtons({
-  blogId,
-  slug,
-  title,
-}: {
-  blogId: number
-  slug: string
-  title: string
-}) {
-  const { setModalOpen } = useModalStore()
-  const { blogs, setBlogs } = useBlogStore()
-  const router = useRouter()
-
-  const handleDelete = async () => {
-    try {
-      await deleteBlogById(blogId)
-      const filtered = blogs.filter(blog => blog.id !== blogId)
-      setBlogs(filtered)
-    }
-    catch (error) {
-      if (error instanceof Error) {
-        toast.error(`删除 「${title}」 出错~ ${error?.message}`)
-      }
-      else {
-        toast.error(`删除 「${title}」 出错~`)
-      }
-    }
-  }
-
-  return (
-    <section className="flex items-center gap-1">
-      <Link
-        href={`/blog/${slug}`}
-        className={cn(
-          buttonVariants({ variant: 'outline', className: 'size-8' }),
-        )}
-      >
-        <Eye className="size-4" />
-      </Link>
-
-      <Link
-        href={`blog/edit/${slug}`}
-        onClick={async (e) => {
-          e.preventDefault()
-          try {
-            await requireAdmin()
-            router.push(`blog/edit/${slug}`)
-          }
-          catch {
-            toast.error(`权限不够哦~`)
-          }
-        }}
-        className={cn(
-          buttonVariants({ variant: 'outline', className: 'size-8' }),
-        )}
-      >
-        <Edit2 className="size-4" />
-      </Link>
-
-      <Button
-        variant="outline"
-        className="size-8 text-red-600"
-        onClick={() => setModalOpen('deleteArticleModal', handleDelete)}
-      >
-        <Trash className="size-4" />
-      </Button>
-    </section>
-  )
-}
