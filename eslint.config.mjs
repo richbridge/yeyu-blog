@@ -14,6 +14,7 @@ export default antfu(
   {
     rules: {
       'node/prefer-global/process': 'off',
+      'node/prefer-global/buffer': 'off',
     },
   },
   {

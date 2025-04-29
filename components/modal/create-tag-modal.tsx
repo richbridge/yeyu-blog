@@ -122,7 +122,6 @@ export default function CreateTagModal() {
                         value={field.value}
                         onValueChange={(value) => {
                           field.onChange(value)
-                          console.log(value, 'value')
                         }}
                       >
                         <SelectTrigger className="w-[180px]">

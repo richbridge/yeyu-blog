@@ -56,18 +56,18 @@ export default function EditTagModal() {
       })
     : {}
 
-  useEffect(() => {
-    if (isModalOpen && tagName) {
-      form.reset({ tagName })
-    }
-  }, [tagName, isModalOpen])
-
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       tagName: tagName ?? '',
     },
   })
+
+  useEffect(() => {
+    if (isModalOpen && tagName) {
+      form.reset({ tagName })
+    }
+  }, [tagName, isModalOpen])
 
   const handleTagNameChange = async (values: WithTagIdValues) => {
     if (tagType === TagType.BLOG) {

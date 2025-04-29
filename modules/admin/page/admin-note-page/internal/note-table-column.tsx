@@ -226,7 +226,7 @@ function ActionButtons({
             await requireAdmin()
             router.push(`note/edit/${slug}`)
           }
-          catch (error) {
+          catch {
             toast.error(`权限不够哦~`)
           }
         }}

@@ -1,5 +1,6 @@
 'use client'
 
+import type { JSX } from 'react'
 import GolangSvg from '@/config/svg/golang-svg'
 import NextjsSvg from '@/config/svg/nextjs-svg'
 import ReactSvg from '@/config/svg/reactjs-svg'
@@ -14,13 +15,13 @@ import { cn } from '@/lib/utils'
 import { ArrowDown } from 'lucide-react'
 import { useState } from 'react'
 
-const techStackSvg = [
-  <VueSvg />,
-  <TypeScriptSvg />,
-  <ReactSvg />,
-  <TailwindcssSvg />,
-  <NextjsSvg />,
-  <GolangSvg />,
+const techStackSvg: JSX.Element[] = [
+  <VueSvg key="vue" />,
+  <TypeScriptSvg key="ts" />,
+  <ReactSvg key="react" />,
+  <TailwindcssSvg key="tailwindcss" />,
+  <NextjsSvg key="next" />,
+  <GolangSvg key="go" />,
 ]
 
 // * 按照上面 techStackSvg 的顺序开始点亮
@@ -28,7 +29,7 @@ const correctOrder = [0, 1, 2, 3, 4, 5]
 
 function TechStack() {
   const [clicked, setClicked] = useState<boolean[]>(
-    Array.from({ length: techStackSvg.length }).fill(false),
+    Array.from({ length: techStackSvg.length }, () => false),
   )
   const [clickOrder, setClickOrder] = useState<number[]>([])
 

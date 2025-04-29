@@ -59,7 +59,7 @@ export const columns: ColumnDef<WithTagsBlog>[] = [
 
       return (
         <div className="flex gap-1">
-          {tags.map((tag, i) => (
+          {tags.map(tag => (
             <TagItemBadge tag={tag.tagName} key={tag.id} />
           ))}
         </div>
@@ -228,7 +228,7 @@ function ActionButtons({
             await requireAdmin()
             router.push(`blog/edit/${slug}`)
           }
-          catch (error) {
+          catch {
             toast.error(`权限不够哦~`)
           }
         }}
