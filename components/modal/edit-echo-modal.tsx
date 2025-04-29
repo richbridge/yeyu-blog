@@ -1,5 +1,7 @@
 'use client'
 
+import type { Echo } from '@prisma/client'
+import { getAllEchos, updateEchoById } from '@/actions/echos'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -7,10 +9,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
-import { useModalStore } from '@/store/use-modal-store'
-import { z } from 'zod'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
 import {
   Form,
   FormControl,
@@ -20,17 +18,19 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { useEffect } from 'react'
-import { Echo } from '@prisma/client'
-import { Textarea } from '../ui/textarea'
-import { Switch } from '../ui/switch'
-import { getAllEchos, updateEchoById } from '@/actions/echos'
-import { useEchoStore } from '@/store/use-echo-store'
-import { toast } from 'sonner'
 import {
   ECHO_CONTENT_MAX_LENGTH,
   ECHO_REFERENCE_MAX_LENGTH,
 } from '@/config/constant'
+import { useEchoStore } from '@/store/use-echo-store'
+import { useModalStore } from '@/store/use-modal-store'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useEffect } from 'react'
+import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
+import { z } from 'zod'
+import { Switch } from '../ui/switch'
+import { Textarea } from '../ui/textarea'
 
 const formSchema = z.object({
   content: z
@@ -68,7 +68,7 @@ export default function EditEchoModal() {
     defaultValues: {
       content: '',
       reference: '',
-      isPublished: isPublished,
+      isPublished,
     },
   })
 
@@ -93,10 +93,12 @@ export default function EditEchoModal() {
       await handleEditEcho(values)
       toast.success('修改成功~')
       onModalClose()
-    } catch (error) {
+    }
+    catch (error) {
       if (error instanceof Error) {
         toast.error(`更新 echo 失败~ ${error.message}`)
-      } else {
+      }
+      else {
         toast.error('更新 echo 失败~')
       }
     }
@@ -158,7 +160,7 @@ export default function EditEchoModal() {
                     <FormControl>
                       <Switch
                         checked={field.value}
-                        onCheckedChange={checked => {
+                        onCheckedChange={(checked) => {
                           field.onChange(checked)
                         }}
                       />

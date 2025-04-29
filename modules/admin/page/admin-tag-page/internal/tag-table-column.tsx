@@ -1,27 +1,28 @@
 'use client'
 
-import { ColumnDef } from '@tanstack/react-table'
-import { TagType, type BlogTag, type NoteTag } from '@prisma/client'
-import TagItemBadge from '@/components/shared/tag-item-badge'
-import { Badge } from '@/components/ui/badge'
-import {
-  Edit2,
-  Trash,
-  TypeIcon,
-  Wrench,
-  TagsIcon,
-  FileText,
-  ArrowUp,
-  ArrowDown,
-} from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { useModalStore } from '@/store/use-modal-store'
+import type { BlogTag, NoteTag } from '@prisma/client'
+import type { ColumnDef } from '@tanstack/react-table'
 import {
   deleteBlogTagById,
   deleteNoteTagById,
   getBlogTagsAndNoteTags,
 } from '@/actions/tags'
+import TagItemBadge from '@/components/shared/tag-item-badge'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { useModalStore } from '@/store/use-modal-store'
 import { useTagStore } from '@/store/use-tag-store'
+import { TagType } from '@prisma/client'
+import {
+  ArrowDown,
+  ArrowUp,
+  Edit2,
+  FileText,
+  TagsIcon,
+  Trash,
+  TypeIcon,
+  Wrench,
+} from 'lucide-react'
 import { toast } from 'sonner'
 
 // * 后序整一个分类排序
@@ -66,18 +67,22 @@ export const columns: ColumnDef<WithCountBlogTagOrNoteTag>[] = [
 
       return (
         <Button
-          variant={'ghost'}
-          size={'sm'}
+          variant="ghost"
+          size="sm"
           className="cursor-pointer"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           <FileText className="size-4" />
           关联文章数量
-          {sorted === 'asc' ? (
-            <ArrowUp />
-          ) : sorted === 'desc' ? (
-            <ArrowDown />
-          ) : null}
+          {sorted === 'asc'
+            ? (
+                <ArrowUp />
+              )
+            : sorted === 'desc'
+              ? (
+                  <ArrowDown />
+                )
+              : null}
         </Button>
       )
     },
@@ -122,15 +127,19 @@ function ActionButtons({
     try {
       if (tagType === TagType.BLOG && tagId) {
         await deleteBlogTagById(tagId)
-      } else if (tagType === TagType.NOTE && tagId) {
+      }
+      else if (tagType === TagType.NOTE && tagId) {
         await deleteNoteTagById(tagId)
-      } else {
+      }
+      else {
         throw new Error('标签类型错误或 tagId 不存在!')
       }
-    } catch (error) {
+    }
+    catch (error) {
       if (error instanceof Error) {
         toast.error(`删除标签 ${tagName} 失败~ ${error.message}`)
-      } else {
+      }
+      else {
         toast.error(`删除标签 ${tagName} 出错~`)
       }
     }
@@ -142,21 +151,20 @@ function ActionButtons({
   return (
     <section className="flex items-center gap-1">
       <Button
-        variant={'outline'}
+        variant="outline"
         className="size-8"
         onClick={() =>
           setModalOpen('editTagModal', {
             tagId,
             tagName,
             tagType,
-          })
-        }
+          })}
       >
         <Edit2 className="size-4" />
       </Button>
 
       <Button
-        variant={'outline'}
+        variant="outline"
         className="size-8 text-red-600"
         onClick={() => {
           setModalOpen('deleteTagModal', handleDelete)

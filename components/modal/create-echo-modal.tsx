@@ -1,5 +1,6 @@
 'use client'
 
+import { createEcho, getAllEchos } from '@/actions/echos'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -9,10 +10,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
-import { useModalStore } from '@/store/use-modal-store'
-import { z } from 'zod'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
 import {
   Form,
   FormControl,
@@ -22,16 +19,19 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { Switch } from '../ui/switch'
-import { Textarea } from '../ui/textarea'
-import { createEcho, getAllEchos } from '@/actions/echos'
-import { useEchoStore } from '@/store/use-echo-store'
 import {
   ECHO_CONTENT_MAX_LENGTH,
   ECHO_REFERENCE_MAX_LENGTH,
 } from '@/config/constant'
-import { toast } from 'sonner'
+import { useEchoStore } from '@/store/use-echo-store'
+import { useModalStore } from '@/store/use-modal-store'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect } from 'react'
+import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
+import { z } from 'zod'
+import { Switch } from '../ui/switch'
+import { Textarea } from '../ui/textarea'
 
 const formSchema = z.object({
   echoContent: z
@@ -67,10 +67,12 @@ export default function CreateEchoModal() {
       const echos = await getAllEchos()
       setEchos(echos)
       toast.success(`创建成功~`)
-    } catch (error) {
+    }
+    catch (error) {
       if (error instanceof Error) {
         toast.error(`创建 echo 失败 ${error.message}`)
-      } else {
+      }
+      else {
         toast.error(`创建 echo 失败`)
       }
     }

@@ -23,9 +23,10 @@ export function EchoSearch() {
         placeholder="请输入引用喵~"
         className="w-1/4"
         value={query}
-        onChange={e => {
+        onChange={(e) => {
           const value = e.target.value
-          if (value === ' ') return
+          if (value === ' ')
+            return
           setQuery(value)
         }}
         onKeyDown={e => e.key === 'Enter' && fetchData()}
@@ -33,24 +34,28 @@ export function EchoSearch() {
 
       <Button
         type="button"
-        variant={'secondary'}
+        variant="secondary"
         onClick={fetchData}
         className="cursor-pointer"
       >
-        <Search /> 搜索
+        <Search />
+        {' '}
+        搜索
       </Button>
 
       <Button
-        variant={'secondary'}
+        variant="secondary"
         onClick={resetData}
         className="cursor-pointer"
       >
-        <RotateCw /> 重置
+        <RotateCw />
+        {' '}
+        重置
       </Button>
 
       <Button
         className="cursor-pointer"
-        variant={'secondary'}
+        variant="secondary"
         onClick={() => {
           setModalOpen('createEchoModal')
         }}

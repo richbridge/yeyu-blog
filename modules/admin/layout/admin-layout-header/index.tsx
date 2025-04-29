@@ -1,12 +1,12 @@
 'use client'
 
-import Link from 'next/link'
 import { Button } from '@/components/ui/button'
+import { ModeToggle } from '@/components/ui/mode-toggle'
+import { getActiveAdminPath } from '@/lib/url'
+import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import AdminLogo from './internal/admin-logo'
 import AvatarDropdownMenu from './internal/avatar-dropdown-menu'
-import { ModeToggle } from '@/components/ui/mode-toggle'
-import { getActiveAdminPath } from '@/lib/url'
 
 export const AdminRoutes = [
   {
@@ -31,7 +31,7 @@ export const AdminRoutes = [
   },
 ] as const
 
-const AdminNavbar = () => {
+function AdminNavbar() {
   const pathname = usePathname()
   const activeUrl = getActiveAdminPath(pathname)
 
@@ -49,7 +49,7 @@ const AdminNavbar = () => {
             <Button
               className="rounded-lg text-base cursor-pointer"
               variant={activeUrl === link.path ? 'default' : 'ghost'}
-              size={'sm'}
+              size="sm"
             >
               {link.pathName}
             </Button>

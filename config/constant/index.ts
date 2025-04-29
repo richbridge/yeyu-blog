@@ -1,5 +1,5 @@
-import { LXGW_WenKai_Mono_TC } from 'next/font/google'
 import type { Metadata } from 'next'
+import { LXGW_WenKai_Mono_TC } from 'next/font/google'
 
 // *  -- prisma 长度限制 --
 // * Blog

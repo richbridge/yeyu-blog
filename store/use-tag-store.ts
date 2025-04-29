@@ -1,4 +1,4 @@
-import { getBlogTagsAndNoteTags } from '@/actions/tags'
+import type { getBlogTagsAndNoteTags } from '@/actions/tags'
 import { create } from 'zustand'
 
 export type Tag = Awaited<ReturnType<typeof getBlogTagsAndNoteTags>>[number]

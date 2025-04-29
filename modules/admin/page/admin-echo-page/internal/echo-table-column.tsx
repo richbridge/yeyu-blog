@@ -1,10 +1,13 @@
 'use client'
 
+import type { Echo } from '@prisma/client'
+import type { ColumnDef } from '@tanstack/react-table'
+import { deleteEchoById, toggleEchoPublishedById } from '@/actions/echos'
+import { Button } from '@/components/ui/button'
 import { Switch } from '@/components/ui/switch'
 import { prettyDateTime } from '@/lib/time'
-import { Echo } from '@prisma/client'
-import { ColumnDef } from '@tanstack/react-table'
-import { Button } from '@/components/ui/button'
+import { useEchoStore } from '@/store/use-echo-store'
+import { useModalStore } from '@/store/use-modal-store'
 import {
   CalendarDays,
   Edit2,
@@ -14,11 +17,8 @@ import {
   TypeIcon,
   Wrench,
 } from 'lucide-react'
-import { useEchoStore } from '@/store/use-echo-store'
-import { deleteEchoById, toggleEchoPublishedById } from '@/actions/echos'
-import { useModalStore } from '@/store/use-modal-store'
-import { toast } from 'sonner'
 import { useTransition } from 'react'
+import { toast } from 'sonner'
 
 export const columns: ColumnDef<Echo>[] = [
   {
@@ -66,8 +66,8 @@ export const columns: ColumnDef<Echo>[] = [
     header: ({ column }) => {
       return (
         <Button
-          variant={'ghost'}
-          size={'sm'}
+          variant="ghost"
+          size="sm"
           className="cursor-pointer"
           onClick={() => {
             column.toggleSorting(column.getIsSorted() === 'asc')
@@ -112,10 +112,12 @@ function PublishToggleSwitch({ echoId }: { echoId: number }) {
   const { echos, setEchos } = useEchoStore()
   const [isPending, startTransition] = useTransition()
 
-  if (echos.length === 0) return null
+  if (echos.length === 0)
+    return null
 
   const echo = echos.find(item => item.id === echoId)
-  if (!echo) return null
+  if (!echo)
+    return null
 
   const handleToggle = async () => {
     const newStatus = !echo.isPublished
@@ -131,11 +133,13 @@ function PublishToggleSwitch({ echoId }: { echoId: number }) {
       try {
         await toggleEchoPublishedById(echoId, newStatus)
         toast.success(`${newStatus ? '发布成功' : '隐藏成功'}`)
-      } catch (error) {
+      }
+      catch (error) {
         setEchos(preEchos)
         if (error instanceof Error) {
           toast.error(`发布状态更新失败 ${error.message}`)
-        } else {
+        }
+        else {
           toast.error(`发布状态更新失败`)
         }
       }
@@ -172,10 +176,12 @@ function ActionButtons({
       const newTables = echos.filter(echo => echo.id !== id)
       setEchos(newTables)
       toast.success(`删除成功~`)
-    } catch (error) {
+    }
+    catch (error) {
       if (error instanceof Error) {
         toast.error(`删除 echo 失败 ${error.message}`)
-      } else {
+      }
+      else {
         toast.error(`删除 echo 失败`)
       }
     }
@@ -184,7 +190,7 @@ function ActionButtons({
   return (
     <section className="flex items-center gap-1">
       <Button
-        variant={'outline'}
+        variant="outline"
         className="size-8"
         onClick={() => {
           setModalOpen('editEchoModal', {
@@ -198,7 +204,7 @@ function ActionButtons({
         <Edit2 className="size-4" />
       </Button>
       <Button
-        variant={'outline'}
+        variant="outline"
         className="size-8 text-red-600"
         onClick={() => {
           setModalOpen('deleteEchoModal', handleEchoDelete)

@@ -1,5 +1,5 @@
+import type { WithTagsBlog } from '@/actions/blogs'
 import { create } from 'zustand'
-import { WithTagsBlog } from '@/actions/blogs'
 
 interface IBlogStore {
   blogs: WithTagsBlog[]

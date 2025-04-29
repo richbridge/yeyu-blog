@@ -23,7 +23,7 @@ export default function DeleteTagModal() {
         </DialogHeader>
         <div className="flex gap-4">
           <Button
-            variant={'destructive'}
+            variant="destructive"
             type="submit"
             onClick={() => {
               ;(payload as () => void)()
@@ -31,7 +31,7 @@ export default function DeleteTagModal() {
           >
             确定
           </Button>
-          <Button variant={'outline'} onClick={onModalClose}>
+          <Button variant="outline" onClick={onModalClose}>
             取消
           </Button>
         </div>

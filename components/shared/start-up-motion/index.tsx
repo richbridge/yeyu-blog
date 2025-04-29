@@ -2,10 +2,10 @@
 
 import { INITIAL_WELCOME_TEXT } from '@/config/constant'
 import {
+  animate,
   motion,
   useMotionValue,
   useMotionValueEvent,
-  animate,
 } from 'motion/react'
 import { useEffect } from 'react'
 
@@ -83,7 +83,7 @@ export default function StartUpMotion() {
       </>
       {/* 两边的遮罩 */}
       <motion.span
-        className={`fixed w-1/2 h-screen top-0 left-0 z-40 bg-gradient-to-r from-[#22177A] to-[#000957]`}
+        className="fixed w-1/2 h-screen top-0 left-0 z-40 bg-gradient-to-r from-[#22177A] to-[#000957]"
         style={{ x: toLeft }}
       />
       <motion.span

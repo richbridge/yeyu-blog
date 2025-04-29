@@ -1,6 +1,6 @@
 import { customMarkdownTheme } from '@/lib/markdown'
-import ArticleDisplayHeader from './internal/article-display-header'
 import * as motion from 'motion/react-client'
+import ArticleDisplayHeader from './internal/article-display-header'
 
 export default function ArticleDisplayPage({
   title,

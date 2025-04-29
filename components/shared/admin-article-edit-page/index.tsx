@@ -1,11 +1,10 @@
 'use client'
 
-import { REGEX } from '@/lib/regex'
-import { Blog, BlogTag, Note, NoteTag } from '@prisma/client'
-import { z } from 'zod'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
+import type { Blog, BlogTag, Note, NoteTag } from '@prisma/client'
+import { createBlog, updateBlogById } from '@/actions/blogs'
+import { createNote, updateNoteById } from '@/actions/notes'
 import { Button } from '@/components/ui/button'
+import { Combobox } from '@/components/ui/combobox'
 import {
   Form,
   FormControl,
@@ -16,16 +15,16 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Switch } from '@/components/ui/switch'
-import { Combobox } from '@/components/ui/combobox'
-import { File } from 'lucide-react'
-import { createBlog, updateBlogById } from '@/actions/blogs'
-import { usePathname } from 'next/navigation'
-import MarkdownEditor from './internal/markdown-editor'
-import { createNote, updateNoteById } from '@/actions/notes'
 import { ARTICLE_TITLE_MAX_LENGTH } from '@/config/constant'
+import { REGEX } from '@/lib/regex'
 import { useModalStore } from '@/store/use-modal-store'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { File } from 'lucide-react'
+import { usePathname, useRouter } from 'next/navigation'
+import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
-import { useRouter } from 'next/navigation'
+import { z } from 'zod'
+import MarkdownEditor from './internal/markdown-editor'
 
 const formSchema = z.object({
   title: z
@@ -56,7 +55,7 @@ export type UpdateArticleParamsWithNoteId = z.infer<typeof formSchema> & {
 
 export type createArticleParams = z.infer<typeof formSchema>
 
-const getEditPageType = (url: string): 'BLOG' | 'NOTE' => {
+function getEditPageType(url: string): 'BLOG' | 'NOTE' {
   const type = url.split('/')[2].toUpperCase()
   if (type === 'BLOG' || type === 'NOTE') {
     return type
@@ -94,23 +93,28 @@ export default function AdminBlogEditPage({
       if (article?.id) {
         if (editPageType === 'BLOG') {
           await updateBlogById({ ...values, id: article.id })
-        } else {
+        }
+        else {
           await updateNoteById({ ...values, id: article.id })
         }
-      } else {
+      }
+      else {
         if (editPageType === 'BLOG') {
           await createBlog(values)
-        } else {
+        }
+        else {
           await createNote(values)
         }
       }
 
       toast.success('保存成功')
       router.push(`/admin/${editPageType.toLowerCase()}/edit/${values.slug}`)
-    } catch (error) {
+    }
+    catch (error) {
       if (error instanceof Error) {
         toast.error(`保存失败 ${error.message}`)
-      } else {
+      }
+      else {
         toast.error(`保存失败`)
       }
     }
@@ -159,10 +163,11 @@ export default function AdminBlogEditPage({
               <FormControl>
                 <Switch
                   checked={field.value}
-                  onCheckedChange={checked => {
+                  onCheckedChange={(checked) => {
                     field.onChange(checked)
                   }}
-                ></Switch>
+                >
+                </Switch>
               </FormControl>
               <FormMessage />
             </FormItem>

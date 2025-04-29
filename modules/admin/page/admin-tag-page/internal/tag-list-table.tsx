@@ -1,12 +1,12 @@
 'use client'
 
-import { DataTable } from './data-table'
-import { columns } from './tag-table-column'
+import { getBlogTagsAndNoteTags } from '@/actions/tags'
 import Loading from '@/components/shared/loading'
-import { motion } from 'motion/react'
 import { useStoreLoader } from '@/hooks/use-store-loader'
 import { useTagStore } from '@/store/use-tag-store'
-import { getBlogTagsAndNoteTags } from '@/actions/tags'
+import { motion } from 'motion/react'
+import { DataTable } from './data-table'
+import { columns } from './tag-table-column'
 
 export default function TagListTable() {
   const { tags, setTags } = useTagStore()

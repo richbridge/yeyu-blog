@@ -16,8 +16,8 @@ export default function YeYuAvatar({
     <div>
       <Image
         src={
-          session?.user?.image ||
-          'https://avatars.githubusercontent.com/u/140394258?v=4'
+          session?.user?.image
+          || 'https://avatars.githubusercontent.com/u/140394258?v=4'
         }
         alt="avatar"
         width={width}

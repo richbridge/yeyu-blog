@@ -16,14 +16,20 @@ export default function AboutPage() {
       <MaxWidthWrapper className="md:text-lg text-center flex items-center justify-center flex-col gap-4 mt-4">
         <p>嘿, 你好呀~👋🏻</p>
         <h2>
-          你可以叫我, <span className="font-bold text-purple-400">叶鱼</span> ~
+          你可以叫我,
+          {' '}
+          <span className="font-bold text-purple-400">叶鱼</span>
+          {' '}
+          ~
         </h2>
         <p>不是很想透露真名, 所以我有很多很多马甲~</p>
         <p>Neil, 揶揄, 叶鱼, 炆炆...~</p>
         <p>你可以随意称呼我~</p>
         <p>但求求你不要盒我喵🥹~</p>
         <p>
-          我这先给您磕一个~ <small className="text-pink-400">orz</small>
+          我这先给您磕一个~
+          {' '}
+          <small className="text-pink-400">orz</small>
         </p>
 
         <hr className="w-1/2 dark:border-accent border-indigo-500" />
@@ -39,20 +45,26 @@ export default function AboutPage() {
         <hr className="w-1/2 dark:border-accent border-indigo-500" />
         <h3 className="text-indigo-400">2022年的暑假, 我高考考砸了...</h3>
         <p>
-          看了<q>强风吹拂</q>, 一个暑假, 每天都在跑步~
+          看了
+          <q>强风吹拂</q>
+          , 一个暑假, 每天都在跑步~
         </p>
         <p>
-          第一次接触电脑, 下载<q>steam游戏中心</q>🥹
+          第一次接触电脑, 下载
+          <q>steam游戏中心</q>
+          🥹
         </p>
         <p>
-          第一次编程, <code>print('Hello, World!')</code>
+          第一次编程,
+          {' '}
+          <code>print('Hello, World!')</code>
         </p>
         <p>
           感谢那个教会我使用电脑和带我走向编程道路的僵尸~
           <ArrowDownIcon className="m-auto text-purple-500 md:size-10 animate-bounce mt-2" />
         </p>
         <Link
-          href={'https://space.bilibili.com/19658621'}
+          href="https://space.bilibili.com/19658621"
           target="_blank"
           className="px-4 py-2 rounded-sm font-mono underline hover:text-pink-600 hover:cursor-pointer"
         >
@@ -77,12 +89,14 @@ export default function AboutPage() {
         <p>闲暇之余看一些Web3相关的东西~</p>
         <p>帮一个开源项目修改了几个拼写错误和几个简单的issue~</p>
         <p>
-          收到了他们赠送的<q>大礼包</q>~
+          收到了他们赠送的
+          <q>大礼包</q>
+          ~
         </p>
         <p>
           感谢🙏🏻
           <Link
-            href={'https://openbuild.xyz/'}
+            href="https://openbuild.xyz/"
             className="px-4 py-2 rounded-sm font-mono underline hover:text-emerald-400 hover:cursor-pointer"
             target="_blank"
           >

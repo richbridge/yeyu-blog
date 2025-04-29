@@ -1,12 +1,12 @@
 'use client'
 
+import { getAllEchos } from '@/actions/echos'
 import Loading from '@/components/shared/loading'
+import { useStoreLoader } from '@/hooks/use-store-loader'
+import { useEchoStore } from '@/store/use-echo-store'
+import { motion } from 'motion/react'
 import { DataTable } from './data-table'
 import { columns } from './echo-table-column'
-import { motion } from 'motion/react'
-import { useStoreLoader } from '@/hooks/use-store-loader'
-import { getAllEchos } from '@/actions/echos'
-import { useEchoStore } from '@/store/use-echo-store'
 
 export default function EchoListTable() {
   const { echos, setEchos } = useEchoStore()

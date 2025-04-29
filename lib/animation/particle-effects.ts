@@ -1,7 +1,7 @@
 import confetti from 'canvas-confetti'
 
-export const startConfettiGinkgo = (duration = 5000) => {
-  let animationEnd = Date.now() + duration
+export function startConfettiGinkgo(duration = 5000) {
+  const animationEnd = Date.now() + duration
   let skew = 1
 
   const randomInRange = (min: number, max: number) => {
@@ -16,7 +16,7 @@ export const startConfettiGinkgo = (duration = 5000) => {
     confetti({
       particleCount: 1,
       startVelocity: 0,
-      ticks: ticks,
+      ticks,
       origin: {
         x: Math.random(),
         y: Math.random() * skew - 0.2,
@@ -36,8 +36,8 @@ export const startConfettiGinkgo = (duration = 5000) => {
   requestAnimationFrame(frame)
 }
 
-export const startConfettiSakura = (duration = 5000) => {
-  let animationEnd = Date.now() + duration
+export function startConfettiSakura(duration = 5000) {
+  const animationEnd = Date.now() + duration
   let skew = 1
 
   const randomInRange = (min: number, max: number) => {

@@ -1,12 +1,12 @@
 'use client'
 
+import { getAllNotes } from '@/actions/notes'
+import Loading from '@/components/shared/loading'
+import { useStoreLoader } from '@/hooks/use-store-loader'
+import { useNoteStore } from '@/store/use-note-store'
+import { motion } from 'motion/react'
 import { DataTable } from './data-table'
 import { columns } from './note-table-column'
-import Loading from '@/components/shared/loading'
-import { motion } from 'motion/react'
-import { useNoteStore } from '@/store/use-note-store'
-import { useStoreLoader } from '@/hooks/use-store-loader'
-import { getAllNotes } from '@/actions/notes'
 
 export default function NoteListTable() {
   const { notes, setNotes } = useNoteStore()

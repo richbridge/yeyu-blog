@@ -3,11 +3,11 @@
 import { getAllBlogs, getQueryBlogs } from '@/actions/blogs'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Plus, RotateCw, Search } from 'lucide-react'
-import Link from 'next/link'
+import { useQueryLoader } from '@/hooks/use-query-loader'
 import { cn } from '@/lib/utils'
 import { useBlogStore } from '@/store/use-blog-store'
-import { useQueryLoader } from '@/hooks/use-query-loader'
+import { Plus, RotateCw, Search } from 'lucide-react'
+import Link from 'next/link'
 
 export function BlogSearch() {
   const { setBlogs } = useBlogStore()
@@ -23,9 +23,10 @@ export function BlogSearch() {
         placeholder="请输入标题喵~"
         className="w-1/4"
         value={query}
-        onChange={e => {
+        onChange={(e) => {
           const value = e.target.value
-          if (value === ' ') return
+          if (value === ' ')
+            return
           setQuery(value)
         }}
         onKeyDown={e => e.key === 'Enter' && fetchData()}
@@ -33,19 +34,23 @@ export function BlogSearch() {
 
       <Button
         type="button"
-        variant={'secondary'}
+        variant="secondary"
         onClick={fetchData}
         className="cursor-pointer"
       >
-        <Search /> 搜索
+        <Search />
+        {' '}
+        搜索
       </Button>
 
       <Button
-        variant={'secondary'}
+        variant="secondary"
         onClick={resetData}
         className="cursor-pointer"
       >
-        <RotateCw /> 重置
+        <RotateCw />
+        {' '}
+        重置
       </Button>
 
       <Link
@@ -53,9 +58,11 @@ export function BlogSearch() {
           buttonVariants({ variant: 'secondary' }),
           'cursor-pointer',
         )}
-        href={`blog/edit`}
+        href="blog/edit"
       >
-        <Plus /> {`创建博客`}
+        <Plus />
+        {' '}
+        创建博客
       </Link>
     </section>
   )

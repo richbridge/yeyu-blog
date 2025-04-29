@@ -1,7 +1,7 @@
-import { BlogSearch } from './internal/blog-search'
-import BlogListTable from './internal/blog-list-table'
-import { BlogTagsContainer } from './internal/blog-tags-container'
 import { getTagsOnBlog } from '@/actions/blogs'
+import BlogListTable from './internal/blog-list-table'
+import { BlogSearch } from './internal/blog-search'
+import { BlogTagsContainer } from './internal/blog-tags-container'
 
 export default async function AdminBlogPage() {
   const allTagsOnBlog = (await getTagsOnBlog()).map(v => v.tagName)

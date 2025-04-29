@@ -1,5 +1,10 @@
 'use client'
 
+import {
+  getBlogTagsAndNoteTags,
+  updateBlogTagById,
+  updateNoteTagById,
+} from '@/actions/tags'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -8,10 +13,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
-import { useModalStore } from '@/store/use-modal-store'
-import { z } from 'zod'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
 import {
   Form,
   FormControl,
@@ -21,16 +22,15 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import {
-  getBlogTagsAndNoteTags,
-  updateBlogTagById,
-  updateNoteTagById,
-} from '@/actions/tags'
-import { useEffect } from 'react'
-import { useTagStore } from '@/store/use-tag-store'
-import { TagType } from '@prisma/client'
 import { TAG_NAME_MAX_LENGTH } from '@/config/constant'
+import { useModalStore } from '@/store/use-modal-store'
+import { useTagStore } from '@/store/use-tag-store'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { TagType } from '@prisma/client'
+import { useEffect } from 'react'
+import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
+import { z } from 'zod'
 
 const formSchema = z.object({
   tagName: z
@@ -72,9 +72,11 @@ export default function EditTagModal() {
   const handleTagNameChange = async (values: WithTagIdValues) => {
     if (tagType === TagType.BLOG) {
       await updateBlogTagById(values)
-    } else if (tagType === TagType.NOTE) {
+    }
+    else if (tagType === TagType.NOTE) {
       await updateNoteTagById(values)
-    } else {
+    }
+    else {
       throw new Error('标签类型错误!')
     }
 
@@ -88,10 +90,12 @@ export default function EditTagModal() {
     }
     try {
       await handleTagNameChange({ ...values, tagId })
-    } catch (error) {
+    }
+    catch (error) {
       if (error instanceof Error) {
         toast.error(`修改标签出错 ${error.message}`)
-      } else {
+      }
+      else {
         toast.error(`修改标签出错`)
       }
     }

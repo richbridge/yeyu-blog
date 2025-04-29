@@ -1,12 +1,12 @@
 'use client'
 
-import { cn } from '@/lib/utils'
 import MaxWidthWrapper from '@/components/shared/max-width-wrapper'
+import { getActiveMainPath } from '@/lib/url'
+import { cn } from '@/lib/utils'
+import { motion } from 'motion/react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Fragment, useEffect, useRef, useState } from 'react'
-import { motion } from 'motion/react'
-import { getActiveMainPath } from '@/lib/url'
 
 const RouteList = [
   {
@@ -58,13 +58,14 @@ export default function MainLayoutHeader() {
             <Fragment key={route.path}>
               <Link
                 href={route.path}
-                ref={el => {
-                  if (el) refs.current.set(route.path, el)
+                ref={(el) => {
+                  if (el)
+                    refs.current.set(route.path, el)
                 }}
                 className={cn(
                   'relative md:text-xl px-4',
-                  route.path === activeUrl &&
-                    'text-purple-600 dark:text-emerald-300 font-bold',
+                  route.path === activeUrl
+                  && 'text-purple-600 dark:text-emerald-300 font-bold',
                 )}
               >
                 <h2>{route.pathName}</h2>

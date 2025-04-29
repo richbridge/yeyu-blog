@@ -1,10 +1,10 @@
-import MainLayoutHeader from '@/modules/main/layout/main-layout-header'
+import LenisScrollProvider from '@/components/provider/lenis-scroll-provider'
+import ContactMe from '@/components/shared/contact-me'
+import HorizontalDividingLine from '@/components/shared/horizontal-dividing-line'
 import MaxWidthWrapper from '@/components/shared/max-width-wrapper'
 import StarsBackground from '@/components/shared/stars-background'
 import StartUpMotion from '@/components/shared/start-up-motion'
-import ContactMe from '@/components/shared/contact-me'
-import LenisScrollProvider from '@/components/provider/lenis-scroll-provider'
-import HorizontalDividingLine from '@/components/shared/horizontal-dividing-line'
+import MainLayoutHeader from '@/modules/main/layout/main-layout-header'
 
 export default function MainLayout({
   children,

@@ -1,5 +1,5 @@
+import type { Note } from '@prisma/client'
 import { create } from 'zustand'
-import { Note } from '@prisma/client'
 
 export type WithTagsNote = Note & {
   tags: {

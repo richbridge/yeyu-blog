@@ -1,30 +1,31 @@
 'use client'
 
-import { Switch } from '@/components/ui/switch'
-import { prettyDateTime } from '@/lib/time'
+import type { WithTagsNote } from '@/store/use-note-store'
+import type { ColumnDef } from '@tanstack/react-table'
+import { deleteNoteById, toggleNotePublishedById } from '@/actions/notes'
 import TagItemBadge from '@/components/shared/tag-item-badge'
-import { ColumnDef } from '@tanstack/react-table'
 import { Button, buttonVariants } from '@/components/ui/button'
+import { Switch } from '@/components/ui/switch'
+import { requireAdmin } from '@/lib/auth'
+import { prettyDateTime } from '@/lib/time'
+import { cn } from '@/lib/utils'
+import { useModalStore } from '@/store/use-modal-store'
+import { useNoteStore } from '@/store/use-note-store'
 import {
+  ArrowDown,
+  ArrowUp,
+  CalendarDays,
   Edit2,
   Eye,
-  Trash,
-  CalendarDays,
   TagIcon,
+  Trash,
   TypeIcon,
   Wrench,
-  ArrowUp,
-  ArrowDown,
 } from 'lucide-react'
 import Link from 'next/link'
-import { cn } from '@/lib/utils'
-import { deleteNoteById, toggleNotePublishedById } from '@/actions/notes'
-import { useModalStore } from '@/store/use-modal-store'
-import { useNoteStore, WithTagsNote } from '@/store/use-note-store'
+import { useRouter } from 'next/navigation'
 import { useTransition } from 'react'
 import { toast } from 'sonner'
-import { requireAdmin } from '@/lib/auth'
-import { useRouter } from 'next/navigation'
 
 export const columns: ColumnDef<WithTagsNote>[] = [
   {
@@ -88,8 +89,8 @@ export const columns: ColumnDef<WithTagsNote>[] = [
 
       return (
         <Button
-          variant={'ghost'}
-          size={'sm'}
+          variant="ghost"
+          size="sm"
           className="cursor-pointer"
           onClick={() => {
             column.toggleSorting(column.getIsSorted() === 'asc')
@@ -97,11 +98,15 @@ export const columns: ColumnDef<WithTagsNote>[] = [
         >
           <CalendarDays className="size-4" />
           创建时间
-          {sorted === 'asc' ? (
-            <ArrowUp />
-          ) : sorted === 'desc' ? (
-            <ArrowDown />
-          ) : null}
+          {sorted === 'asc'
+            ? (
+                <ArrowUp />
+              )
+            : sorted === 'desc'
+              ? (
+                  <ArrowDown />
+                )
+              : null}
         </Button>
       )
     },
@@ -151,11 +156,13 @@ function PublishToggleSwitch({
       try {
         await toggleNotePublishedById(noteId, newStatus)
         toast.success(`更新成功`)
-      } catch (error) {
+      }
+      catch (error) {
         setNotes(preNotes)
         if (error instanceof Error) {
           toast.error(`发布状态更新失败 ${error?.message}`)
-        } else {
+        }
+        else {
           toast.error(`发布状态更新失败`)
         }
       }
@@ -189,10 +196,12 @@ function ActionButtons({
       await deleteNoteById(noteId)
       const filtered = notes.filter(blog => blog.id !== noteId)
       setNotes(filtered)
-    } catch (error) {
+    }
+    catch (error) {
       if (error instanceof Error) {
         toast.error(`删除 「${title}」 出错~ ${error?.message}`)
-      } else {
+      }
+      else {
         toast.error(`删除 「${title}」 出错~`)
       }
     }
@@ -211,12 +220,13 @@ function ActionButtons({
 
       <Link
         href={`note/edit/${slug}`}
-        onClick={async e => {
+        onClick={async (e) => {
           e.preventDefault()
           try {
             await requireAdmin()
             router.push(`note/edit/${slug}`)
-          } catch (error) {
+          }
+          catch (error) {
             toast.error(`权限不够哦~`)
           }
         }}
@@ -228,7 +238,7 @@ function ActionButtons({
       </Link>
 
       <Button
-        variant={'outline'}
+        variant="outline"
         className="size-8 text-red-600"
         onClick={() => {
           setModalOpen('deleteArticleModal', handleDelete)

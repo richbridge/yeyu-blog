@@ -1,17 +1,19 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { NoteTag } from '@prisma/client'
+import type {
+  CarouselApi,
+} from '@/components/ui/carousel'
+import type { NoteTag } from '@prisma/client'
 import { NoteTagItemToggle } from '@/components/shared/tag-item-toggle'
 import {
   Carousel,
-  CarouselApi,
   CarouselContent,
   CarouselItem,
 } from '@/components/ui/carousel'
+import { itemVariants, listVariants } from '@/lib/animation/variants'
 import { cn } from '@/lib/utils'
 import { motion } from 'motion/react'
-import { itemVariants, listVariants } from '@/lib/animation/variants'
+import { useEffect, useState } from 'react'
 
 export function NoteTagsContainer({ tags }: { tags: NoteTag['tagName'][] }) {
   const [api, setApi] = useState<CarouselApi>()
@@ -52,24 +54,26 @@ export function NoteTagsContainer({ tags }: { tags: NoteTag['tagName'][] }) {
         className="w-full max-w-[97vw]"
       >
         <CarouselContent>
-          {tags.length === 0 ? (
-            <p className="text-muted-foreground m-auto">没有标签 (｡•́︿•̀｡)</p>
-          ) : (
-            <motion.section
-              className="flex"
-              variants={listVariants}
-              initial="hidden"
-              animate="show"
-            >
-              {tags.map(tag => (
-                <motion.div key={tag.toLowerCase()} variants={itemVariants}>
-                  <CarouselItem className="basis-auto">
-                    <NoteTagItemToggle tag={tag} />
-                  </CarouselItem>
-                </motion.div>
-              ))}
-            </motion.section>
-          )}
+          {tags.length === 0
+            ? (
+                <p className="text-muted-foreground m-auto">没有标签 (｡•́︿•̀｡)</p>
+              )
+            : (
+                <motion.section
+                  className="flex"
+                  variants={listVariants}
+                  initial="hidden"
+                  animate="show"
+                >
+                  {tags.map(tag => (
+                    <motion.div key={tag.toLowerCase()} variants={itemVariants}>
+                      <CarouselItem className="basis-auto">
+                        <NoteTagItemToggle tag={tag} />
+                      </CarouselItem>
+                    </motion.div>
+                  ))}
+                </motion.section>
+              )}
         </CarouselContent>
       </Carousel>
 

@@ -32,12 +32,13 @@ export function NoteTagItemToggle({
     setSelectedTags(updatedTags)
 
     try {
-      const blogs =
-        updatedTags.length === 0
+      const blogs
+        = updatedTags.length === 0
           ? await getAllNotes()
           : await getNotesBySelectedTagName(updatedTags)
       setNotes(blogs)
-    } catch (error) {
+    }
+    catch (error) {
       toast.error(`获取标签 ${updatedTags} 对应的文章失败~ ${error}`)
       console.error(`获取标签 ${updatedTags} 对应的文章失败~`, error)
     }
@@ -45,8 +46,8 @@ export function NoteTagItemToggle({
 
   return (
     <Toggle
-      variant={'outline'}
-      size={'sm'}
+      variant="outline"
+      size="sm"
       className="cursor-pointer"
       onPressedChange={handleSelectedTagChange}
     >

@@ -1,7 +1,7 @@
-import { NoteSearch } from './internal/note-search'
-import NoteListTable from './internal/note-list-table'
-import { NoteTagsContainer } from './internal/note-tags-container'
 import { getTagsOnNote } from '@/actions/notes'
+import NoteListTable from './internal/note-list-table'
+import { NoteSearch } from './internal/note-search'
+import { NoteTagsContainer } from './internal/note-tags-container'
 
 export default async function AdminNotePage() {
   const allTagsOnNote = (await getTagsOnNote()).map(v => v.tagName)

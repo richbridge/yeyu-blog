@@ -1,9 +1,9 @@
-import { useCallback } from 'react'
 import { useTheme } from 'next-themes'
+import { useCallback } from 'react'
 
 export function useTransitionTheme() {
-  const { setTheme, theme, themes, forcedTheme, resolvedTheme, systemTheme } =
-    useTheme()
+  const { setTheme, theme, themes, forcedTheme, resolvedTheme, systemTheme }
+    = useTheme()
 
   const setTransitionTheme = useCallback(
     (theme: 'light' | 'dark') => {
@@ -11,7 +11,8 @@ export function useTransitionTheme() {
         document.startViewTransition(() => {
           setTheme(theme)
         })
-      } else {
+      }
+      else {
         setTheme(theme)
       }
     },

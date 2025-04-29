@@ -21,7 +21,7 @@ export default function DeleteEchoModal() {
         </DialogHeader>
         <div className="flex gap-4">
           <Button
-            variant={'destructive'}
+            variant="destructive"
             onClick={() => {
               // * 你知道的, 我很信任我自己 😎
               ;(payload as () => void)()
@@ -30,7 +30,7 @@ export default function DeleteEchoModal() {
           >
             确定
           </Button>
-          <Button variant={'outline'} onClick={onModalClose}>
+          <Button variant="outline" onClick={onModalClose}>
             取消
           </Button>
         </div>

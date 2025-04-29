@@ -1,4 +1,4 @@
-import { Echo } from '@prisma/client'
+import type { Echo } from '@prisma/client'
 import { create } from 'zustand'
 
 interface IEchoStore {

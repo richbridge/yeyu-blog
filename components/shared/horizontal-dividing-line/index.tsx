@@ -22,7 +22,7 @@ export default function HorizontalDividingLine() {
       <hr className="absolute w-[45%] left-0 dark:border-accent border-indigo-500" />
       <motion.div
         style={{ rotate }}
-        drag={'x'}
+        drag="x"
         dragDirectionLock
         dragConstraints={{ top: 0, right: 0, bottom: 0, left: 0 }}
         dragTransition={{ bounceStiffness: 500, bounceDamping: 15 }}
@@ -33,7 +33,8 @@ export default function HorizontalDividingLine() {
           setDuration(4)
           if (info.offset.x < -THRESHOLD) {
             setTransitionTheme('light')
-          } else if (info.offset.x > THRESHOLD) {
+          }
+          else if (info.offset.x > THRESHOLD) {
             setTransitionTheme('dark')
           }
         }}

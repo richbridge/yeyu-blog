@@ -23,9 +23,13 @@ export default function ContactMe() {
   return (
     <main className="flex items-center justify-center flex-col gap-2 md:gap-4 w-full">
       <h3>
-        联系方式 -{' '}
+        联系方式 -
+        {' '}
         <small>
-          如果你 <span className="line-through text-pink-400">喜欢</span>{' '}
+          如果你
+          {' '}
+          <span className="line-through text-pink-400">喜欢</span>
+          {' '}
           我的话~
         </small>
       </h3>

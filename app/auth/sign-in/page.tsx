@@ -1,5 +1,6 @@
 'use client'
 
+import StarsBackground from '@/components/shared/stars-background'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -8,7 +9,6 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import StarsBackground from '@/components/shared/stars-background'
 import { GithubIcon, RotateCcw } from 'lucide-react'
 import { signIn } from 'next-auth/react'
 import Link from 'next/link'
@@ -29,7 +29,9 @@ export default function LoginPage() {
               type="button"
               onClick={() => signIn('github', { redirectTo: '/admin' })}
             >
-              <GithubIcon /> GitHub登录
+              <GithubIcon />
+              {' '}
+              GitHub登录
             </Button>
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
@@ -41,9 +43,11 @@ export default function LoginPage() {
                 </span>
               </div>
             </div>
-            <Link href={'/'}>
+            <Link href="/">
               <Button type="button" className="w-full">
-                <RotateCcw /> 回到过去喵~
+                <RotateCcw />
+                {' '}
+                回到过去喵~
               </Button>
             </Link>
           </main>

@@ -3,16 +3,16 @@
 import GolangSvg from '@/config/svg/golang-svg'
 import NextjsSvg from '@/config/svg/nextjs-svg'
 import ReactSvg from '@/config/svg/reactjs-svg'
-import VueSvg from '@/config/svg/vuejs-svg'
 import TailwindcssSvg from '@/config/svg/tailwindcss-svg'
 import TypeScriptSvg from '@/config/svg/typescript-svg'
-import { useState } from 'react'
-import { ArrowDown } from 'lucide-react'
-import { cn } from '@/lib/utils'
+import VueSvg from '@/config/svg/vuejs-svg'
 import {
-  startConfettiSakura,
   startConfettiGinkgo,
+  startConfettiSakura,
 } from '@/lib/animation/particle-effects'
+import { cn } from '@/lib/utils'
+import { ArrowDown } from 'lucide-react'
+import { useState } from 'react'
 
 const techStackSvg = [
   <VueSvg />,
@@ -26,9 +26,9 @@ const techStackSvg = [
 // * 按照上面 techStackSvg 的顺序开始点亮
 const correctOrder = [0, 1, 2, 3, 4, 5]
 
-const TechStack = () => {
+function TechStack() {
   const [clicked, setClicked] = useState<boolean[]>(
-    new Array(techStackSvg.length).fill(false),
+    Array.from({ length: techStackSvg.length }).fill(false),
   )
   const [clickOrder, setClickOrder] = useState<number[]>([])
 
@@ -52,13 +52,14 @@ const TechStack = () => {
 
     const allClicked = newClicked.every(Boolean)
     if (allClicked) {
-      const isCorrect =
-        clickOrder.length + 1 === correctOrder.length &&
-        [...clickOrder, index].every((val, i) => val === correctOrder[i])
+      const isCorrect
+        = clickOrder.length + 1 === correctOrder.length
+          && [...clickOrder, index].every((val, i) => val === correctOrder[i])
 
       if (isCorrect) {
         startConfettiSakura(10000)
-      } else {
+      }
+      else {
         startConfettiGinkgo(10000)
       }
     }
@@ -76,8 +77,8 @@ const TechStack = () => {
             className={cn(
               `absolute left-1/2 -translate-x-1/2 size-1/4 md:size-32 z-10 origin-[center_125px] md:origin-[center_250px]
                 transition drop-shadow-[0_0_0.75rem_#211C84] dark:drop-shadow-[0_0_0.75rem_#006A71] hover:cursor-pointer`,
-              clicked[i] &&
-                'drop-shadow-[0_0_1.25rem_#4D55CC] dark:drop-shadow-[0_0_1.25rem_#91DDCF] brightness-125',
+              clicked[i]
+              && 'drop-shadow-[0_0_1.25rem_#4D55CC] dark:drop-shadow-[0_0_1.25rem_#91DDCF] brightness-125',
             )}
             style={{
               transform: `rotate(${i * (360 / techStackSvg.length)}deg)`,

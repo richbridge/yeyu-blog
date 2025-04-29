@@ -1,6 +1,6 @@
-import AdminBlogEditPage from '@/components/shared/admin-article-edit-page'
 import { getBlogBySlug } from '@/actions/blogs'
 import { getBlogTags } from '@/actions/tags'
+import AdminBlogEditPage from '@/components/shared/admin-article-edit-page'
 
 export default async function Page({
   params,

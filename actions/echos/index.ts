@@ -1,12 +1,12 @@
 'use server'
 
-import { EchoValues } from '@/components/modal/create-echo-modal'
-import { OmitCreatedAtEcho } from '@/components/modal/edit-echo-modal'
+import type { EchoValues } from '@/components/modal/create-echo-modal'
+import type { OmitCreatedAtEcho } from '@/components/modal/edit-echo-modal'
 import { prisma } from '@/db'
 import { requireAdmin } from '@/lib/auth'
 import { revalidatePath } from 'next/cache'
 
-export const createEcho = async (values: EchoValues) => {
+export async function createEcho(values: EchoValues) {
   await requireAdmin()
 
   revalidatePath('/echo')
@@ -20,7 +20,7 @@ export const createEcho = async (values: EchoValues) => {
   })
 }
 
-export const deleteEchoById = async (id: number) => {
+export async function deleteEchoById(id: number) {
   await requireAdmin()
 
   revalidatePath('/echo')
@@ -32,7 +32,7 @@ export const deleteEchoById = async (id: number) => {
   })
 }
 
-export const updateEchoById = async (values: OmitCreatedAtEcho) => {
+export async function updateEchoById(values: OmitCreatedAtEcho) {
   await requireAdmin()
 
   revalidatePath('/echo')
@@ -50,10 +50,7 @@ export const updateEchoById = async (values: OmitCreatedAtEcho) => {
   })
 }
 
-export const toggleEchoPublishedById = async (
-  id: number,
-  newIsPublishedStatus: boolean,
-) => {
+export async function toggleEchoPublishedById(id: number, newIsPublishedStatus: boolean) {
   await requireAdmin()
 
   revalidatePath('/echo')
@@ -69,7 +66,7 @@ export const toggleEchoPublishedById = async (
 }
 
 // * 模糊查询
-export const getQueryEchos = async (queryContent: string) => {
+export async function getQueryEchos(queryContent: string) {
   return await prisma.echo.findMany({
     where: {
       content: {
@@ -79,11 +76,11 @@ export const getQueryEchos = async (queryContent: string) => {
   })
 }
 
-export const getAllEchos = async () => {
+export async function getAllEchos() {
   return await prisma.echo.findMany()
 }
 
-export const getRandomPublishedEcho = async () => {
+export async function getRandomPublishedEcho() {
   const count = await prisma.echo.count({
     where: {
       isPublished: true,

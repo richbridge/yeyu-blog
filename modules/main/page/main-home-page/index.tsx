@@ -1,8 +1,8 @@
+import * as motion from 'motion/react-client'
 import BioSection from './internal/bio-section'
 import EchoCard from './internal/echo-card'
 import TechStack from './internal/tech-stack'
 import YeAvatar from './internal/ye-avatar'
-import * as motion from 'motion/react-client'
 
 export default function MainLayoutContainer() {
   return (

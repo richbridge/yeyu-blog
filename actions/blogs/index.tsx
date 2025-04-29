@@ -1,16 +1,16 @@
 'use server'
 
-import { prisma } from '@/db'
 import type {
   createArticleParams,
   UpdateArticleParamsWithBlogId,
 } from '@/components/shared/admin-article-edit-page'
+import { prisma } from '@/db'
 import { requireAdmin } from '@/lib/auth'
 import { revalidatePath } from 'next/cache'
 
 export type WithTagsBlog = Awaited<ReturnType<typeof getAllBlogs>>[number]
 
-export const createBlog = async (values: createArticleParams) => {
+export async function createBlog(values: createArticleParams) {
   await requireAdmin()
 
   const existingBlog = await prisma.blog.findUnique({
@@ -48,7 +48,7 @@ export const createBlog = async (values: createArticleParams) => {
   })
 }
 
-export const deleteBlogById = async (blogId: number) => {
+export async function deleteBlogById(blogId: number) {
   await requireAdmin()
 
   revalidatePath('/blog')
@@ -60,10 +60,7 @@ export const deleteBlogById = async (blogId: number) => {
   })
 }
 
-export const toggleBlogPublishedById = async (
-  id: number,
-  newIsPublishedStatus: boolean,
-) => {
+export async function toggleBlogPublishedById(id: number, newIsPublishedStatus: boolean) {
   await requireAdmin()
 
   revalidatePath('/blog')
@@ -79,7 +76,7 @@ export const toggleBlogPublishedById = async (
 }
 
 // todo: 函数组合, 简化逻辑
-export const updateBlogById = async (values: UpdateArticleParamsWithBlogId) => {
+export async function updateBlogById(values: UpdateArticleParamsWithBlogId) {
   await requireAdmin()
 
   const existingBlog = await prisma.blog.findUnique({
@@ -161,7 +158,7 @@ export const updateBlogById = async (values: UpdateArticleParamsWithBlogId) => {
 }
 
 // * 获取所有的 blog, 模糊查询
-export const getQueryBlogs = async (blogTitle: string) => {
+export async function getQueryBlogs(blogTitle: string) {
   return await prisma.blog.findMany({
     where: {
       title: {
@@ -175,7 +172,7 @@ export const getQueryBlogs = async (blogTitle: string) => {
 }
 
 // * 先不考虑分页的事
-export const getAllBlogs = async () => {
+export async function getAllBlogs() {
   return await prisma.blog.findMany({
     include: {
       tags: true, // 包含与 Blog 关联的 BlogTag
@@ -184,7 +181,7 @@ export const getAllBlogs = async () => {
 }
 
 // * 获取所有关联 blog 的 tag
-export const getTagsOnBlog = async () => {
+export async function getTagsOnBlog() {
   return await prisma.blogTag.findMany({
     select: {
       tagName: true,
@@ -192,7 +189,7 @@ export const getTagsOnBlog = async () => {
   })
 }
 
-export const getBlogsBySelectedTagName = async (tagNamesArray: string[]) => {
+export async function getBlogsBySelectedTagName(tagNamesArray: string[]) {
   const blogs = await prisma.blog.findMany({
     where: {
       AND: [
@@ -210,13 +207,13 @@ export const getBlogsBySelectedTagName = async (tagNamesArray: string[]) => {
     },
   })
 
-  return blogs.filter(blog => {
+  return blogs.filter((blog) => {
     const blogTagNames = blog.tags.map(tagOnBlog => tagOnBlog.tagName)
     return tagNamesArray.every(tag => blogTagNames.includes(tag)) // 选中的标签必须都在博客的标签中
   })
 }
 
-export const getAllShowBlogs = async () => {
+export async function getAllShowBlogs() {
   return await prisma.blog.findMany({
     where: {
       isPublished: true,
@@ -227,7 +224,7 @@ export const getAllShowBlogs = async () => {
   })
 }
 
-export const getBlogBySlug = async (slug: string) => {
+export async function getBlogBySlug(slug: string) {
   return await prisma.blog.findUnique({
     where: {
       slug,

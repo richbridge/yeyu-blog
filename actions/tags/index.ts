@@ -1,12 +1,12 @@
 'use server'
 
-import { WithTagIdValues } from '@/components/modal/edit-tag-modal'
+import type { WithTagIdValues } from '@/components/modal/edit-tag-modal'
 import { prisma } from '@/db'
 import { requireAdmin } from '@/lib/auth'
 import { TagType } from '@prisma/client'
 import { revalidatePath } from 'next/cache'
 
-export const createBlogTag = async (tagName: string) => {
+export async function createBlogTag(tagName: string) {
   await requireAdmin()
 
   const existingTagName = await prisma.blogTag.findFirst({
@@ -28,7 +28,7 @@ export const createBlogTag = async (tagName: string) => {
   })
 }
 
-export const createNoteTag = async (tagName: string) => {
+export async function createNoteTag(tagName: string) {
   await requireAdmin()
 
   const existingTagName = await prisma.noteTag.findFirst({
@@ -50,11 +50,12 @@ export const createNoteTag = async (tagName: string) => {
   })
 }
 
-export const deleteBlogTagById = async (tagId: number) => {
+export async function deleteBlogTagById(tagId: number) {
   await requireAdmin()
 
   const tag = await prisma.blogTag.findUnique({ where: { id: tagId } })
-  if (!tag) throw new Error('标签不存在')
+  if (!tag)
+    throw new Error('标签不存在')
 
   revalidatePath('/admin/tag')
 
@@ -65,11 +66,12 @@ export const deleteBlogTagById = async (tagId: number) => {
   })
 }
 
-export const deleteNoteTagById = async (tagId: number) => {
+export async function deleteNoteTagById(tagId: number) {
   await requireAdmin()
 
   const tag = await prisma.noteTag.findUnique({ where: { id: tagId } })
-  if (!tag) throw new Error('标签不存在')
+  if (!tag)
+    throw new Error('标签不存在')
 
   revalidatePath('/admin/tag')
 
@@ -80,7 +82,7 @@ export const deleteNoteTagById = async (tagId: number) => {
   })
 }
 
-export const updateBlogTagById = async (values: WithTagIdValues) => {
+export async function updateBlogTagById(values: WithTagIdValues) {
   await requireAdmin()
 
   const { tagId, tagName } = values
@@ -110,7 +112,7 @@ export const updateBlogTagById = async (values: WithTagIdValues) => {
   })
 }
 
-export const updateNoteTagById = async (values: WithTagIdValues) => {
+export async function updateNoteTagById(values: WithTagIdValues) {
   await requireAdmin()
 
   const { tagId, tagName } = values
@@ -140,15 +142,15 @@ export const updateNoteTagById = async (values: WithTagIdValues) => {
   })
 }
 
-export const getBlogTags = async () => {
+export async function getBlogTags() {
   return await prisma.blogTag.findMany()
 }
 
-export const getNoteTags = async () => {
+export async function getNoteTags() {
   return await prisma.noteTag.findMany()
 }
 
-export const getBlogTagsAndNoteTags = async () => {
+export async function getBlogTagsAndNoteTags() {
   const [blogTags, noteTags] = await Promise.all([
     prisma.blogTag.findMany({
       include: {
@@ -179,7 +181,7 @@ export const getBlogTagsAndNoteTags = async () => {
   return [...blogTagsWithCount, ...noteTagsWithCount]
 }
 
-export const getQueryTags = async (tagName: string) => {
+export async function getQueryTags(tagName: string) {
   const [blogTags, noteTags] = await Promise.all([
     prisma.blogTag.findMany({
       where: {

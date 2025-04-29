@@ -23,30 +23,35 @@ export default function TagSearch() {
         className="w-1/4"
         placeholder="请输入标签名喵~"
         value={query}
-        onChange={e => {
-          if (e.target.value === ' ') return
+        onChange={(e) => {
+          if (e.target.value === ' ')
+            return
           setQuery(e.target.value)
         }}
         onKeyDown={e => e.key === 'Enter' && fetchData()}
       />
       <Button
         type="button"
-        variant={'secondary'}
+        variant="secondary"
         onClick={fetchData}
         className="cursor-pointer"
       >
-        <Search /> 搜索
+        <Search />
+        {' '}
+        搜索
       </Button>
 
       <Button
-        variant={'secondary'}
+        variant="secondary"
         onClick={resetData}
         className="cursor-pointer"
       >
-        <RotateCw /> 重置
+        <RotateCw />
+        {' '}
+        重置
       </Button>
       <Button
-        variant={'secondary'}
+        variant="secondary"
         onClick={() => {
           setModalOpen('createTagModal')
         }}

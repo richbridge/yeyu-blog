@@ -1,8 +1,8 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import type { Echo } from '@prisma/client'
 import { getRandomPublishedEcho } from '@/actions/echos'
-import { Echo } from '@prisma/client'
+import { useEffect, useState } from 'react'
 
 let cachedEcho: Echo | null = null
 
@@ -11,7 +11,7 @@ export default function EchoCard() {
 
   useEffect(() => {
     if (!cachedEcho) {
-      getRandomPublishedEcho().then(res => {
+      getRandomPublishedEcho().then((res) => {
         if (res) {
           cachedEcho = res
           setEcho(res)
@@ -30,10 +30,12 @@ export default function EchoCard() {
         {echo?.content ?? '我在等网络加载，你在等什么？'}
       </p>
       <footer
-        className="ml-auto text-sm font-thin text-pink-600 dark:text-emerald-300 
+        className="ml-auto text-sm font-thin text-pink-600 dark:text-emerald-300
                     drop-shadow-[0_0_0.75rem_#211C84] dark:drop-shadow-[0_0_0.75rem_#91DDCF]"
       >
-        「{echo?.reference ?? '叶鱼'}」
+        「
+        {echo?.reference ?? '叶鱼'}
+        」
       </footer>
     </section>
   )

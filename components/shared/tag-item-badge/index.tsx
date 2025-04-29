@@ -4,7 +4,9 @@ export default function TagItemBadge({ tag }: { tag: string }) {
   return (
     <Badge
       className="flex items-center font-mono font-light"
-      variant={'secondary'}
-    >{`#${tag}`}</Badge>
+      variant="secondary"
+    >
+      {`#${tag}`}
+    </Badge>
   )
 }

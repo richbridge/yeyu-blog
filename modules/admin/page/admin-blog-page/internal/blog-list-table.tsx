@@ -1,12 +1,12 @@
 'use client'
 
-import { DataTable } from './data-table'
-import { columns } from './blog-table-column'
-import Loading from '@/components/shared/loading'
-import { motion } from 'motion/react'
-import { useStoreLoader } from '@/hooks/use-store-loader'
 import { getAllBlogs } from '@/actions/blogs'
+import Loading from '@/components/shared/loading'
+import { useStoreLoader } from '@/hooks/use-store-loader'
 import { useBlogStore } from '@/store/use-blog-store'
+import { motion } from 'motion/react'
+import { columns } from './blog-table-column'
+import { DataTable } from './data-table'
 
 export default function BlogListTable() {
   const { blogs, setBlogs } = useBlogStore()

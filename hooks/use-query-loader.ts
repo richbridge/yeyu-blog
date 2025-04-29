@@ -12,9 +12,11 @@ export function useQueryLoader<T>(
     async (fetchFn: () => Promise<T[]>, resetQuery = false) => {
       try {
         const data = await fetchFn()
-        if (resetQuery) setQuery('')
+        if (resetQuery)
+          setQuery('')
         setData(data)
-      } catch {
+      }
+      catch {
         toast.error(resetQuery ? '重新加载出错' : '获取数据错误')
       }
     },
@@ -24,7 +26,8 @@ export function useQueryLoader<T>(
   const fetchData = useCallback(() => {
     if (!query.trim()) {
       load(getAll, true)
-    } else {
+    }
+    else {
       load(() => getQuery(query))
     }
   }, [query, getAll, getQuery, load])

@@ -1,6 +1,7 @@
-import { writeFile } from 'fs/promises'
-import path from 'path'
-import { NextRequest, NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
+import { writeFile } from 'node:fs/promises'
+import path from 'node:path'
+import { NextResponse } from 'next/server'
 
 export async function POST(req: NextRequest) {
   const formData = await req.formData()

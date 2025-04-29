@@ -1,5 +1,10 @@
 'use client'
 
+import {
+  createBlogTag,
+  createNoteTag,
+  getBlogTagsAndNoteTags,
+} from '@/actions/tags'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -8,10 +13,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
-import { useModalStore } from '@/store/use-modal-store'
-import { z } from 'zod'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
 import {
   Form,
   FormControl,
@@ -20,6 +21,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
 import {
   Select,
   SelectContent,
@@ -27,16 +29,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { Input } from '@/components/ui/input'
-import {
-  createBlogTag,
-  createNoteTag,
-  getBlogTagsAndNoteTags,
-} from '@/actions/tags'
-import { useTagStore } from '@/store/use-tag-store'
-import { TagType } from '@prisma/client'
 import { TAG_NAME_MAX_LENGTH } from '@/config/constant'
+import { useModalStore } from '@/store/use-modal-store'
+import { useTagStore } from '@/store/use-tag-store'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { TagType } from '@prisma/client'
+import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
+import { z } from 'zod'
 
 const formSchema = z.object({
   tagName: z.string().min(1).max(TAG_NAME_MAX_LENGTH),
@@ -62,18 +62,22 @@ export default function CreateTagModal() {
     try {
       if (values.tagType === TagType.BLOG) {
         await createBlogTag(values.tagName)
-      } else if (values.tagType === TagType.NOTE) {
+      }
+      else if (values.tagType === TagType.NOTE) {
         await createNoteTag(values.tagName)
-      } else {
+      }
+      else {
         throw new Error('tag type 不匹配')
       }
 
       const allTags = await getBlogTagsAndNoteTags()
       setTags(allTags)
-    } catch (error) {
+    }
+    catch (error) {
       if (error instanceof Error) {
         toast.error(`创建标签失败~ ${error.message}`)
-      } else {
+      }
+      else {
         toast.error(`创建标签失败~`)
       }
     }
@@ -116,7 +120,7 @@ export default function CreateTagModal() {
                     <FormControl>
                       <Select
                         value={field.value}
-                        onValueChange={value => {
+                        onValueChange={(value) => {
                           field.onChange(value)
                           console.log(value, 'value')
                         }}

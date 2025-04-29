@@ -1,14 +1,14 @@
 'use server'
 
-import { prisma } from '@/db'
 import type {
   createArticleParams,
   UpdateArticleParamsWithNoteId,
 } from '@/components/shared/admin-article-edit-page'
+import { prisma } from '@/db'
 import { requireAdmin } from '@/lib/auth'
 import { revalidatePath } from 'next/cache'
 
-export const createNote = async (values: createArticleParams) => {
+export async function createNote(values: createArticleParams) {
   await requireAdmin()
 
   const existingNote = await prisma.note.findUnique({
@@ -46,7 +46,7 @@ export const createNote = async (values: createArticleParams) => {
   })
 }
 
-export const deleteNoteById = async (noteId: number) => {
+export async function deleteNoteById(noteId: number) {
   await requireAdmin()
 
   revalidatePath('/note')
@@ -58,10 +58,7 @@ export const deleteNoteById = async (noteId: number) => {
   })
 }
 
-export const toggleNotePublishedById = async (
-  id: number,
-  newIsPublishedStatus: boolean,
-) => {
+export async function toggleNotePublishedById(id: number, newIsPublishedStatus: boolean) {
   await requireAdmin()
 
   revalidatePath('/note')
@@ -77,7 +74,7 @@ export const toggleNotePublishedById = async (
 }
 
 // todo: 函数组合, 优化代码
-export const updateNoteById = async (values: UpdateArticleParamsWithNoteId) => {
+export async function updateNoteById(values: UpdateArticleParamsWithNoteId) {
   await requireAdmin()
 
   const existingNote = await prisma.note.findUnique({
@@ -160,7 +157,7 @@ export const updateNoteById = async (values: UpdateArticleParamsWithNoteId) => {
 }
 
 // * 获取所有的 note，模糊查询
-export const getQueryNotes = async (noteTitle: string) => {
+export async function getQueryNotes(noteTitle: string) {
   return await prisma.note.findMany({
     where: {
       title: {
@@ -174,7 +171,7 @@ export const getQueryNotes = async (noteTitle: string) => {
 }
 
 // * 获取所有的 note
-export const getAllNotes = async () => {
+export async function getAllNotes() {
   return await prisma.note.findMany({
     include: {
       tags: true, // 包含与 Note 关联的 NoteTag
@@ -183,7 +180,7 @@ export const getAllNotes = async () => {
 }
 
 // * 获取所有关联 note 的 tag
-export const getTagsOnNote = async () => {
+export async function getTagsOnNote() {
   return await prisma.noteTag.findMany({
     select: {
       tagName: true,
@@ -192,7 +189,7 @@ export const getTagsOnNote = async () => {
 }
 
 // * 根据选中的标签获取 note
-export const getNotesBySelectedTagName = async (tagNamesArray: string[]) => {
+export async function getNotesBySelectedTagName(tagNamesArray: string[]) {
   const notes = await prisma.note.findMany({
     where: {
       AND: [
@@ -212,13 +209,13 @@ export const getNotesBySelectedTagName = async (tagNamesArray: string[]) => {
     },
   })
 
-  return notes.filter(note => {
+  return notes.filter((note) => {
     const noteTagNames = note.tags.map(tagOnNote => tagOnNote.tagName)
     return tagNamesArray.every(tag => noteTagNames.includes(tag)) // 选中的标签必须都在笔记的标签中
   })
 }
 
-export const getAllShowNotes = async () => {
+export async function getAllShowNotes() {
   return await prisma.note.findMany({
     where: {
       isPublished: true,
@@ -229,7 +226,7 @@ export const getAllShowNotes = async () => {
   })
 }
 
-export const getNoteBySlug = async (slug: string) => {
+export async function getNoteBySlug(slug: string) {
   return await prisma.note.findUnique({
     where: {
       slug,

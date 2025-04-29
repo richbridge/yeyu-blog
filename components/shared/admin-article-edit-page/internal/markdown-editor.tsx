@@ -1,14 +1,14 @@
+import type { BytemdPlugin, EditorProps } from 'bytemd'
 import breaks from '@bytemd/plugin-breaks'
-import zh_Hans from 'bytemd/locales/zh_Hans.json'
-import gfm_zhHans from '@bytemd/plugin-gfm/lib/locales/zh_Hans.json'
 import gfm from '@bytemd/plugin-gfm'
-import mediumZoom from '@bytemd/plugin-medium-zoom'
-import { BytemdPlugin, EditorProps } from 'bytemd'
+import gfm_zhHans from '@bytemd/plugin-gfm/lib/locales/zh_Hans.json'
 import highlightSsr from '@bytemd/plugin-highlight-ssr'
+import mediumZoom from '@bytemd/plugin-medium-zoom'
+import { Editor } from '@bytemd/react'
+import zh_Hans from 'bytemd/locales/zh_Hans.json'
 import { common } from 'lowlight'
 import 'highlight.js/styles/tokyo-night-dark.css' // 选择一个主题
 import 'bytemd/dist/index.css'
-import { Editor } from '@bytemd/react'
 
 const plugins: BytemdPlugin[] = [
   gfm({ locale: gfm_zhHans }),
@@ -21,7 +21,7 @@ const plugins: BytemdPlugin[] = [
   mediumZoom(),
 ]
 
-const handleUploadImages: EditorProps['uploadImages'] = async files => {
+const handleUploadImages: EditorProps['uploadImages'] = async (files) => {
   const file = files[0]
 
   if (file) {
@@ -40,7 +40,8 @@ const handleUploadImages: EditorProps['uploadImages'] = async files => {
     }
 
     return []
-  } else {
+  }
+  else {
     return []
   }
 }

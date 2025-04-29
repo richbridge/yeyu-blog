@@ -14,9 +14,11 @@ export function useStoreLoader<T>(
       try {
         const result = await getAll()
         setData(result)
-      } catch {
+      }
+      catch {
         setError('加载失败')
-      } finally {
+      }
+      finally {
         setLoading(false)
       }
     }

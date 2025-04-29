@@ -1,6 +1,6 @@
 import { ModalProvider } from '@/components/provider/modal-provider'
-import AdminNavbar from '@/modules/admin/layout/admin-layout-header'
 import { Toaster } from '@/components/ui/sonner'
+import AdminNavbar from '@/modules/admin/layout/admin-layout-header'
 import { SessionProvider } from 'next-auth/react'
 
 export default async function AdminLayout({
