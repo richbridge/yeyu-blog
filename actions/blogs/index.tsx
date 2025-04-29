@@ -6,6 +6,7 @@ import type {
 } from '@/components/shared/admin-article-edit-page'
 import { prisma } from '@/db'
 import { requireAdmin } from '@/lib/auth'
+import { processor } from '@/lib/markdown'
 import { revalidatePath } from 'next/cache'
 
 export type WithTagsBlog = Awaited<ReturnType<typeof getAllBlogs>>[number]
@@ -233,4 +234,25 @@ export async function getBlogBySlug(slug: string) {
       tags: true,
     },
   })
+}
+
+export async function getPublishedBlogHTMLBySlug(slug: string) {
+  const blog = await prisma.blog.findUnique({
+    where: {
+      slug,
+      isPublished: true,
+    },
+    include: {
+      tags: true,
+    },
+  })
+  if (!blog || !blog.content)
+    return null
+
+  const blogHTML = await processor.process(blog.content)
+
+  return {
+    ...blog,
+    content: blogHTML.toString(),
+  }
 }

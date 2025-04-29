@@ -6,6 +6,7 @@ import type {
 } from '@/components/shared/admin-article-edit-page'
 import { prisma } from '@/db'
 import { requireAdmin } from '@/lib/auth'
+import { processor } from '@/lib/markdown'
 import { revalidatePath } from 'next/cache'
 
 export async function createNote(values: createArticleParams) {
@@ -235,4 +236,25 @@ export async function getNoteBySlug(slug: string) {
       tags: true,
     },
   })
+}
+
+export async function getPublishedNoteHTMLBySlug(slug: string) {
+  const note = await prisma.note.findUnique({
+    where: {
+      slug,
+      isPublished: true,
+    },
+    include: {
+      tags: true,
+    },
+  })
+  if (!note || !note.content)
+    return null
+
+  const noteHTML = await processor.process(note.content)
+
+  return {
+    ...note,
+    content: noteHTML.toString(),
+  }
 }
