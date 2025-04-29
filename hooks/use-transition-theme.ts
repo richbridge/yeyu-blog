@@ -6,17 +6,19 @@ export function useTransitionTheme() {
     = useTheme()
 
   const setTransitionTheme = useCallback(
-    (theme: 'light' | 'dark') => {
+    (t: 'light' | 'dark') => {
+      if (theme === t)
+        return
       if (document.startViewTransition) {
         document.startViewTransition(() => {
-          setTheme(theme)
+          setTheme(t)
         })
       }
       else {
-        setTheme(theme)
+        setTheme(t)
       }
     },
-    [setTheme],
+    [setTheme, theme],
   )
 
   return {
