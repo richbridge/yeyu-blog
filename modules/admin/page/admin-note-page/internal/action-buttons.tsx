@@ -1,12 +1,10 @@
 import { deleteNoteById } from '@/actions/notes'
 import { Button, buttonVariants } from '@/components/ui/button'
-import { requireAdmin } from '@/lib/auth'
 import { cn } from '@/lib/utils'
 import { useModalStore } from '@/store/use-modal-store'
 import { useNoteStore } from '@/store/use-note-store'
 import { Edit2, Eye, Trash } from 'lucide-react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 
 export default function ActionButtons({
@@ -20,7 +18,6 @@ export default function ActionButtons({
 }) {
   const { setModalOpen } = useModalStore()
   const { setNotes, notes } = useNoteStore()
-  const router = useRouter()
 
   const handleDelete = async () => {
     try {
@@ -51,16 +48,6 @@ export default function ActionButtons({
 
       <Link
         href={`note/edit/${slug}`}
-        onClick={async (e) => {
-          e.preventDefault()
-          try {
-            await requireAdmin()
-            router.push(`note/edit/${slug}`)
-          }
-          catch {
-            toast.error(`权限不够哦~`)
-          }
-        }}
         className={cn(
           buttonVariants({ variant: 'outline', className: 'size-8' }),
         )}

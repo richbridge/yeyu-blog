@@ -1,12 +1,10 @@
 import { deleteBlogById } from '@/actions/blogs'
 import { Button, buttonVariants } from '@/components/ui/button'
-import { requireAdmin } from '@/lib/auth'
 import { cn } from '@/lib/utils'
 import { useBlogStore } from '@/store/use-blog-store'
 import { useModalStore } from '@/store/use-modal-store'
 import { Edit2, Eye, Trash } from 'lucide-react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 
 export default function ActionButtons({
@@ -20,7 +18,6 @@ export default function ActionButtons({
 }) {
   const { setModalOpen } = useModalStore()
   const { blogs, setBlogs } = useBlogStore()
-  const router = useRouter()
 
   const handleDelete = async () => {
     try {
@@ -51,16 +48,6 @@ export default function ActionButtons({
 
       <Link
         href={`blog/edit/${slug}`}
-        onClick={async (e) => {
-          e.preventDefault()
-          try {
-            await requireAdmin()
-            router.push(`blog/edit/${slug}`)
-          }
-          catch {
-            toast.error(`权限不够哦~`)
-          }
-        }}
         className={cn(
           buttonVariants({ variant: 'outline', className: 'size-8' }),
         )}
