@@ -29,6 +29,7 @@ export default function ActionButtons({
       else {
         throw new Error('标签类型错误或 tagId 不存在!')
       }
+      toast.success(`删除 ${tagName} 成功`)
     }
     catch (error) {
       if (error instanceof Error) {

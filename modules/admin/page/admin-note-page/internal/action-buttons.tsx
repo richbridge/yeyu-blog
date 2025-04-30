@@ -24,6 +24,7 @@ export default function ActionButtons({
       await deleteNoteById(noteId)
       const filtered = notes.filter(blog => blog.id !== noteId)
       setNotes(filtered)
+      toast.success(`删除成功`)
     }
     catch (error) {
       if (error instanceof Error) {

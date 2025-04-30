@@ -24,6 +24,7 @@ export default function ActionButtons({
       await deleteBlogById(blogId)
       const filtered = blogs.filter(blog => blog.id !== blogId)
       setBlogs(filtered)
+      toast.success(`删除成功`)
     }
     catch (error) {
       if (error instanceof Error) {

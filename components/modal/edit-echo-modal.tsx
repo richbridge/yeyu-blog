@@ -81,19 +81,15 @@ export default function EditEchoModal() {
 
   const handleEditEcho = async (values: EchoForm) => {
     if (!id) {
-      throw new Error('echo id 不存在')
+      toast.error(`echo id 不存在`)
+      return
     }
 
-    await updateEchoById({ ...values, id })
-    const echos = await getAllEchos()
-    setEchos(echos)
-  }
-
-  async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      await handleEditEcho(values)
-      toast.success('修改成功~')
-      onModalClose()
+      await updateEchoById({ ...values, id })
+      const echos = await getAllEchos()
+      setEchos(echos)
+      toast.success(`更新成功`)
     }
     catch (error) {
       if (error instanceof Error) {
@@ -103,6 +99,11 @@ export default function EditEchoModal() {
         toast.error('更新 echo 失败~')
       }
     }
+  }
+
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    handleEditEcho(values)
+    onModalClose()
   }
 
   return (

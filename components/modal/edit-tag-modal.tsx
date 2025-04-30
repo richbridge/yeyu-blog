@@ -70,26 +70,17 @@ export default function EditTagModal() {
   }, [tagName, isModalOpen, form])
 
   const handleTagNameChange = async (values: WithTagIdValues) => {
-    if (tagType === TagType.BLOG) {
-      await updateBlogTagById(values)
-    }
-    else if (tagType === TagType.NOTE) {
-      await updateNoteTagById(values)
-    }
-    else {
-      throw new Error('标签类型错误!')
-    }
-
-    const allTags = await getAllTags()
-    setTags(allTags)
-  }
-
-  async function onSubmit(values: z.infer<typeof formSchema>) {
-    if (!tagId || !tagName) {
-      return
-    }
     try {
-      await handleTagNameChange({ ...values, tagId })
+      if (tagType === TagType.BLOG) {
+        await updateBlogTagById(values)
+      }
+      else if (tagType === TagType.NOTE) {
+        await updateNoteTagById(values)
+      }
+      else {
+        throw new Error('标签类型错误!')
+      }
+      toast.success(`修改成功`)
     }
     catch (error) {
       if (error instanceof Error) {
@@ -99,6 +90,17 @@ export default function EditTagModal() {
         toast.error(`修改标签出错`)
       }
     }
+
+    const allTags = await getAllTags()
+    setTags(allTags)
+  }
+
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    if (!tagId || !tagName) {
+      toast.error(`tagId 和 tagName 不能为空`)
+      return
+    }
+    await handleTagNameChange({ ...values, tagId })
     onModalClose()
   }
   return (
