@@ -9,7 +9,7 @@ import { useState } from 'react'
 // * 移动端拉不了多少...所以调低点，虽然会让 pc 端很容易触发
 const THRESHOLD = 100
 
-export default function HorizontalDividingLine() {
+export default function HorizontalDividingLine({ fill = '#211C84' }: { fill?: string }) {
   const { setTransitionTheme } = useTransitionTheme()
   const rotate = useMotionValue(0)
   const [duration, setDuration] = useState(4)
@@ -40,7 +40,7 @@ export default function HorizontalDividingLine() {
           }
         }}
       >
-        <Mandala className="size-10 cursor-grabbing" />
+        <Mandala className="size-10 cursor-grabbing" fill={fill} />
       </motion.div>
       <hr className="absolute w-[45%] right-0 dark:border-accent border-indigo-500" />
     </div>
