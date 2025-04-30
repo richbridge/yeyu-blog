@@ -57,6 +57,7 @@ export default function CreateTagModal() {
       tagName: '',
       tagType: TagType.BLOG,
     },
+    mode: 'onBlur'
   })
 
   const handleCreateTag = async (values: TagValues) => {

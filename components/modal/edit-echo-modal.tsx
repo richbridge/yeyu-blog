@@ -70,6 +70,7 @@ export default function EditEchoModal() {
       reference: '',
       isPublished,
     },
+    mode: 'onBlur'
   })
 
   useEffect(() => {
