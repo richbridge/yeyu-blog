@@ -21,7 +21,7 @@ export function BlogSearch() {
     <section className="flex gap-2">
       <Input
         placeholder="请输入标题喵~"
-        className="w-1/4"
+        className="w-1/2 xl:w-1/3"
         value={query}
         onChange={(e) => {
           const value = e.target.value
@@ -39,7 +39,6 @@ export function BlogSearch() {
         className="cursor-pointer"
       >
         <Search />
-        {' '}
         搜索
       </Button>
 
@@ -49,7 +48,6 @@ export function BlogSearch() {
         className="cursor-pointer"
       >
         <RotateCw />
-        {' '}
         重置
       </Button>
 
@@ -61,7 +59,6 @@ export function BlogSearch() {
         href="blog/edit"
       >
         <Plus />
-        {' '}
         创建博客
       </Link>
     </section>

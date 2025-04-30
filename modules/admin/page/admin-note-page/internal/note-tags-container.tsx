@@ -39,7 +39,6 @@ export function NoteTagsContainer({ tags }: { tags: NoteTag['tagName'][] }) {
         dragFree: true,
       }}
       setApi={setApi}
-      // * 魔法值，后序考虑使用计算得到
       className="relative"
     >
       <span

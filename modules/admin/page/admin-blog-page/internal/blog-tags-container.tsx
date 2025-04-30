@@ -10,7 +10,6 @@ import {
   CarouselContent,
   CarouselItem,
 } from '@/components/ui/carousel'
-import { itemVariants, listVariants } from '@/lib/animation/variants'
 import { cn } from '@/lib/utils'
 import { motion } from 'motion/react'
 import { useEffect, useState } from 'react'
@@ -39,7 +38,14 @@ export function BlogTagsContainer({ tags }: { tags: BlogTag['tagName'][] }) {
   }, [api])
 
   return (
-    <section className="relative w-full">
+    <Carousel
+      opts={{
+        align: 'start',
+        dragFree: true,
+      }}
+      setApi={setApi}
+      className="relative"
+    >
       {/* 左侧 fade 遮罩 */}
       <span
         className={cn(
@@ -49,39 +55,30 @@ export function BlogTagsContainer({ tags }: { tags: BlogTag['tagName'][] }) {
           current === 1 && 'hidden',
         )}
       />
-      <Carousel
-        opts={{
-          align: 'start',
-          dragFree: true,
-        }}
-        setApi={setApi}
-        // * 魔法值，后序考虑使用计算得到
-        className="w-full max-w-[97vw]"
-      >
-        <CarouselContent>
-          {tags.length === 0
-            ? (
-                <p className="text-muted-foreground m-auto">没有标签 (｡•́︿•̀｡)</p>
-              )
-            : (
-                <motion.section
-                  className="flex"
-                  variants={listVariants}
-                  initial="hidden"
-                  animate="show"
-                >
-                  {tags.map(tag => (
-                    <motion.div key={tag.toLowerCase()} variants={itemVariants}>
-                      <CarouselItem className="basis-auto">
-                        <BlogTagItemToggle tag={tag} />
-                      </CarouselItem>
-                    </motion.div>
-                  ))}
-                </motion.section>
-              )}
-        </CarouselContent>
-      </Carousel>
-
+      <CarouselContent className="shrink-0 w-fit max-w-[calc(100vw-4rem)]">
+        {tags.length === 0
+          ? (
+              <p className="text-muted-foreground m-auto">没有标签 (｡•́︿•̀｡)</p>
+            )
+          : (
+              tags.map((tag, i) => (
+                <CarouselItem className="basis-auto" key={tag.toLowerCase()}>
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0, transition: {
+                      type: 'spring',
+                      stiffness: 50,
+                      damping: 12,
+                      mass: 0.5,
+                      delay: i * 0.15,
+                    } }}
+                  >
+                    <BlogTagItemToggle tag={tag} />
+                  </motion.div>
+                </CarouselItem>
+              ))
+            )}
+      </CarouselContent>
       {/* 右侧 fade 遮罩 */}
       <span
         className={cn(
@@ -91,6 +88,6 @@ export function BlogTagsContainer({ tags }: { tags: BlogTag['tagName'][] }) {
           current === count && 'hidden',
         )}
       />
-    </section>
+    </Carousel>
   )
 }
