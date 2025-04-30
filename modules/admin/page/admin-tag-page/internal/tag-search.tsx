@@ -1,6 +1,6 @@
 'use client'
 
-import { getBlogTagsAndNoteTags, getQueryTags } from '@/actions/tags'
+import { getAllTags, getQueryTags } from '@/actions/tags'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useQueryLoader } from '@/hooks/use-query-loader'
@@ -12,7 +12,7 @@ export default function TagSearch() {
   const { setModalOpen } = useModalStore()
   const { setTags } = useTagStore()
   const { query, setQuery, fetchData, resetData } = useQueryLoader(
-    getBlogTagsAndNoteTags,
+    getAllTags,
     getQueryTags,
     setTags,
   )
@@ -37,7 +37,6 @@ export default function TagSearch() {
         className="cursor-pointer"
       >
         <Search />
-        {' '}
         搜索
       </Button>
 
@@ -47,7 +46,6 @@ export default function TagSearch() {
         className="cursor-pointer"
       >
         <RotateCw />
-        {' '}
         重置
       </Button>
       <Button

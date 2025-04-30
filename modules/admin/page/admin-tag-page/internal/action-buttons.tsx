@@ -1,4 +1,4 @@
-import { deleteBlogTagById, deleteNoteTagById, getBlogTagsAndNoteTags } from '@/actions/tags'
+import { deleteBlogTagById, deleteNoteTagById, getAllTags } from '@/actions/tags'
 import { Button } from '@/components/ui/button'
 import { useModalStore } from '@/store/use-modal-store'
 import { useTagStore } from '@/store/use-tag-store'
@@ -38,7 +38,7 @@ export default function ActionButtons({
         toast.error(`删除标签 ${tagName} 出错~`)
       }
     }
-    const allTags = await getBlogTagsAndNoteTags()
+    const allTags = await getAllTags()
     setTags(allTags)
     onModalClose()
   }

@@ -1,7 +1,7 @@
 'use client'
 
 import {
-  getBlogTagsAndNoteTags,
+  getAllTags,
   updateBlogTagById,
   updateNoteTagById,
 } from '@/actions/tags'
@@ -80,7 +80,7 @@ export default function EditTagModal() {
       throw new Error('标签类型错误!')
     }
 
-    const allTags = await getBlogTagsAndNoteTags()
+    const allTags = await getAllTags()
     setTags(allTags)
   }
 

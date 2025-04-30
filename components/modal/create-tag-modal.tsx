@@ -3,7 +3,7 @@
 import {
   createBlogTag,
   createNoteTag,
-  getBlogTagsAndNoteTags,
+  getAllTags,
 } from '@/actions/tags'
 import { Button } from '@/components/ui/button'
 import {
@@ -34,6 +34,7 @@ import { useModalStore } from '@/store/use-modal-store'
 import { useTagStore } from '@/store/use-tag-store'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { TagType } from '@prisma/client'
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
@@ -70,8 +71,9 @@ export default function CreateTagModal() {
         throw new Error('tag type 不匹配')
       }
 
-      const allTags = await getBlogTagsAndNoteTags()
+      const allTags = await getAllTags()
       setTags(allTags)
+      toast.success(`创建成功`)
     }
     catch (error) {
       if (error instanceof Error) {
@@ -82,6 +84,10 @@ export default function CreateTagModal() {
       }
     }
   }
+
+  useEffect(() => {
+    form.reset()
+  }, [isModalOpen, form])
 
   function onSubmit(values: TagValues) {
     handleCreateTag(values)

@@ -1,7 +1,7 @@
-import type { getBlogTagsAndNoteTags } from '@/actions/tags'
+import type { getAllTags } from '@/actions/tags'
 import { create } from 'zustand'
 
-export type Tag = Awaited<ReturnType<typeof getBlogTagsAndNoteTags>>[number]
+export type Tag = Awaited<ReturnType<typeof getAllTags>>[number]
 
 interface ITagStore {
   tags: Tag[]

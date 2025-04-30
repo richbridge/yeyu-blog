@@ -150,7 +150,7 @@ export async function getNoteTags() {
   return await prisma.noteTag.findMany()
 }
 
-export async function getBlogTagsAndNoteTags() {
+export async function getAllTags() {
   const [blogTags, noteTags] = await Promise.all([
     prisma.blogTag.findMany({
       include: {

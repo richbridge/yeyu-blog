@@ -1,6 +1,6 @@
 'use client'
 
-import { getBlogTagsAndNoteTags } from '@/actions/tags'
+import { getAllTags } from '@/actions/tags'
 import Loading from '@/components/shared/loading'
 import { useStoreLoader } from '@/hooks/use-store-loader'
 import { useTagStore } from '@/store/use-tag-store'
@@ -11,7 +11,7 @@ import { columns } from './tag-table-column'
 export default function TagListTable() {
   const { tags, setTags } = useTagStore()
   const { data, error, loading } = useStoreLoader(
-    getBlogTagsAndNoteTags,
+    getAllTags,
     setTags,
     tags,
   )
