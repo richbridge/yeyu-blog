@@ -32,6 +32,10 @@ export async function createBlog(values: createArticleParams) {
     select: { id: true },
   })
 
+  if (relatedTags.length > 3) {
+    throw new Error('标签数量超过 3 个限制')
+  }
+
   revalidatePath('/blog')
 
   return await prisma.blog.create({
@@ -104,6 +108,10 @@ export async function updateBlogById(values: UpdateArticleParamsWithBlogId) {
       id: true,
     },
   })
+
+  if (relatedTags.length > 3) {
+    throw new Error('标签数量超过 3 个限制')
+  }
 
   // 获取当前 Blog 的所有关联标签
   const currentTags = await prisma.blog.findUnique({

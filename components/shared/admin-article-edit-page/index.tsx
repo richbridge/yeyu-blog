@@ -39,9 +39,8 @@ const formSchema = z.object({
     .min(1, { message: '长度不能少于1个字符' }),
   isPublished: z.boolean(),
   relatedTagNames: z
-    .string()
-    .array()
-    .max(5, { message: '最多只能选择 5 个标签' }),
+    .array(z.string())
+    .max(3, { message: '最多只能选择 3 个标签' }),
   content: z.string(),
 })
 
@@ -84,9 +83,10 @@ export default function AdminBlogEditPage({
       relatedTagNames: relatedArticleTagNames ?? [],
       content: article?.content ?? '',
     },
+    mode: 'onBlur',
   })
-  const url = usePathname()
-  const editPageType = getEditPageType(url)
+  const pathname = usePathname()
+  const editPageType = getEditPageType(pathname)
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
@@ -174,40 +174,45 @@ export default function AdminBlogEditPage({
           )}
         />
 
-        <FormField
-          control={form.control}
-          name="relatedTagNames"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="text-lg">标签</FormLabel>
-              <FormControl>
-                <Combobox
-                  options={
-                    allTags.map(el => ({
-                      label: el.tagName,
-                      value: el.tagName,
-                    })) ?? []
-                  }
-                  multiple
-                  clearable
-                  selectPlaceholder="请选择标签"
-                  value={field.value}
-                  onValueChange={field.onChange}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <div className="flex items-end gap-2">
+          <FormField
+            control={form.control}
+            name="relatedTagNames"
+            render={({ field }) => (
+              <FormItem className="w-1/2">
+                <FormLabel className="text-lg">标签</FormLabel>
+                <FormControl>
+                  <Combobox
+                    options={
+                      allTags.map(el => ({
+                        label: el.tagName,
+                        value: el.tagName,
+                      })) ?? []
+                    }
+                    multiple
+                    clearable
+                    selectPlaceholder="请选择标签"
+                    value={field.value}
+                    onValueChange={val =>
+                      form.setValue('relatedTagNames', val, {
+                        shouldValidate: true,
+                      })}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        <Button
-          type="button"
-          variant="outline"
-          onClick={() => setModalOpen('createTagModal')}
-          className="cursor-pointer"
-        >
-          新建标签
-        </Button>
+          <Button
+            type="button"
+            variant="default"
+            onClick={() => setModalOpen('createTagModal')}
+            className="cursor-pointer"
+          >
+            新建标签
+          </Button>
+        </div>
 
         <FormField
           control={form.control}

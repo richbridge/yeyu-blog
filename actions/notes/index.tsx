@@ -30,6 +30,10 @@ export async function createNote(values: createArticleParams) {
     select: { id: true },
   })
 
+  if (relatedTags.length > 3) {
+    throw new Error('标签数量超过 3 个限制')
+  }
+
   revalidatePath('/note')
 
   return await prisma.note.create({
@@ -102,6 +106,10 @@ export async function updateNoteById(values: UpdateArticleParamsWithNoteId) {
       id: true,
     },
   })
+
+  if (relatedTags.length > 3) {
+    throw new Error('标签数量超过 3 个限制')
+  }
 
   // 获取当前 Note 的所有关联标签
   const currentTags = await prisma.note.findUnique({
