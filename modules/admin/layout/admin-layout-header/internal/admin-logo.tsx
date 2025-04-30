@@ -4,10 +4,10 @@ import Link from 'next/link'
 function AdminLogo() {
   return (
     <Link
-      className="flex items-center gap-1 px-4 py-1 rounded-lg hover:bg-primary-foreground duration-200"
+      className="flex items-center gap-1 hover:underline"
       href="/"
     >
-      <h2>☘️ 🐟 后台管理</h2>
+      <h2 className="font-semibold">叶鱼后台管理</h2>
       <Code size={18} />
     </Link>
   )

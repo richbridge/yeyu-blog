@@ -12,11 +12,11 @@ export default async function AdminLayout({
     <SessionProvider>
       <main className="flex flex-col min-h-screen max-w-screen dark:bg-black dark:text-white">
         <AdminNavbar />
-        <div className="mt-16 px-6 m-auto w-full min-h-[calc(100vh-70px)] flex">
+        <div className="flex-1 px-6 flex mt-2">
           <main className="flex-1 flex">{children}</main>
         </div>
         <ModalProvider />
-        <Toaster position="top-center" expand richColors />
+        <Toaster position="top-center" richColors />
       </main>
     </SessionProvider>
   )

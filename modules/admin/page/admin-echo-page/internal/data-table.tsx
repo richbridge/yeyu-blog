@@ -79,7 +79,6 @@ export function DataTable<TData, TValue>({
             ))}
           </TableHeader>
 
-          {/* 后序再骨架屏效果 */}
           <TableBody>
             {table.getRowModel().rows?.length
               ? (
@@ -89,7 +88,7 @@ export function DataTable<TData, TValue>({
                       data-state={row.getIsSelected() && 'selected'}
                     >
                       {row.getVisibleCells().map(cell => (
-                        <TableCell key={cell.id} className="truncate max-w-16">
+                        <TableCell key={cell.id} className="truncate max-w-24">
                           {flexRender(
                             cell.column.columnDef.cell,
                             cell.getContext(),

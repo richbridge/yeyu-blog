@@ -37,8 +37,8 @@ function AdminNavbar() {
 
   return (
     <header
-      className="h-14 fixed w-full top-0 backdrop-blur-lg z-50 border-b border-dashed
-                  flex justify-between items-center px-2"
+      className="sticky h-14 top-0 backdrop-blur-lg z-50 border-b border-dashed
+                  flex justify-between items-center px-6"
     >
       <nav className="flex gap-4">
         {/* 左侧logo区域, 回到首页 */}
@@ -56,7 +56,7 @@ function AdminNavbar() {
           </Link>
         ))}
       </nav>
-      <section className="px-5 flex gap-4 items-center">
+      <section className="flex gap-4 items-center">
         <ModeToggle />
         <AvatarDropdownMenu />
       </section>

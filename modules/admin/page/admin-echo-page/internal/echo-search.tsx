@@ -8,7 +8,7 @@ import { useEchoStore } from '@/store/use-echo-store'
 import { useModalStore } from '@/store/use-modal-store'
 import { Plus, RotateCw, Search } from 'lucide-react'
 
-export function EchoSearch() {
+export default function EchoSearch() {
   const { setEchos } = useEchoStore()
   const { query, setQuery, fetchData, resetData } = useQueryLoader(
     getAllEchos,
@@ -21,7 +21,7 @@ export function EchoSearch() {
     <section className="flex gap-2">
       <Input
         placeholder="请输入引用喵~"
-        className="w-1/4"
+        className="w-1/2 xl:w-1/3"
         value={query}
         onChange={(e) => {
           const value = e.target.value
@@ -39,7 +39,6 @@ export function EchoSearch() {
         className="cursor-pointer"
       >
         <Search />
-        {' '}
         搜索
       </Button>
 
@@ -49,7 +48,6 @@ export function EchoSearch() {
         className="cursor-pointer"
       >
         <RotateCw />
-        {' '}
         重置
       </Button>
 

@@ -1,5 +1,5 @@
 import EchoListTable from './internal/echo-list-table'
-import { EchoSearch } from './internal/echo-search'
+import EchoSearch from './internal/echo-search'
 
 export default async function AdminEchoPage() {
   return (
