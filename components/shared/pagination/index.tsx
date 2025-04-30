@@ -23,7 +23,7 @@ export function DataTablePagination<TData>({
 }: DataTablePaginationProps<TData>) {
   return (
     <div className="flex items-center justify-end my-2">
-      <div className="flex items-center space-x-6 lg:space-x-8">
+      <div className="flex items-center space-x-2 lg:space-x-3">
         <div className="flex items-center space-x-2">
           <Select
             value={`${table.getState().pagination.pageSize}`}
