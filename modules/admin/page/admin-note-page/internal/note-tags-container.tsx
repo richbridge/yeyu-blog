@@ -10,7 +10,6 @@ import {
   CarouselContent,
   CarouselItem,
 } from '@/components/ui/carousel'
-import { itemVariants, listVariants } from '@/lib/animation/variants'
 import { cn } from '@/lib/utils'
 import { motion } from 'motion/react'
 import { useEffect, useState } from 'react'
@@ -34,8 +33,15 @@ export function NoteTagsContainer({ tags }: { tags: NoteTag['tagName'][] }) {
   }, [api])
 
   return (
-    <section className="relative w-full">
-      {/* 左侧 fade 遮罩 */}
+    <Carousel
+      opts={{
+        align: 'start',
+        dragFree: true,
+      }}
+      setApi={setApi}
+      // * 魔法值，后序考虑使用计算得到
+      className="relative"
+    >
       <span
         className={cn(
           'absolute left-0 top-0 bottom-0 w-12 z-10',
@@ -44,39 +50,31 @@ export function NoteTagsContainer({ tags }: { tags: NoteTag['tagName'][] }) {
           current === 1 && 'hidden',
         )}
       />
-      <Carousel
-        opts={{
-          align: 'start',
-          dragFree: true,
-        }}
-        setApi={setApi}
-        // * 魔法值，后序考虑使用计算得到
-        className="w-full max-w-[97vw]"
-      >
-        <CarouselContent>
-          {tags.length === 0
-            ? (
-                <p className="text-muted-foreground m-auto">没有标签 (｡•́︿•̀｡)</p>
-              )
-            : (
-                <motion.section
-                  className="flex"
-                  variants={listVariants}
-                  initial="hidden"
-                  animate="show"
-                >
-                  {tags.map(tag => (
-                    <motion.div key={tag.toLowerCase()} variants={itemVariants}>
-                      <CarouselItem className="basis-auto">
-                        <NoteTagItemToggle tag={tag} />
-                      </CarouselItem>
-                    </motion.div>
-                  ))}
-                </motion.section>
-              )}
-        </CarouselContent>
-      </Carousel>
 
+      <CarouselContent className="shrink-0 w-fit max-w-[calc(100vw-4rem)]">
+        {tags.length === 0
+          ? (
+              <p className="text-muted-foreground m-auto">没有标签 (｡•́︿•̀｡)</p>
+            )
+          : (
+              tags.map((tag, i) => (
+                <CarouselItem className="basis-auto" key={tag.toLowerCase()}>
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0, transition: {
+                      type: 'spring',
+                      stiffness: 50,
+                      damping: 12,
+                      mass: 0.5,
+                      delay: i * 0.15,
+                    } }}
+                  >
+                    <NoteTagItemToggle tag={tag} />
+                  </motion.div>
+                </CarouselItem>
+              ))
+            )}
+      </CarouselContent>
       {/* 右侧 fade 遮罩 */}
       <span
         className={cn(
@@ -86,6 +84,6 @@ export function NoteTagsContainer({ tags }: { tags: NoteTag['tagName'][] }) {
           current === count && 'hidden',
         )}
       />
-    </section>
+    </Carousel>
   )
 }
