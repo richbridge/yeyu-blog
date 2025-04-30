@@ -8,6 +8,17 @@ import { notFound } from 'next/navigation'
 
 export const dynamicParams = true
 
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+  const article = await getPublishedBlogHTMLBySlug((await params).slug)
+
+  if (!article)
+    notFound()
+
+  return {
+    title: article.title,
+  }
+}
+
 export async function generateStaticParams() {
   const allArticles = await prisma.blog.findMany({
     where: {
