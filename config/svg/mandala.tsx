@@ -1,4 +1,4 @@
-function Mandala({ className, fill = '#211C84' }: { className?: string, fill?: string }) {
+function Mandala({ className, fill = '#40B2AF' }: { className?: string, fill?: string }) {
   return (
     <svg
       className={className}

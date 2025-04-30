@@ -9,7 +9,7 @@ import { useState } from 'react'
 // * 移动端拉不了多少...所以调低点，虽然会让 pc 端很容易触发
 const THRESHOLD = 100
 
-export default function HorizontalDividingLine({ fill = '#211C84' }: { fill?: string }) {
+export default function HorizontalDividingLine({ fill = '#40B2AF' }: { fill?: string }) {
   const { setTransitionTheme } = useTransitionTheme()
   const rotate = useMotionValue(0)
   const [duration, setDuration] = useState(4)
