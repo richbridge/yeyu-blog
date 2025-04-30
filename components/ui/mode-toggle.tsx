@@ -19,6 +19,7 @@ export function ModeToggle() {
     <Button
       onClick={() => setTransitionTheme(theme === 'light' ? 'dark' : 'light')}
       size="sm"
+      className='cursor-pointer'
     >
       {theme === 'light' ? <Sun /> : <Moon />}
     </Button>

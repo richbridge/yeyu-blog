@@ -28,6 +28,7 @@ export default function LoginPage() {
             <Button
               type="button"
               onClick={() => signIn('github', { redirectTo: '/admin' })}
+              className="cursor-pointer"
             >
               <GithubIcon />
               {' '}

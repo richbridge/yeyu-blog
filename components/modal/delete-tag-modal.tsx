@@ -24,6 +24,7 @@ export default function DeleteTagModal() {
         <div className="flex gap-4">
           <Button
             variant="destructive"
+            className="cursor-pointer"
             type="submit"
             onClick={() => {
               ;(payload as () => void)()

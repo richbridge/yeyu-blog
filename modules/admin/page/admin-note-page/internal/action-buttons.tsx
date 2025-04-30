@@ -58,7 +58,7 @@ export default function ActionButtons({
 
       <Button
         variant="outline"
-        className="size-8 text-red-600"
+        className="size-8 text-red-600 cursor-pointer"
         onClick={() => {
           setModalOpen('deleteArticleModal', handleDelete)
         }}

@@ -128,7 +128,7 @@ export default function EditTagModal() {
                   </FormItem>
                 )}
               />
-              <Button type="submit">保存修改</Button>
+              <Button type="submit" className="cursor-pointer">保存修改</Button>
             </form>
           </Form>
         </div>

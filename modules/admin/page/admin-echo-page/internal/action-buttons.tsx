@@ -41,7 +41,7 @@ export default function ActionButtons({
     <section className="flex items-center gap-1">
       <Button
         variant="outline"
-        className="size-8"
+        className="size-8 cursor-pointer"
         onClick={() => {
           setModalOpen('editEchoModal', {
             id,
@@ -55,7 +55,7 @@ export default function ActionButtons({
       </Button>
       <Button
         variant="outline"
-        className="size-8 text-red-600"
+        className="size-8 text-red-600 cursor-pointer"
         onClick={() => {
           setModalOpen('deleteEchoModal', handleEchoDelete)
         }}

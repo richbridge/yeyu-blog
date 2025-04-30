@@ -22,6 +22,8 @@ export default function DeleteArticleModal() {
         <div className="flex gap-4">
           <Button
             variant="destructive"
+            className="cursor-pointer"
+            type="submit"
             onClick={() => {
               // * 你知道的, 我很信任我自己 😎
               ;(payload as () => void)()

@@ -22,6 +22,7 @@ export default function DeleteEchoModal() {
         <div className="flex gap-4">
           <Button
             variant="destructive"
+            className="cursor-pointer"
             onClick={() => {
               // * 你知道的, 我很信任我自己 😎
               ;(payload as () => void)()

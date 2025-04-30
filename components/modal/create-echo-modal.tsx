@@ -148,7 +148,7 @@ export default function CreateEchoModal() {
                 )}
               />
               <DialogFooter>
-                <Button type="submit">保存修改</Button>
+                <Button type="submit" className="cursor-pointer">保存修改</Button>
               </DialogFooter>
             </form>
           </Form>

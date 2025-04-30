@@ -48,7 +48,7 @@ export default function ActionButtons({
     <section className="flex items-center gap-1">
       <Button
         variant="outline"
-        className="size-8"
+        className="size-8 cursor-pointer"
         onClick={() =>
           setModalOpen('editTagModal', {
             tagId,
