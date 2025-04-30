@@ -59,7 +59,7 @@ export default function CreateEchoModal() {
       echoReference: '',
       isPublished: true,
     },
-    mode: 'onBlur'
+    mode: 'onBlur',
   })
 
   const handleCreateEcho = async (values: EchoValues) => {

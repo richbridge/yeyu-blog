@@ -61,7 +61,7 @@ export default function EditTagModal() {
     defaultValues: {
       tagName: tagName ?? '',
     },
-    mode: 'onBlur'
+    mode: 'onBlur',
   })
 
   useEffect(() => {
