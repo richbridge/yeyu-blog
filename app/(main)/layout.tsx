@@ -28,7 +28,7 @@ export default function MainLayout({
           <ContactMe />
         </MaxWidthWrapper>
 
-        <StartUpMotion />
+        {/* <StartUpMotion /> */}
         <StarsBackground />
       </main>
     </LenisScrollProvider>
