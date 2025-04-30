@@ -79,7 +79,7 @@ export const columns: ColumnDef<WithCountBlogTagOrNoteTag>[] = [
     cell: ({ row }) => {
       const relatedArticleCount = row.original.count
       return (
-        <span className="font-mono ml-8 text-base">{relatedArticleCount}</span>
+        <div className="font-mono max-w-36 flex justify-center text-base">{relatedArticleCount}</div>
       )
     },
   },

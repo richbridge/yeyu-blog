@@ -34,7 +34,7 @@ export default function TagListTable() {
 
   return (
     <motion.main
-      className="h-full"
+      className="flex-1"
       initial={{ opacity: 0, y: 20, scale: 0.95 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{

@@ -20,7 +20,7 @@ export default function TagSearch() {
   return (
     <div className="flex gap-2">
       <Input
-        className="w-1/4"
+        className="w-1/2 xl:w-1/3"
         placeholder="请输入标签名喵~"
         value={query}
         onChange={(e) => {
