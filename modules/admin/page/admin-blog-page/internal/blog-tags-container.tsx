@@ -58,7 +58,9 @@ export function BlogTagsContainer({ tags }: { tags: BlogTag['tagName'][] }) {
       <CarouselContent className="shrink-0 w-fit max-w-[calc(100vw-4rem)]">
         {tags.length === 0
           ? (
-              <p className="text-muted-foreground m-auto">没有标签 (｡•́︿•̀｡)</p>
+              <CarouselItem className="text-muted-foreground m-auto">
+                没有标签 (｡•́︿•̀｡)
+              </CarouselItem>
             )
           : (
               tags.map((tag, i) => (
