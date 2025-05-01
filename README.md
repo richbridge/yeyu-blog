@@ -116,3 +116,23 @@ Authorization callback URL: http://localhost:3000/api/auth/callback/github
 设置 `.env` 下的环境变量 `NEXT_PUBLIC_ADMIN_EMAILS` 为你自己的邮箱，多个邮箱直接使用逗号隔开~
 
 至此，本地的项目已经可以运行起来了，接下来就是 `vercel` 部署篇了~
+
+### 修改网站信息
+
+> 肥肠抱歉，由于本人技术太菜，所以很多地方都需要你手动去修改代码才能更新自己的配置，我会尽量告诉你各个文件的位置。
+
+- config
+  - constant 目录中包含项目的 metadata 和 首页动画文字展示
+
+- img
+  - 首页展示的个人头像，建议图片采用 webp 格式，再压缩一下~
+  - [推荐图片处理工具](https://imagestool.com/)
+
+- svg
+  - 存放底部的技术栈展示的 svg
+
+- modules/main/page/main-home-page/internal/bio-section.tsx
+  - 首页个人简介
+
+- modules/main/page/about-page/index.tsx
+  - /about 页面的简介
