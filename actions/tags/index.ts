@@ -4,6 +4,7 @@ import type { WithTagIdValues } from '@/components/modal/edit-tag-modal'
 import { prisma } from '@/db'
 import { requireAdmin } from '@/lib/auth'
 import { TagType } from '@prisma/client'
+import { revalidatePath } from 'next/cache'
 
 export async function createBlogTag(tagName: string) {
   await requireAdmin()
@@ -17,6 +18,8 @@ export async function createBlogTag(tagName: string) {
   if (existingTagName) {
     throw new Error('标签名已存在')
   }
+
+  revalidatePath('/admin/blog')
 
   return await prisma.blogTag.create({
     data: {
@@ -38,6 +41,8 @@ export async function createNoteTag(tagName: string) {
     throw new Error('标签名已存在')
   }
 
+  revalidatePath('/admin/note')
+
   return await prisma.noteTag.create({
     data: {
       tagName,
@@ -54,6 +59,8 @@ export async function deleteBlogTagById(tagId: number) {
     throw new Error('标签不存在')
   }
 
+  revalidatePath('/admin/blog')
+
   return await prisma.blogTag.delete({
     where: {
       id: tagId,
@@ -69,6 +76,8 @@ export async function deleteNoteTagById(tagId: number) {
   if (!tag) {
     throw new Error('标签不存在')
   }
+
+  revalidatePath('/admin/note')
 
   return await prisma.noteTag.delete({
     where: {
@@ -94,6 +103,8 @@ export async function updateBlogTagById(values: WithTagIdValues) {
   if (existingTag) {
     throw new Error(`标签名 "${tagName}" 已存在`)
   }
+
+  revalidatePath('/admin/blog')
 
   return await prisma.blogTag.update({
     where: {
@@ -122,6 +133,8 @@ export async function updateNoteTagById(values: WithTagIdValues) {
   if (existingTag) {
     throw new Error(`标签名 "${tagName}" 已存在`)
   }
+
+  revalidatePath('/admin/note')
 
   return await prisma.noteTag.update({
     where: {
