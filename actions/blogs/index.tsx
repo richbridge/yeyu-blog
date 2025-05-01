@@ -83,7 +83,7 @@ export async function updateBlogById(values: UpdateArticleParamsWithBlogId) {
   await requireAdmin()
 
   const [existingBlog, relatedTags, currentTags] = await Promise.all([
-    await prisma.blog.findUnique({
+    prisma.blog.findUnique({
       where: {
         slug: values.slug,
         NOT: {
@@ -91,7 +91,7 @@ export async function updateBlogById(values: UpdateArticleParamsWithBlogId) {
         },
       },
     }),
-    await prisma.blogTag.findMany({
+    prisma.blogTag.findMany({
       where: {
         tagName: {
           in: values.relatedTagNames,
@@ -101,7 +101,7 @@ export async function updateBlogById(values: UpdateArticleParamsWithBlogId) {
         id: true,
       },
     }),
-    await prisma.blog.findUnique({
+    prisma.blog.findUnique({
       where: { id: values.id },
       select: {
         tags: {
