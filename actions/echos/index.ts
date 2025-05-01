@@ -4,12 +4,9 @@ import type { EchoValues } from '@/components/modal/create-echo-modal'
 import type { OmitCreatedAtEcho } from '@/components/modal/edit-echo-modal'
 import { prisma } from '@/db'
 import { requireAdmin } from '@/lib/auth'
-import { revalidatePath } from 'next/cache'
 
 export async function createEcho(values: EchoValues) {
   await requireAdmin()
-
-  revalidatePath('/echo')
 
   return await prisma.echo.create({
     data: {
@@ -23,8 +20,6 @@ export async function createEcho(values: EchoValues) {
 export async function deleteEchoById(id: number) {
   await requireAdmin()
 
-  revalidatePath('/echo')
-
   return await prisma.echo.delete({
     where: {
       id,
@@ -34,8 +29,6 @@ export async function deleteEchoById(id: number) {
 
 export async function updateEchoById(values: OmitCreatedAtEcho) {
   await requireAdmin()
-
-  revalidatePath('/echo')
 
   return await prisma.echo.update({
     where: {
@@ -53,8 +46,6 @@ export async function updateEchoById(values: OmitCreatedAtEcho) {
 export async function toggleEchoPublishedById(id: number, newIsPublishedStatus: boolean) {
   await requireAdmin()
 
-  revalidatePath('/echo')
-
   return await prisma.echo.update({
     where: {
       id,
@@ -65,7 +56,6 @@ export async function toggleEchoPublishedById(id: number, newIsPublishedStatus: 
   })
 }
 
-// * 模糊查询
 export async function getQueryEchos(queryContent: string) {
   return await prisma.echo.findMany({
     where: {
