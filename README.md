@@ -44,19 +44,19 @@ git clone https://github.com/NeilYeTAT/yeyu-blog.git
 ```shell
 pnpm install
 ```
-将项目根目录下的 `.env.example` 和 `.env.local.example` 的 `example` 去掉:
+将项目根目录下的 `.env.example` 的 `example` 去掉:
 
-现在你应该有一个 `.env` 文件和一个 `.env.local` 文件。
+现在你应该有一个 `.env` 文件。
 
 ### 创建数据库
 
-**本地测试时使用本地的 mysql 数据库用于演示，但项目使用的是 `postgresql`，需要去修改一下**
+**本地测试时使用本地的 mysql 数据库用于演示，但项目使用的是 `postgresql`，因此需要去修改一下**
 
 前往 `prisma/schema.prisma`，修改 `datasource db` 为：
 
 ```prisma
 datasource db {
-  provider = "mysql"
+  provider = "mysql" // 设置为 mysql
   url      = env("DATABASE_URL")
 }
 ```
@@ -76,6 +76,7 @@ npx prisma migrate dev --name init
 
 启动！
 ```shell
+pnpm install
 pnpm dev
 ```
 
@@ -89,27 +90,29 @@ pnpm dev
 
 接下来就是配置 oauth 登录了。
 
-[自动生成 AUTH_SECRET](https://authjs.dev/getting-started/installation?framework=Next.js)
-运行：
+运行生成 AUTH_SECRET:
+
 ```shell
 npx auth secret
 ```
 
-执行完后，`.env.local` 目录下多了环境变量 `AUTH_SECRET`，现在再访问 `/admin` 页面，会直接重定向到登录页面~
+执行完后，多了一个 `.env.local` 文件，多了环境变量 `AUTH_SECRET`，现在再访问 `/admin` 页面，会直接重定向到登录页面~
 
 ### admin 登录/创建 oauth 应用
 
-前往 [oauth app](https://github.com/settings/applications/new) 创建你的 oauth 应用，获取 CLIENT_ID 和 CLIENT_SECRET。
+前往 [oauth app](https://github.com/settings/applications/new) 创建你的 oauth 应用。
 
-填写：
+表单填写：
 Homepage URL: http://localhost:3000
 
 Authorization callback URL: http://localhost:3000/api/auth/callback/github
+
+获取 CLIENT_ID 和 CLIENT_SECRET，填写到 `.env.local` 文件中。
 
 就完成登录功能了~
 
 ### 配置管理员邮箱
 
-设置 `.env.local` 下的环境变量 `NEXT_PUBLIC_ADMIN_EMAILS` 为你自己的邮箱，多个邮箱直接使用逗号隔开~
+设置 `.env` 下的环境变量 `NEXT_PUBLIC_ADMIN_EMAILS` 为你自己的邮箱，多个邮箱直接使用逗号隔开~
 
 至此，本地的项目已经可以运行起来了，接下来就是 `vercel` 部署篇了~
