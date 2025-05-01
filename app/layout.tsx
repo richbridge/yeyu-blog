@@ -12,7 +12,6 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    // * 添加亮暗切换必报水合错误错误😅
     <html lang="zh-CN" suppressHydrationWarning>
       <body className="font-ye-font">
         <ThemeProvider
