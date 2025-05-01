@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     '阅读',
     '叶鱼',
   ],
-  authors: [{ name: '叶鱼', url: 'https://yeyu.fun' }],
+  authors: [{ name: '叶鱼', url: 'https://useyeyu.cc' }],
   creator: '叶鱼',
 }
 

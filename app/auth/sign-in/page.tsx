@@ -1,5 +1,6 @@
 'use client'
 
+import HorizontalDividingLine from '@/components/shared/horizontal-dividing-line'
 import StarsBackground from '@/components/shared/stars-background'
 import { Button } from '@/components/ui/button'
 import {
@@ -31,23 +32,14 @@ export default function LoginPage() {
               className="cursor-pointer"
             >
               <GithubIcon />
-              {' '}
               GitHub登录
             </Button>
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <span className="w-full border-t border-purple-800" />
-              </div>
-              <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-background px-2 text-muted-foreground">
-                  或者
-                </span>
-              </div>
-            </div>
+
+            <HorizontalDividingLine />
+
             <Link href="/">
-              <Button type="button" className="w-full">
+              <Button type="button" className="w-full cursor-pointer">
                 <RotateCcw />
-                {' '}
                 回到过去喵~
               </Button>
             </Link>
