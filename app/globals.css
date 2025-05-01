@@ -3,6 +3,11 @@
 /* * 感谢大哥🥹 import from https://github.com/aifuxi/fuxiaochen/blob/master/styles/bytemd.css  */
 @import '../lib/styles/bytemd.css';
 
+/* * 感谢工具 https://chinese-font.netlify.app/zh-cn/online-split/ */
+@import '../lib/styles/LXGWWenKaiMono-Regular/result.css';
+
+@import '../lib/styles/LXGWWenKaiMono-Medium/result.css';
+
 @plugin "tailwindcss-animate";
 
 @plugin "@tailwindcss/typography";
@@ -118,7 +123,7 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 
-  --font-ye-font: var(--ye-font);
+  --font-ye-font: 'LXGW WenKai Mono';
 
   /* 麻了, 找半天 bug, 结果是没有加 分号... */
   /* ! 这里有两个问题, 做个记录 */

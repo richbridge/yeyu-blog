@@ -22,7 +22,7 @@ export default function AdminHomePage() {
     >
       <div className="flex items-center justify-center flex-col text-lg m-auto">
         <Greeting />
-        <h2 className="font-black">
+        <h2 className="font-bold">
           今天是
           {' '}
           <span className="text-indigo-400">{year}</span>

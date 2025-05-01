@@ -1,5 +1,5 @@
 import { ThemeProvider } from '@/components/ui/theme-provider'
-import { LXGW, metadata } from '@/config/constant'
+import { metadata } from '@/config/constant'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import './globals.css'
@@ -13,7 +13,7 @@ export default function RootLayout({
 }>) {
   return (
     // * 添加亮暗切换必报水合错误错误😅
-    <html lang="zh-CN" suppressHydrationWarning className={LXGW.variable}>
+    <html lang="zh-CN" suppressHydrationWarning>
       <body className="font-ye-font">
         <ThemeProvider
           attribute="class"

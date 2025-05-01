@@ -1,6 +1,6 @@
 'use client'
 
-import avatar from '@/config/img/avatar.png'
+import avatar from '@/config/img/avatar.webp'
 import { useTransitionTheme } from '@/hooks/use-transition-theme'
 import { motion } from 'motion/react'
 import Image from 'next/image'
@@ -35,6 +35,7 @@ export default function YeAvatar() {
         alt="avatar"
         className="rounded-full md:w-52 w-44"
         placeholder="blur"
+        priority
       />
       {/* 亮模式宽度为 2, 暗模式宽度为 4, 视觉效果 */}
       <span
