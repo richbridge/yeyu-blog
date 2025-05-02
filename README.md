@@ -136,3 +136,6 @@ Authorization callback URL: http://localhost:3000/api/auth/callback/github
 
 - modules/main/page/about-page/index.tsx
   - /about 页面的简介
+
+- components/shared/contact-me/index.tsx
+ - 底部联系方式
