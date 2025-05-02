@@ -1,6 +1,7 @@
 'use client'
 
 import type { Theme } from '@giscus/react'
+import { COMMENT_CARD_REPO, COMMENT_CARD_REPO_ID } from '@/config/constant'
 import { useTransitionTheme } from '@/hooks/use-transition-theme'
 import Giscus from '@giscus/react'
 
@@ -13,8 +14,8 @@ export default function CommentCard({ term }: { term: string }) {
   return (
     <Giscus
       id="comments"
-      repo="NeilYeTAT/yeyu-blog-comment"
-      repoId="R_kgDOOiAAJA"
+      repo={COMMENT_CARD_REPO}
+      repoId={COMMENT_CARD_REPO_ID}
       category="Announcements"
       categoryId="DIC_kwDOOiAAJM4Cpm1t"
       mapping="specific"

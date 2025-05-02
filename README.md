@@ -122,14 +122,12 @@ Authorization callback URL: http://localhost:3000/api/auth/callback/github
 > 肥肠抱歉，由于本人技术太菜，所以很多地方都需要你手动去修改代码才能更新自己的配置，我会尽量告诉你各个文件的位置。
 
 - config
-  - constant 目录中包含项目的 metadata 和 首页动画文字展示
-
-- img
-  - 首页展示的个人头像，建议图片采用 webp 格式，再压缩一下~
-  - [推荐图片处理工具](https://imagestool.com/)
-
-- svg
-  - 存放底部的技术栈展示的 svg
+  - constant 目录中包含项目的 metadata 和 首页动画文字展示，评论系统的仓库地址
+  - img
+    - 首页展示的个人头像，建议图片采用 webp 格式，再压缩一下~
+    - [推荐图片处理工具](https://imagestool.com/)
+  - svg
+    - 存放底部的技术栈展示的 svg
 
 - modules/main/page/main-home-page/internal/bio-section.tsx
   - 首页个人简介
@@ -139,3 +137,19 @@ Authorization callback URL: http://localhost:3000/api/auth/callback/github
 
 - components/shared/contact-me/index.tsx
  - 底部联系方式
+
+### 安装评论系统
+
+[评论系统官方文档](https://giscus.app/zh-CN)
+
+首先按照上面官方文档的步骤来，去自己的 GitHub 创建一个仓库:
+
+- 该仓库是公开的，否则访客将无法查看 discussion。
+- giscus app 已安装，否则访客将无法评论和回应。
+- Discussions 功能已在你的仓库中启用。
+
+页面 ↔️ discussion 映射关系，选择 **Discussion 的标题包含特定字符串**，不需要填，只需要选择该选项就行了。
+
+最后在 「启用 giscus」下有一个代码片段，**不要直接复制**，只需要复制 `data-repo` 和 `data-repo-id` 的值就可以了，其他配置项可以自行研究~
+
+组件在 `components/shared/comment-card/index.tsx` 下，配置 `data-repo` 和 `data-repo-id` 的值在 `config/constant/index.ts` 中配置。
