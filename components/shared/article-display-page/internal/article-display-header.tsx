@@ -16,8 +16,9 @@ export default function ArticleDisplayHeader({
         {title}
       </h1>
 
-      <section className="flex flex-col gap-2 justify-center w-full">
-        <p className="flex gap-2 justify-center w-full">
+      <section className="flex justify-center w-full gap-2">
+
+        <p className="flex gap-2 justify-center">
           {tags.map(tag => (
             <TagItemBadge
               key={`${tag.toString()}`}
@@ -25,9 +26,10 @@ export default function ArticleDisplayHeader({
             />
           ))}
         </p>
+
+        <time className="underline text-xs md:text-sm">{toZhDay(createdAt)}</time>
       </section>
 
-      <time className="underline text-xs md:text-sm">{toZhDay(createdAt)}</time>
     </header>
   )
 }
