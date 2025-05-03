@@ -17,7 +17,7 @@ export function ModeToggle() {
 
   return (
     <Button
-      onClick={() => setTransitionTheme(theme === 'light' ? 'dark' : 'light')}
+      onClick={() => setTransitionTheme(theme === 'light' ? 'dark' : 'light', theme === 'light' ? 'bottom' : 'top')}
       size="sm"
       className='cursor-pointer'
     >

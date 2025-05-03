@@ -33,10 +33,10 @@ export default function HorizontalDividingLine({ fill = '#40B2AF' }: { fill?: st
         onDragEnd={(event, info) => {
           setDuration(4)
           if (info.offset.x < -THRESHOLD) {
-            setTransitionTheme('light')
+            setTransitionTheme('light', 'left')
           }
           else if (info.offset.x > THRESHOLD) {
-            setTransitionTheme('dark')
+            setTransitionTheme('dark', 'right')
           }
         }}
       >
