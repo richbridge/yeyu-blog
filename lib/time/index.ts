@@ -1,7 +1,14 @@
 import dayjs from 'dayjs'
+import timezone from 'dayjs/plugin/timezone'
+import utc from 'dayjs/plugin/utc'
+
+dayjs.extend(utc)
+dayjs.extend(timezone)
+
+const SHANGHAI = 'Asia/Shanghai'
 
 export function sayHi() {
-  const hour = dayjs().hour()
+  const hour = dayjs().tz(SHANGHAI).hour()
 
   if (hour < 6) {
     return '凌晨不好喵...'
@@ -27,22 +34,23 @@ export function sayHi() {
 }
 
 export function prettyDateTime(date: number | Date) {
-  return dayjs(date).locale('zh-cn').format('YY年M月D日 H时 m分')
+  return dayjs(date).tz(SHANGHAI).locale('zh-cn').format('YY年M月D日 H时 m分')
 }
 
 export function toZhDay(date: number | Date) {
-  return dayjs(date).locale('zh-cn').format('YY年M月D日')
+  return dayjs(date).tz(SHANGHAI).locale('zh-cn').format('YY年M月D日')
 }
 
 export function getRemainingDaysOfYear(): number {
-  const endOfYear = dayjs().endOf('year')
-  return endOfYear.diff(dayjs(), 'day')
+  const endOfYear = dayjs().tz(SHANGHAI).endOf('year')
+  const now = dayjs().tz(SHANGHAI)
+  return endOfYear.diff(now, 'day')
 }
 
 export function getYearProgress(): { passed: number, remaining: number } {
-  const startOfYear = dayjs().startOf('year')
-  const endOfYear = dayjs().endOf('year')
-  const now = dayjs()
+  const now = dayjs().tz(SHANGHAI)
+  const startOfYear = now.startOf('year')
+  const endOfYear = now.endOf('year')
 
   const totalMs = endOfYear.diff(startOfYear)
   const passedMs = now.diff(startOfYear)
@@ -57,13 +65,12 @@ export function getYearProgress(): { passed: number, remaining: number } {
 }
 
 export function getTodayDayInfo(): { year: number, dayOfYear: number } {
-  const now = new Date()
-  const startOfYear = new Date(now.getFullYear(), 0, 1)
-  const diffInMs = now.getTime() - startOfYear.getTime()
-  const dayOfYear = Math.floor(diffInMs / (1000 * 60 * 60 * 24)) + 1
+  const now = dayjs().tz(SHANGHAI)
+  const startOfYear = now.startOf('year')
+  const dayOfYear = now.diff(startOfYear, 'day') + 1
 
   return {
-    year: now.getFullYear(),
+    year: now.year(),
     dayOfYear,
   }
 }
