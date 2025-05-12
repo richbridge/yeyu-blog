@@ -46,28 +46,29 @@ pnpm install
 ```
 将项目根目录下的 `.env.example` 的 `example` 去掉:
 
-现在你应该有一个 `.env` 文件。
+现在你应该有一个 `.env` 文件，按照要求填写字段~
 
-### 创建数据库
-
-> 本项目默认使用 PostgreSQL，但为了本地演示更方便，下面将切换为 MySQL。
-
-前往 `prisma/schema.prisma`，修改 `datasource db` 为：
-
-```prisma
-datasource db {
-  provider = "mysql" // 设置为 mysql 用于本地测试
-  url      = env("DATABASE_URL")
-}
-```
-
-**如果存在 `prisma/migrations` 文件夹，需要手动删除。**
-
-接着修改 `.env` 中的 `DATABASE_URL`，示例：
+其实就两个，数据库的之后再填写：
 
 ```shell
-DATABASE_URL="mysql://username:password@localhost:3306/yeyu_blog_db"
+SITE_URL=
+NEXT_PUBLIC_ADMIN_EMAILS=
 ```
+
+### 创建/白嫖数据库
+
+> 为了测试方便，建议本地运行也直接使用白嫖的数据库，就没必要本地折腾数据库了~
+
+- 注册 vercel 帐号 -> [vercel官网](https://vercel.com/)
+- 点击导航按扭的 `Storage` 选项，创建数据库
+- 选择 `Marketplace Database Providers` 下面的 `Neon` ~
+  - 建议选择 Washington, D.C., USA (East) 地区
+
+至此数据库已经白嫖成功了，接着我们来和数据库建立连接~
+
+### 连接数据库
+
+将 `Quickstart` 下的 `.env.local` 面板下的所有环境变量复制到 `.env` 文件中~
 
 初始化表
 ```shell
@@ -117,12 +118,6 @@ AUTH_GITHUB_SECRET={CLIENT_SECRET}
 ```
 
 就完成登录功能了~
-
-### 配置管理员邮箱
-
-设置 `.env` 下的环境变量 `NEXT_PUBLIC_ADMIN_EMAILS` 为你自己的邮箱，多个邮箱直接使用逗号隔开~
-
-至此，本地的项目已经可以运行起来了，接下来就是 `vercel` 部署篇了~
 
 ### 修改网站信息
 

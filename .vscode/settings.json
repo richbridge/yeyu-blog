@@ -46,5 +46,17 @@
     "scss",
     "pcss",
     "postcss"
+  ],
+  "cSpell.words": [
+    "fuxiaochen",
+    "giscus",
+    "neno",
+    "pgbouncer",
+    "PGDATABASE",
+    "PGHOST",
+    "PGPASSWORD",
+    "PGUSER",
+    "UNPOOLED",
+    "Vercel"
   ]
 }
