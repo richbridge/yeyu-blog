@@ -50,13 +50,13 @@ pnpm install
 
 ### 创建数据库
 
-**本地测试时使用本地的 mysql 数据库用于演示，但项目使用的是 `postgresql`，因此需要去修改一下**
+> 本项目默认使用 PostgreSQL，但为了本地演示更方便，下面将切换为 MySQL。
 
 前往 `prisma/schema.prisma`，修改 `datasource db` 为：
 
 ```prisma
 datasource db {
-  provider = "mysql" // 设置为 mysql
+  provider = "mysql" // 设置为 mysql 用于本地测试
   url      = env("DATABASE_URL")
 }
 ```
@@ -108,6 +108,13 @@ Homepage URL: http://localhost:3000
 Authorization callback URL: http://localhost:3000/api/auth/callback/github
 
 获取 CLIENT_ID 和 CLIENT_SECRET，填写到 `.env.local` 文件中。
+
+可以参考 [auth官网](https://authjs.dev/getting-started/authentication/oauth)
+
+```env
+AUTH_GITHUB_ID={CLIENT_ID}
+AUTH_GITHUB_SECRET={CLIENT_SECRET}
+```
 
 就完成登录功能了~
 

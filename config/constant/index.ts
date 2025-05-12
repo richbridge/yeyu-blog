@@ -1,23 +1,5 @@
 import type { Metadata } from 'next'
 
-// *  -- prisma 长度限制 --
-// ! prisma 中的数据大小限制并不是自动同步到这里，需要手动同步，这里抽取成常量只是为了表单验证的时候方便
-// * Blog
-export const BLOG_TITLE_MAX_LENGTH = 50
-
-// * Note
-export const NOTE_TITLE_MAX_LENGTH = 50
-
-// * Tags
-export const TAG_NAME_MAX_LENGTH = 20
-
-// * Echo
-export const ECHO_REFERENCE_MAX_LENGTH = 20
-export const ECHO_CONTENT_MAX_LENGTH = 100
-
-// * Article, 一般 Blog 和 Note 其实是共用的这个
-export const ARTICLE_TITLE_MAX_LENGTH = 50
-
 // * --------------- 以下配置您可以自定义 ---------------
 
 // * -- 管理员邮箱数组，配置了才能登录成功操作数据 --
@@ -50,3 +32,23 @@ export const INITIAL_WELCOME_TEXT = '业余'
 export const COMMENT_CARD_REPO = 'NeilYeTAT/yeyu-blog-comment'
 
 export const COMMENT_CARD_REPO_ID = 'R_kgDOOiAAJA'
+
+// * --------------- 以下配置不建议修改 ---------------
+
+// *  -- prisma 长度限制 --
+// ! prisma 中的数据大小限制并不是自动同步到这里，需要手动同步，这里抽取成常量只是为了表单验证的时候方便
+// * Blog
+export const BLOG_TITLE_MAX_LENGTH = 50
+
+// * Note
+export const NOTE_TITLE_MAX_LENGTH = 50
+
+// * Tags
+export const TAG_NAME_MAX_LENGTH = 20
+
+// * Echo
+export const ECHO_REFERENCE_MAX_LENGTH = 20
+export const ECHO_CONTENT_MAX_LENGTH = 100
+
+// * Article, 一般 Blog 和 Note 其实是共用的这个
+export const ARTICLE_TITLE_MAX_LENGTH = 50

@@ -8,7 +8,6 @@ generator client {
   provider = "prisma-client-js"
 }
 
-// * 一开始使用 mysql 的，但是为了适配 vercel，白嫖免费的数据库，测试一下 postgresql 
 // * 本地测试这里使用 mysql 演示，修改这里的 provider 和 .env.local 中的 DATABASE_URL
 // * 你可以直接解开下面的注释，使用 mysql，然后注释下面的 postgresql
 
@@ -22,7 +21,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// * 数字手动同步到 config/constant/index.ts 文件中
+// * 数字手动同步到 config/constant/index.ts 文件中，如果没必要，不建议修改
 model Blog {
   id          Int     @id @default(autoincrement())
   slug        String  @unique
