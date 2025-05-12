@@ -154,12 +154,6 @@
   }
 }
 
-/* 自定义滚动条样式 */
-html,
-body {
-  scrollbar-gutter: stable;
-}
-
 body::-webkit-scrollbar {
   width: 4px;
 }
