@@ -24,12 +24,20 @@ export function NoteTagsContainer({ tags }: { tags: NoteTag['tagName'][] }) {
       return
     }
 
+    const updateCurrent = () => {
+      setCurrent(api.selectedScrollSnap() + 1)
+    }
+
     setCount(api.scrollSnapList().length)
-    setCurrent(api.selectedScrollSnap() + 1)
+    updateCurrent()
 
     api.on('select', () => {
       setCurrent(api.selectedScrollSnap() + 1)
     })
+
+    return () => {
+      api.off('select', updateCurrent)
+    }
   }, [api])
 
   return (

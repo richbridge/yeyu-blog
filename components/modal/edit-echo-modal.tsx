@@ -68,7 +68,7 @@ export default function EditEchoModal() {
     defaultValues: {
       content: '',
       reference: '',
-      isPublished,
+      isPublished: true,
     },
     mode: 'onBlur',
   })

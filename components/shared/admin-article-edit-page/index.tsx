@@ -52,7 +52,7 @@ export type UpdateArticleParamsWithNoteId = z.infer<typeof formSchema> & {
   id: number
 }
 
-export type createArticleParams = z.infer<typeof formSchema>
+export type CreateArticleParams = z.infer<typeof formSchema>
 
 function getEditPageType(url: string): 'BLOG' | 'NOTE' {
   const type = url.split('/')[2].toUpperCase()

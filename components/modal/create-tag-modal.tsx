@@ -87,7 +87,9 @@ export default function CreateTagModal() {
   }
 
   useEffect(() => {
-    form.reset()
+    if (!isModalOpen) {
+      form.reset()
+    }
   }, [isModalOpen, form])
 
   function onSubmit(values: TagValues) {

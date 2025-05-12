@@ -1,7 +1,7 @@
 'use server'
 
 import type {
-  createArticleParams,
+  CreateArticleParams,
   UpdateArticleParamsWithNoteId,
 } from '@/components/shared/admin-article-edit-page'
 import { prisma } from '@/db'
@@ -9,7 +9,7 @@ import { requireAdmin } from '@/lib/auth'
 import { processor } from '@/lib/markdown'
 import { revalidatePath } from 'next/cache'
 
-export async function createNote(values: createArticleParams) {
+export async function createNote(values: CreateArticleParams) {
   await requireAdmin()
 
   const existingNote = await prisma.note.findUnique({

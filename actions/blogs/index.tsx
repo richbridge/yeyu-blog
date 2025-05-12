@@ -1,7 +1,7 @@
 'use server'
 
 import type {
-  createArticleParams,
+  CreateArticleParams,
   UpdateArticleParamsWithBlogId,
 } from '@/components/shared/admin-article-edit-page'
 import { prisma } from '@/db'
@@ -11,7 +11,7 @@ import { revalidatePath } from 'next/cache'
 
 export type WithTagsBlog = Awaited<ReturnType<typeof getAllBlogs>>[number]
 
-export async function createBlog(values: createArticleParams) {
+export async function createBlog(values: CreateArticleParams) {
   await requireAdmin()
 
   const existingBlog = await prisma.blog.findUnique({

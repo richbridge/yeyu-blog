@@ -4,18 +4,9 @@ import avatar from '@/config/img/avatar.webp'
 import { useTransitionTheme } from '@/hooks/use-transition-theme'
 import { motion } from 'motion/react'
 import Image from 'next/image'
-import { useEffect, useState } from 'react'
 
 export default function YeAvatar() {
   const { setTransitionTheme, theme } = useTransitionTheme()
-  const [mounted, setMounted] = useState(false)
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
-
-  if (!mounted)
-    return null
 
   return (
     // 摸摸头~

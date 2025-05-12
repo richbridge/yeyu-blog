@@ -136,7 +136,7 @@ Authorization callback URL: http://localhost:3000/api/auth/callback/github
   - /about 页面的简介
 
 - components/shared/contact-me/index.tsx
- - 底部联系方式
+  - 底部联系方式
 
 ### 安装评论系统
 
@@ -153,3 +153,7 @@ Authorization callback URL: http://localhost:3000/api/auth/callback/github
 最后在 「启用 giscus」下有一个代码片段，**不要直接复制**，只需要复制 `data-repo` 和 `data-repo-id` 的值就可以了，其他配置项可以自行研究~
 
 组件在 `components/shared/comment-card/index.tsx` 下，配置 `data-repo` 和 `data-repo-id` 的值在 `config/constant/index.ts` 中配置。
+
+## 特别感谢🙏🏻
+
+- [fuxiaochen](https://github.com/aifuxi/fuxiaochen)
