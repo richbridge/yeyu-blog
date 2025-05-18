@@ -16,7 +16,7 @@ export default function ArticleDisplayHeader({
         {title}
       </h1>
 
-      <section className="flex justify-center w-full gap-2">
+      <section className="flex justify-center w-full gap-2 text-xs md:text-sm">
 
         <p className="flex gap-2 justify-center">
           {tags.map(tag => (
@@ -27,7 +27,7 @@ export default function ArticleDisplayHeader({
           ))}
         </p>
 
-        <time className="underline text-xs md:text-sm">{toZhDay(createdAt)}</time>
+        <time className="border-b border-dashed border-b-foreground">{toZhDay(createdAt)}</time>
       </section>
 
     </header>
