@@ -1,12 +1,13 @@
 'use client'
 
 import MaxWidthWrapper from '@/components/shared/max-width-wrapper'
+import { useIndicatorPosition } from '@/hooks/use-indicator-position'
 import { getActiveMainPath } from '@/lib/url'
 import { cn } from '@/lib/utils'
 import { motion } from 'motion/react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Fragment, useEffect, useRef, useState } from 'react'
+import { Fragment, useRef } from 'react'
 
 const RouteList = [
   {
@@ -30,22 +31,9 @@ const RouteList = [
 export default function MainLayoutHeader() {
   const pathname = usePathname()
   const activeUrl = getActiveMainPath(pathname)
-
   const refs = useRef(new Map<string, HTMLAnchorElement>())
-  const [indicatorStyle, setIndicatorStyle] = useState<{
-    left: number
-    width: number
-  }>({ left: 0, width: 0 })
 
-  useEffect(() => {
-    const el = refs.current.get(activeUrl)
-    if (el) {
-      setIndicatorStyle({
-        left: el.offsetLeft,
-        width: el.offsetWidth,
-      })
-    }
-  }, [activeUrl])
+  const indicatorStyle = useIndicatorPosition(activeUrl, refs)
 
   return (
     <header
