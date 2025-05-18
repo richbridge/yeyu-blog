@@ -33,10 +33,16 @@
 - Pnpm
 - Node.js >= 20
 
+### 部署的视频教程
+
+[vercel部署视频教程](https://www.bilibili.com/video/BV1LJ7ozmECq)
+
 ### 获取项目代码
 
+**首先 fork 仓库源代码到你的仓库，然后 clone 你 fork 的仓库代码**
+
 ```shell
-git clone https://github.com/NeilYeTAT/yeyu-blog.git
+git clone {REPO}
 ```
 
 ### 安装依赖
